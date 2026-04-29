@@ -1,4 +1,4 @@
-import { FaYoutube } from 'react-icons/fa';
+import { FaYoutube, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -9,13 +9,30 @@ export default function Footer() {
           FIRST INTERSTELLAR INSTITUTE © 2026
         </p>
         
-        {/* Bottom Right Icon (Desktop) / Bottom Icon (Mobile) */}
-        <div className="md:absolute md:right-0">
+        {/* Bottom Right Icons (Desktop) / Bottom Icons (Mobile) */}
+        <div className="md:absolute md:right-0 flex items-center gap-4">
+          <a 
+            href="mailto:firstinterstellarinstitute@gmail.com" 
+            className="text-slate-400 hover:text-blue-400 transition-colors block p-2"
+            aria-label="Email Us"
+          >
+            <FaEnvelope size={28} className="sm:w-8 sm:h-8" />
+          </a>
+          <a 
+            href="https://github.com/Nikchik-coder" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-slate-400 hover:text-white transition-colors block p-2"
+            aria-label="GitHub Profile"
+          >
+            <FaGithub size={28} className="sm:w-8 sm:h-8" />
+          </a>
           <a 
             href="https://www.youtube.com/@First_Interstellar_Institute" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-red-500 transition-colors block p-2"
+            aria-label="YouTube Channel"
           >
             <FaYoutube size={28} className="sm:w-8 sm:h-8" />
           </a>

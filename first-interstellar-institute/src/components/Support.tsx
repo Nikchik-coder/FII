@@ -29,7 +29,24 @@ export default function Support({ id }: { id: string }) {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4">Fund the next wave of interstellar exploration</h2>
           <div className="h-1 w-24 bg-slate-700 mx-auto rounded mb-6"></div>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          
+          <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-8 mb-10 text-left">
+            <h3 className="text-xl font-orbitron font-bold mb-3 text-blue-400">Why do we need your support?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              We are running complex numerical relativity research on GPU supercomputers using the open-source{' '}
+              <a 
+                href="https://grtlcollaboration.github.io/GRTeclyn/building_gpus/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"
+              >
+                GRTeclyn code base
+              </a>. 
+              These high-performance computing resources are incredibly expensive. Your crypto donations directly fund the computational time required to simulate warp drives, wormhole dynamics, and publish our findings.
+            </p>
+          </div>
+          
+          <p className="text-slate-400 max-w-2xl mx-auto mb-8">
             Fund the next video lecture and research paper by donating crypto.
           </p>
         </div>
