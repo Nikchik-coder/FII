@@ -6,7 +6,7 @@ export default function About({ id }: { id: string }) {
         <div className="h-1 w-24 bg-slate-700 mx-auto rounded"></div>
       </div>
       
-      <div className="prose prose-invert prose-lg mx-auto text-slate-300 leading-relaxed">
+      <div className="mx-auto text-slate-300 leading-relaxed text-base md:text-lg">
         <p className="mb-6">
           The First Interstellar Institute is dedicated to the rigorous scientific exploration of advanced propulsion concepts and spacetime metrics. Our mission is to bridge the gap between theoretical physics and practical engineering for interstellar travel.
         </p>
