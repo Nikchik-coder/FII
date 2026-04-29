@@ -22,7 +22,7 @@ export default function Hero() {
           FIRST INTERSTELLAR INSTITUTE
         </h1>
         <p className="text-lg sm:text-xl md:text-2xl text-slate-200 font-light max-w-2xl mx-auto">
-          Advancing human understanding of warp drives, wormholes, and the physics of tomorrow.
+          Advancing human understanding of warp drives, wormholes, and the physics of tomorrow to reach interstellar travel.
         </p>
       </div>
     </section>
