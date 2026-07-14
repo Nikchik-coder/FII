@@ -60,6 +60,14 @@ npm run build
 #    (files are replaced in-place)
 ```
 
+**Critical**: Nginx serves from `dist/`, not `public/`. Vite copies `public/` to `dist/` during `npm run build`. If you change lecture files in `public/lectures/` but don't rebuild, the old files in `dist/lectures/` will still be served. To force a clean copy:
+
+```bash
+ssh preprint "cd /var/www/firstinterstellarinstitute.com/first-interstellar-institute && rm -rf dist/lectures && npm run build"
+```
+
+**Cache busting**: The lecture `presentation.html` uses `?v=N` query strings on `<script>` and `<link>` tags. When updating animation JS or CSS files, bump the version numbers in `presentation.html` so browsers fetch fresh copies instead of serving cached versions.
+
 ### Nginx Config
 
 The static website is served from:
@@ -191,6 +199,45 @@ Required A records:
 - Each has its own nginx config in `/etc/nginx/sites-enabled/`
 - FII deployment only touches `www.firstinterstellarinstitute.com` — other configs are untouched
 
+## Interactive Lecture
+
+The lecture at `/lectures/nrlecture/presentation.html` is a self-contained vanilla JS presentation on numerical relativity. It uses:
+
+- **KaTeX** for math rendering
+- **Three.js** for 3D geodesic visualization
+- **Canvas 2D** for all other animations
+- **No build step** — lecture files are served as-is from `public/lectures/`
+
+### Animation Architecture
+
+Each animation is a self-contained IIFE that exposes `window.initAnim_<name>`. Slides trigger animations via a `data-anim="<name>"` attribute on the slide `<div>`. The deck framework calls the matching `initAnim_` function when the slide becomes active.
+
+Animations follow this pattern:
+```javascript
+(function () {
+    let canvas, ctx, W, H, running = false;
+    let animFrame;
+
+    function init() {
+        canvas = document.getElementById('<name>Canvas');
+        if (!canvas) return;
+        // ... setup
+        running = true;
+        animate();
+    }
+
+    window.initAnim_<name> = function () {
+        running = false;
+        if (animFrame) cancelAnimationFrame(animFrame);
+        setTimeout(init, 150);
+    };
+})();
+```
+
+### Historical Era Timeline
+
+A fixed bar at the top of the screen shows 6 dots representing key eras (1915 Einstein, 1959 ADM, 1995 BSSN, 2005 Breakthrough, 2015 LIGO, 2026 GPU+NR). The `updateEraTimeline()` function in `deck.js` maps slide part-labels to active eras and highlights the corresponding dots. Year labels are siblings of the dots, positioned absolutely within the timeline container.
+
 ## Project Structure
 
 ```
@@ -204,9 +251,29 @@ FII/
 │   │           ├── presentation.html
 │   │           ├── css/style.css
 │   │           └── js/
-│   │               ├── core/deck.js
-│   │               ├── slides/content.js
-│   │               └── animations/   # Three.js canvas animations
+│   │               ├── core/deck.js       # Slide navigation, notes, timeline
+│   │               ├── slides/content.js  # All slide HTML content
+│   │               └── animations/        # Canvas-based physics animations
+│   │                   ├── gravity-speed.js       # GW speed vs light
+│   │                   ├── gw-motivation.js       # GW motivation
+│   │                   ├── shatter.js             # Spacetime shatter
+│   │                   ├── ds-metric.js           # Interactive metric tensor
+│   │                   ├── geodesics.js           # 3D geodesic particle sim
+│   │                   ├── slicer.js              # ADM bread slicer
+│   │                   ├── ligo.js                # LIGO interferometer
+│   │                   ├── gpu.js                 # CPU vs GPU comparison
+│   │                   ├── bounce.js              # Wormhole phantom bounce
+│   │                   ├── timeline.js            # Era timeline helper
+│   │                   ├── parallel-transport.js  # Parallel transport on sphere
+│   │                   ├── geodesic-deviation.js  # Geodesic convergence
+│   │                   ├── lapse-shift.js         # Interactive ADM lapse/shift
+│   │                   ├── adm-vs-bssn.js         # Stability comparison
+│   │                   ├── finite-diff.js         # Resolution slider demo
+│   │                   ├── convergence.js         # Richardson Q-factor
+│   │                   ├── gw-polarization.js     # h+ and h× ring deformation
+│   │                   ├── light-cones.js         # Light cone tilting at BH
+│   │                   ├── binary-bh.js           # Inspiral→merger→ringdown
+│   │                   └── amr.js                 # Adaptive mesh refinement
 │   ├── src/
 │   │   ├── App.tsx
 │   │   ├── main.tsx
