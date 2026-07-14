@@ -237,12 +237,12 @@ ul li::before {
 /* ===== Era timeline bar ===== */
 .era-timeline {
     position: fixed;
-    top: 6px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 200;
     width: 420px;
-    height: 6px;
+    height: 28px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -254,18 +254,20 @@ ul li::before {
 
 .era-line {
     position: absolute;
-    top: 50%;
+    bottom: 3px;
     left: 0;
     right: 0;
     height: 1px;
     background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-50%);
 }
 
 .era-dot {
     position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    transform: translateX(-50%);
     transition: all 0.4s ease;
 }
 
@@ -280,6 +282,7 @@ ul li::before {
 .era-dot::before {
     content: '';
     display: block;
+    flex-shrink: 0;
     width: 4px;
     height: 4px;
     border-radius: 50%;
@@ -294,9 +297,18 @@ ul li::before {
     height: 5px;
 }
 
-/* Year labels — only visible on hover / active, positioned below */
 .era-year {
-    display: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.45rem;
+    color: rgba(255, 255, 255, 0.12);
+    margin-bottom: 3px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    transition: color 0.4s ease;
+}
+
+.era-dot.active .era-year {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .era-label {
@@ -306,10 +318,9 @@ ul li::before {
 /* Glowing segment between dots for the active era range */
 .era-timeline .era-segment {
     position: absolute;
-    top: 50%;
+    bottom: 2px;
     height: 2px;
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-50%);
     transition: all 0.4s ease;
     border-radius: 1px;
 }
