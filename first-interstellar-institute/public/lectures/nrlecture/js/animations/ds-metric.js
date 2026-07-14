@@ -171,22 +171,32 @@
         ctx.textAlign = 'center';
         ctx.fillText('M', massX, massY + 20);
 
-        // Legend
+        // Legend (background box so it doesn't clash with rulers)
+        const legendX = 8;
+        const legendY = H - 52;
+        const legendW = 220;
+        const legendH = 44;
+        ctx.fillStyle = 'rgba(26, 26, 26, 0.85)';
+        ctx.fillRect(legendX, legendY, legendW, legendH);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(legendX, legendY, legendW, legendH);
+
         ctx.textAlign = 'left';
-        ctx.font = '12px JetBrains Mono, monospace';
+        ctx.font = '11px JetBrains Mono, monospace';
 
         // Green ruler
         ctx.strokeStyle = 'rgba(80, 220, 100, 0.8)';
         ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(15, H - 50); ctx.lineTo(29, H - 50); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(legendX + 8, legendY + 15); ctx.lineTo(legendX + 22, legendY + 15); ctx.stroke();
         ctx.fillStyle = 'rgba(80, 220, 100, 0.8)';
-        ctx.fillText('ds = normal (flat space)', 35, H - 46);
+        ctx.fillText('ds = normal', legendX + 28, legendY + 19);
 
         // Red ruler
         ctx.strokeStyle = 'rgba(255, 80, 20, 0.8)';
-        ctx.beginPath(); ctx.moveTo(15, H - 30); ctx.lineTo(39, H - 30); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(legendX + 8, legendY + 33); ctx.lineTo(legendX + 28, legendY + 33); ctx.stroke();
         ctx.fillStyle = 'rgba(255, 80, 20, 0.8)';
-        ctx.fillText('ds = stretched (near mass)', 45, H - 26);
+        ctx.fillText('ds = stretched', legendX + 34, legendY + 37);
 
         animFrame = requestAnimationFrame(draw);
     }
