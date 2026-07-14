@@ -265,9 +265,12 @@ ul li::before {
 .era-dot {
     position: absolute;
     bottom: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
     transform: translateX(-50%);
     transition: all 0.4s ease;
-    text-align: center;
 }
 
 /* Position each dot along the timeline */
@@ -278,34 +281,26 @@ ul li::before {
 .era-dot[data-era="2015"] { left: 78%; }
 .era-dot[data-era="2026"] { left: 100%; }
 
-.era-dot::after {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    transition: all 0.4s ease;
-    margin: 0 auto;
-}
-
-.era-dot.active::after {
+.era-dot.active {
     background: #fff;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
 }
 
 .era-year {
-    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
     color: rgba(255, 255, 255, 0.35);
-    margin-bottom: 4px;
     letter-spacing: 0.3px;
     white-space: nowrap;
     transition: color 0.4s ease;
     line-height: 1;
+    pointer-events: none;
 }
 
 .era-dot.active .era-year {
