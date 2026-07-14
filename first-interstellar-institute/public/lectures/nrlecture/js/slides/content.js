@@ -626,10 +626,86 @@ const Slides = (function () {
                 <canvas id="gpuCanvas"></canvas>
             </div>
             <p class="anim-hint">animation runs continuously &mdash; watch the red stalls on the CPU side</p>
-            ${note("LEFT PANEL: A CPU cluster with 4 cores. Each core has its own memory (small box). To share data, packets must travel through PCIe interconnect at ~25 GB/s with microsecond latency. Red 'WAIT' labels show where a packet stalls waiting for the link. RIGHT PANEL: A GPU with thousands of tiny cores (dots in the grid) all sharing a single unified VRAM pool via HBM3 at 900 GB/s. No stalling &mdash; any core can read any data instantly. For NR, every grid cell needs its neighbours' data every timestep, so the GPU's shared memory is transformative.")}
+            ${note("LEFT PANEL: A CPU cluster with 4 cores. Each core has its own memory (small box). To share data, packets must travel through PCIe interconnect at ~25 GB/s with microsecond latency. Red 'WAIT' labels show where a packet stalls waiting for the link. RIGHT PANEL: A GPU with thousands of tiny cores (dots in the grid) all sharing a single unified VRAM pool via HBM3 at ~3.35 TB/s. No stalling &mdash; any core can read any data instantly. For NR, every grid cell needs its neighbours' data every timestep, so the GPU's shared memory is transformative. Exact numbers on the next slide.")}
         </div>`,
 
-        // 30 - GRTeclyn
+        // 30 - CPU vs GPU: the numbers
+        `<div class="slide">
+            <span class="part-label">Part 4 &mdash; The Numbers</span>
+            <h2>Why the GPU Wins</h2>
+            <div class="reveal-item">
+                <table style="border-collapse:collapse; margin:10px auto; font-size:1.05rem; min-width:640px;">
+                    <thead>
+                        <tr style="color:#bbb; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">
+                            <th style="text-align:left; padding:10px 18px; border-bottom:1px solid rgba(255,255,255,0.15);"></th>
+                            <th style="text-align:right; padding:10px 18px; border-bottom:1px solid rgba(255,255,255,0.15);">Server CPU<br><span style="font-size:0.7rem; color:#888;">64-core, DDR5</span></th>
+                            <th style="text-align:right; padding:10px 18px; border-bottom:1px solid rgba(255,255,255,0.15);">Data-center GPU<br><span style="font-size:0.7rem; color:#888;">NVIDIA H100</span></th>
+                            <th style="text-align:right; padding:10px 18px; border-bottom:1px solid rgba(255,255,255,0.15); color:#fff;">Gain</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-family:'JetBrains Mono',monospace; font-size:0.95rem;">
+                        <tr>
+                            <td style="text-align:left; padding:9px 18px; color:#ddd;">Parallel cores</td>
+                            <td style="text-align:right; padding:9px 18px; color:#aaa;">~64</td>
+                            <td style="text-align:right; padding:9px 18px; color:#fff;">~16,900</td>
+                            <td style="text-align:right; padding:9px 18px; color:#8fdc9c;">~260&times;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left; padding:9px 18px; color:#ddd;">FP64 throughput</td>
+                            <td style="text-align:right; padding:9px 18px; color:#aaa;">~4 TFLOP/s</td>
+                            <td style="text-align:right; padding:9px 18px; color:#fff;">~34 TFLOP/s</td>
+                            <td style="text-align:right; padding:9px 18px; color:#8fdc9c;">~8&times;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left; padding:9px 18px; color:#ddd;">Memory bandwidth</td>
+                            <td style="text-align:right; padding:9px 18px; color:#aaa;">~0.5 TB/s</td>
+                            <td style="text-align:right; padding:9px 18px; color:#fff;">~3.35 TB/s</td>
+                            <td style="text-align:right; padding:9px 18px; color:#8fdc9c;">~7&times;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="reveal-item" style="margin-top:18px;">
+                <p style="text-align:center; color:#bbb; max-width:780px;">
+                    Every timestep, each grid cell reads its neighbours &mdash; the update is
+                    <strong>memory-bandwidth bound</strong>. That ~7&times; bandwidth is the number that matters most.
+                </p>
+            </div>
+            ${note("These are representative peak figures. A high-end 64-core server CPU delivers a few TFLOP/s of FP64 and ~0.5 TB/s of memory bandwidth (multi-channel DDR5). An NVIDIA H100 delivers ~34 TFLOP/s FP64 (about 67 with tensor cores), ~3.35 TB/s from HBM3, and ~16,900 CUDA cores. But raw FLOP/s is not the bottleneck for numerical relativity: the BSSN/CCZ4 update is a stencil — each grid point reads its neighbours every step — so performance is limited by how fast you can move data, not multiply it. That's why the ~7x memory-bandwidth advantage of HBM3 over DDR5 is the decisive factor, more than the FLOP count. Add thousands of cores updating cells in parallel and one GPU replaces a rack of CPUs.")}
+        </div>`,
+
+        // 31 - Riding the AI wave
+        `<div class="slide">
+            <span class="part-label">Part 4 &mdash; The AI Tailwind</span>
+            <h2>Riding the AI Wave</h2>
+            <div class="reveal-item">
+                <p style="text-align:center; max-width:780px;">
+                    The same hardware that trains ChatGPT &mdash; H100s, HBM stacks, NVLink fabrics &mdash;
+                    is <strong>exactly</strong> what solves Einstein's equations.
+                </p>
+            </div>
+            <div class="columns" style="margin-top:22px;">
+                <div class="col reveal-item">
+                    <h3>The Boom</h3>
+                    <p style="font-size:1.05rem;">AI demand has driven data-center GPU revenue up
+                    <strong>~10&times; in two years</strong>, pouring billions into faster memory and interconnects.</p>
+                </div>
+                <div class="col reveal-item">
+                    <h3>The Free Ride</h3>
+                    <p style="font-size:1.05rem;">Numerical relativity inherits it all &mdash; cheaper FLOPs,
+                    bigger VRAM, faster HBM &mdash; without funding a single chip.</p>
+                </div>
+            </div>
+            <div class="reveal-item" style="margin-top:22px;">
+                <p style="text-align:center; color:#bbb; max-width:780px;">
+                    Just as GPUs turned neural nets from curiosity into ChatGPT, they are turning
+                    Einstein's equations into a routine numerical experiment.
+                </p>
+            </div>
+            ${note("This closes the loop with the opening timeline slide. The explosion of AI has triggered the largest build-out of parallel-compute hardware in history — NVIDIA's data-center revenue grew roughly tenfold between 2023 and 2025, and every generation (A100 -> H100 -> H200 -> GB200) brings more memory bandwidth and tighter GPU-to-GPU interconnect. Numerical relativity is a direct beneficiary: we don't have to justify building exotic supercomputers, we just run our codes on the same GPUs the AI industry is mass-producing. The economies of scale from AI make cutting-edge GR simulations affordable. It's the same story as 2012 for deep learning — the hardware finally caught up with the theory.")}
+        </div>`,
+
+        // 32 - GRTeclyn
         `<div class="slide">
             <span class="part-label">Part 4 &mdash; GRTeclyn</span>
             <h2>GRTeclyn / AMReX</h2>
@@ -638,11 +714,11 @@ const Slides = (function () {
                     <li>From the GRChombo collaboration</li>
                     <li>Built entirely for GPU architectures</li>
                     <li>Adaptive Mesh Refinement &mdash; finer grid where curvature is large</li>
-                    <li>HBM3 memory: 900 GB/s bandwidth</li>
+                    <li>HBM3 memory: ~3.35 TB/s bandwidth</li>
                     <li>NVLink: multi-GPU without bottlenecks</li>
                 </ul>
             </div>
-            ${note("GRTeclyn is built on AMReX (Adaptive Mesh Refinement for the Exascale). It offloads all physics computation to the GPU. The grid automatically refines around black holes and gravitational wave fronts, putting resolution only where it's needed. This is what makes exotic spacetime simulations like wormholes computationally feasible.")}
+            ${note("GRTeclyn is built on AMReX (Adaptive Mesh Refinement for the Exascale). It offloads all physics computation to the GPU, exploiting exactly the memory-bandwidth and parallelism advantages we just saw. The grid automatically refines around black holes and gravitational wave fronts, putting resolution only where it's needed. This is what makes exotic spacetime simulations like wormholes computationally feasible.")}
         </div>`,
 
         // 31 - Wormholes intro
