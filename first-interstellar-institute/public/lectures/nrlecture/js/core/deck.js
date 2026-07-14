@@ -149,8 +149,8 @@ const Deck = (function () {
         // Part 1 = Einstein (1915)
         // Part 2 = ADM(1959) / BSSN(1995) / CCZ4(2005 area)
         // Part 3 = 2005 breakthrough / LIGO 2015
-        // Part 4 = GPU era 2024
-        // Part 5 = Wormholes 2024
+        // Part 4 = GPU era 2026
+        // Part 5 = Wormholes 2026
         // Conclusion = all
 
         let activeEras = [];
@@ -164,7 +164,7 @@ const Deck = (function () {
         timeline.classList.add('visible');
 
         if (/Conclusion/.test(text)) {
-            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2026'];
         } else if (/Part 1/.test(text)) {
             activeEras = ['1915'];
         } else if (/Part 2/.test(text)) {
@@ -185,9 +185,9 @@ const Deck = (function () {
                 activeEras = ['1915', '1959', '1995', '2005', '2015'];
             }
         } else if (/Part 4/.test(text)) {
-            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2026'];
         } else if (/Part 5/.test(text)) {
-            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2026'];
         }
 
         // Update dots
@@ -208,7 +208,7 @@ const Deck = (function () {
             // Get positions from the CSS percentage positions
             const positions = {
                 '1915': 0, '1959': 20, '1995': 40,
-                '2005': 55, '2015': 75, '2024': 100
+                '2005': 55, '2015': 75, '2026': 100
             };
             const first = positions[activeEras[0]];
             const last = positions[activeEras[activeEras.length - 1]];

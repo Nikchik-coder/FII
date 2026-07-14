@@ -280,7 +280,7 @@ ul li::before {
 .era-dot[data-era="1995"] { left: 40%; }
 .era-dot[data-era="2005"] { left: 55%; }
 .era-dot[data-era="2015"] { left: 75%; }
-.era-dot[data-era="2024"] { left: 100%; }
+.era-dot[data-era="2026"] { left: 100%; }
 
 .era-dot::before {
     content: '';
