@@ -14,7 +14,7 @@
     const SUN_R = 18;
     const EARTH_R = 7;
     const ORBIT_SPEED = 0.012;
-    const RIPPLE_SPEED = 1.8; // pixels per frame (represents c)
+    const RIPPLE_SPEED = 0.8; // pixels per frame (represents c) — slowed for visibility
     const LIGHT_DELAY = ORBIT_R / RIPPLE_SPEED; // frames for ripple to reach Earth
 
     function init() {
