@@ -28,6 +28,8 @@ const Deck = (function () {
         updateNotes();
         // Highlight current in TOC
         updateTOCHighlight();
+        // Update era timeline
+        updateEraTimeline(active);
 
         // Dispatch animation via data-anim attribute (no index dependency!)
         const animName = active.dataset.anim;
@@ -130,6 +132,92 @@ const Deck = (function () {
         }
         if (tocPanel) tocPanel.classList.remove('visible');
         document.body.classList.remove('toc-open');
+    }
+
+    // ---- Era timeline (fixed bar at top) ----
+    function updateEraTimeline(slide) {
+        const timeline = document.getElementById('eraTimeline');
+        if (!timeline) return;
+
+        // Determine which era(s) to highlight based on part-label text
+        const partLabel = slide ? slide.querySelector('.part-label') : null;
+        const text = partLabel ? partLabel.textContent.trim() : '';
+        const heading = slide ? (slide.querySelector('h1, h2') || {}).textContent || '' : '';
+
+        // Map slide content to active eras
+        // Title/overview slides: show nothing active, or show all dimmed
+        // Part 1 = Einstein (1915)
+        // Part 2 = ADM(1959) / BSSN(1995) / CCZ4(2005 area)
+        // Part 3 = 2005 breakthrough / LIGO 2015
+        // Part 4 = GPU era 2024
+        // Part 5 = Wormholes 2024
+        // Conclusion = all
+
+        let activeEras = [];
+
+        if (/^Lecture$/.test(text) || /^$/.test(text)) {
+            // Title / Q&A slides: hide timeline
+            timeline.classList.remove('visible');
+            return;
+        }
+
+        timeline.classList.add('visible');
+
+        if (/Conclusion/.test(text)) {
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+        } else if (/Part 1/.test(text)) {
+            activeEras = ['1915'];
+        } else if (/Part 2/.test(text)) {
+            // Distinguish within Part 2
+            if (/ADM/.test(text) || /Bread Slicer/.test(text) || /Evolution Variable/.test(text) || /Splitting/.test(text) || /Geometry to a Movie/.test(text)) {
+                activeEras = ['1915', '1959'];
+            } else if (/BSSN/.test(text)) {
+                activeEras = ['1915', '1959', '1995'];
+            } else if (/CCZ4/.test(text) || /Gauge/.test(text) || /Problem/.test(text) || /Constraint/.test(text)) {
+                activeEras = ['1915', '1959', '1995', '2005'];
+            } else {
+                activeEras = ['1915', '1959'];
+            }
+        } else if (/Part 3/.test(text)) {
+            if (/Breakthrough/.test(text)) {
+                activeEras = ['1915', '1959', '1995', '2005'];
+            } else {
+                activeEras = ['1915', '1959', '1995', '2005', '2015'];
+            }
+        } else if (/Part 4/.test(text)) {
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+        } else if (/Part 5/.test(text)) {
+            activeEras = ['1915', '1959', '1995', '2005', '2015', '2024'];
+        }
+
+        // Update dots
+        timeline.querySelectorAll('.era-dot').forEach(dot => {
+            const era = dot.dataset.era;
+            dot.classList.toggle('active', activeEras.includes(era));
+        });
+
+        // Update glowing segment (show a line from first to last active era)
+        let segment = timeline.querySelector('.era-segment');
+        if (!segment) {
+            segment = document.createElement('div');
+            segment.className = 'era-segment';
+            timeline.appendChild(segment);
+        }
+
+        if (activeEras.length >= 2) {
+            // Get positions from the CSS percentage positions
+            const positions = {
+                '1915': 0, '1959': 20, '1995': 40,
+                '2005': 55, '2015': 75, '2024': 100
+            };
+            const first = positions[activeEras[0]];
+            const last = positions[activeEras[activeEras.length - 1]];
+            segment.style.left = first + '%';
+            segment.style.width = (last - first) + '%';
+            segment.style.opacity = '1';
+        } else {
+            segment.style.opacity = '0';
+        }
     }
 
     function revealNext(slide) {
