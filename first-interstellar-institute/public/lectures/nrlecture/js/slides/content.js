@@ -115,7 +115,7 @@ const Slides = (function () {
                     $$ ds^2 = -\\left(1 - \\frac{2M}{r}\\right)dt^2 + \\left(1 - \\frac{2M}{r}\\right)^{-1}dr^2 + r^2 d\\Omega^2 $$
                 </div>
             </div>
-            ${note("The metric is the fundamental object. It's a 4&times;4 symmetric matrix (10 independent components) that tells you how to measure distances. The Schwarzschild metric describes a single non-rotating black hole &mdash; one of the few exact solutions we have.")}
+            ${note("The metric is the master ruler of spacetime. It's a table of 10 numbers at every point that tells you the actual distance between two nearby events &mdash; accounting for curvature. In flat space it's simple (Pythagorean theorem). Near a black hole the numbers warp: distances stretch, time slows. The Schwarzschild metric shown here is one of the rare cases we can solve exactly by hand &mdash; a single non-spinning black hole.")}
         </div>`,
 
         // 7 - Christoffel symbols
@@ -123,7 +123,7 @@ const Slides = (function () {
             <span class="part-label">Part 1 &mdash; Connection</span>
             <h2>Christoffel Symbols</h2>
             <div class="reveal-item">
-                <p>How the coordinate basis vectors change from point to point:</p>
+                <p>The "road map corrections" &mdash; they tell you how much your rulers and protractors twist as you move through curved space:</p>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
                 <div class="eq-box">
@@ -131,9 +131,9 @@ const Slides = (function () {
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <p style="color:#bbb; font-size:1rem;">40 independent components &mdash; each built from the metric and its first derivatives.</p>
+                <p style="color:#bbb; font-size:1rem;">40 of these correction terms &mdash; each computed from the metric and how it changes nearby.</p>
             </div>
-            ${note("The Christoffel symbols are not tensors &mdash; they encode how the coordinate system itself bends. They are the 'building blocks' that go into the Riemann tensor. In flat space they vanish; near a black hole they blow up.")}
+            ${note("Think of it this way: on a flat table, 'forward' means the same thing everywhere. On a curved surface like a globe, 'forward' at the equator and 'forward' at the pole point in completely different directions. The Christoffel symbols are the bookkeeping that tracks how directions shift as you move. In flat space they're zero (no corrections needed). Near a black hole they become huge (directions twist wildly). They are the building blocks that go into measuring true curvature.")}
         </div>`,
 
         // 8 - Riemann tensor
@@ -146,9 +146,9 @@ const Slides = (function () {
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <p>20 independent components in 4D. This is the full curvature of spacetime.</p>
+                <p>20 independent components in 4D &mdash; this is the complete answer to "how curved is spacetime here?"</p>
             </div>
-            ${note("The Riemann tensor measures tidal forces &mdash; how nearby geodesics converge or diverge. If you parallel-transport a vector around a small loop, the Riemann tensor tells you how much it rotates. It contains all the information about curvature.")}
+            ${note("The Riemann tensor measures tidal forces &mdash; how two nearby objects get pulled apart or squeezed together. Imagine two balls falling side by side toward Earth: they drift closer because gravity converges toward the centre. That 'drift' is curvature. This tensor captures all such effects. It's built entirely from the Christoffel symbols and how they change.")}
         </div>`,
 
         // 9 - Ricci tensor and scalar
@@ -171,7 +171,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:1rem; margin-top:8px;">The Einstein tensor &mdash; built from the metric, its first and second derivatives.</p>
             </div>
-            ${note("We contract the 20-component Riemann tensor down to the 10-component Ricci tensor, then further to a single number (the Ricci scalar). The Einstein tensor G combines them so that it is automatically divergence-free &mdash; ensuring energy-momentum conservation.")}
+            ${note("We compress the 20-number Riemann tensor into a smaller 10-number version (the Ricci tensor), and then into a single number (the Ricci scalar). The Einstein tensor combines these two in a specific way that automatically guarantees energy is conserved &mdash; what goes in must come out. This is the left-hand side of Einstein's equation.")}
         </div>`,
 
         // 10 - Stress-energy tensor
@@ -193,7 +193,7 @@ const Slides = (function () {
                     $$ T_{\\mu\\nu} = \\nabla_\\mu \\phi\\, \\nabla_\\nu \\phi - g_{\\mu\\nu}\\left(\\tfrac{1}{2}\\nabla_\\alpha\\phi\\,\\nabla^\\alpha\\phi + V(\\phi)\\right) $$
                 </div>
             </div>
-            ${note("The stress-energy tensor is the source of gravity. For a perfect fluid: &rho; is energy density, p is pressure, u is the 4-velocity. For a scalar field (which is what we use for wormhole exotic matter), the field &phi; and its potential V(&phi;) determine the gravitational source.")}
+            ${note("The stress-energy tensor is the source of gravity &mdash; it answers 'how much stuff is here and how is it moving?' For a fluid: &rho; is energy density (how concentrated the mass-energy is), p is pressure, u is the velocity. For the exotic matter in our wormhole simulations, we use a scalar field &phi; &mdash; think of it as an invisible substance filling space whose energy and pressure are set by its vibrations and its potential energy landscape V(&phi;).")}
         </div>`,
 
         // 11 - Geodesics animation (3D)
@@ -202,7 +202,7 @@ const Slides = (function () {
             <h2>Motion in Curved Spacetime</h2>
             <div class="anim-container" id="geodesicsContainer"></div>
             <p class="anim-hint">click the surface to add particles &mdash; drag to rotate</p>
-            ${note("The curved surface is an embedding diagram &mdash; a 2D slice of Schwarzschild spacetime embedded in 3D. The depth of the funnel represents the gravitational potential. Objects follow geodesics (straightest paths on this surface). Near the black hole, orbits tighten and particles spiral in. No forces &mdash; pure geometry.")}
+            ${note("The curved surface is a visual analogy &mdash; imagine stretching a rubber sheet with a heavy ball. The depth of the funnel shows how strong gravity is. Objects always take the straightest possible path on this surface (called a geodesic). Near the centre, the funnel is steep so paths curve sharply &mdash; objects spiral in. There is no 'force' pulling them &mdash; they're just following the straightest line they can on a surface that happens to be curved.")}
         </div>`,
 
         // 12 - Geodesic equation
@@ -217,7 +217,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px;">
                 <p>No forces &mdash; only the curvature of spacetime guides the motion.</p>
             </div>
-            ${note("The geodesic equation is Newton's second law in curved spacetime. The Christoffel symbols play the role of the gravitational 'force'. In flat spacetime they vanish and you get straight lines. &tau; is the proper time measured by the falling object.")}
+            ${note("This is Newton's F=ma rewritten for curved spacetime. The Christoffel symbols play the role of gravity &mdash; they're what makes paths curve. In flat space they vanish and you get perfectly straight lines. &tau; is the time measured by the falling object's own clock.")}
         </div>`,
 
         // 13 - Non-linearity
@@ -263,7 +263,7 @@ const Slides = (function () {
                     <strong>3D space evolving through time</strong>.
                 </p>
             </div>
-            ${note("This is the conceptual heart of the whole reformulation. Einstein wrote his equations in covariant form on purpose: no observer, no coordinate, no time direction is special. That elegance is exactly what makes them hard to compute. A computer marches step by step — it needs to know the 'state now' and a rule for the 'state next'. This is called a Cauchy problem, or initial-value problem. To get there we deliberately give up manifest 4D covariance and pick a foliation: a stack of 3D 'now' slices labelled by a time coordinate. Everything in Part 2 — ADM, BSSN, CCZ4 — is just increasingly clever ways of writing the SAME Einstein equation as 'space evolving in time'.")}
+            ${note("This is the conceptual heart of the whole reformulation. Einstein deliberately wrote his equations so that no direction in spacetime is special &mdash; time and space are treated equally. That elegance is exactly what makes them hard to compute. A computer needs a recipe: 'here is the state NOW, here is the rule to get the state ONE STEP LATER.' So we must break the symmetry on purpose: pick a direction to call 'time', and chop spacetime into a stack of 3D snapshots (like frames in a movie). Everything in Part 2 &mdash; ADM, BSSN, CCZ4 &mdash; is just increasingly clever ways of writing the SAME Einstein equation as 'space evolving in time'.")}
         </div>`,
 
         // 15 - Part 2: ADM 3+1 decomposition
@@ -284,7 +284,7 @@ const Slides = (function () {
                     a lapse $\\alpha$ (1), and a shift $\\beta^i$ (3). Same geometry &mdash; new bookkeeping.
                 </p>
             </div>
-            ${note("Arnowitt, Deser, and Misner (1959) showed how to split the 4D metric into a 3D spatial metric &gamma;_ij (the geometry of each 'now' slice), a lapse function &alpha; (how much proper time elapses between slices), and a shift vector &beta;^i (how the spatial coordinates slide from one slice to the next). Crucially, the 10 numbers in g_&mu;&nu; are exactly repackaged into 6 + 1 + 3 = 10. Nothing is lost — we've just organized the metric around a chosen time direction, turning Einstein's equations into an initial-value problem.")}
+            ${note("Arnowitt, Deser, and Misner (1959) showed how to split the 4D spacetime description into pieces a computer can use. The spatial metric &gamma;_ij (6 numbers) describes the shape of space on each 'now' slice. The lapse &alpha; (1 number) says how much real time passes between slices &mdash; it's the clock speed. The shift &beta;^i (3 numbers) says how the coordinate grid slides sideways from one slice to the next. That's 6 + 1 + 3 = 10, exactly the same 10 numbers the original 4D metric had. Nothing is lost &mdash; we've just reorganized everything around a chosen time direction so a computer can march forward step by step.")}
         </div>`,
 
         // 15 - Bread slicer animation
@@ -316,9 +316,9 @@ const Slides = (function () {
                 <div class="eq-box small">
                     $$ K_{ij} = -\\frac{1}{2\\alpha}\\left(\\partial_t \\gamma_{ij} - D_i\\beta_j - D_j\\beta_i\\right) $$
                 </div>
-                <p style="text-align:center; color:#bbb; font-size:0.95rem; margin-top:8px;">Extrinsic curvature &mdash; how each slice bends in the 4D embedding</p>
+                <p style="text-align:center; color:#bbb; font-size:0.95rem; margin-top:8px;">Extrinsic curvature &mdash; how fast the shape of each slice is changing</p>
             </div>
-            ${note("The lapse controls time: near a black hole, we slow the clock down (&alpha;&rarr;0) to prevent the simulation from falling into the singularity. The shift slides the coordinates to keep the grid from tangling. The extrinsic curvature K tells us how each 3D slice is 'bent' as seen from the 4D perspective.")}
+            ${note("The lapse controls the clock: near a black hole, we deliberately slow time down (&alpha;&rarr;0) so the simulation never reaches the singularity inside. The shift slides the coordinate grid sideways to stop it from getting tangled up. The extrinsic curvature K is the rate of change of the slice's shape &mdash; it tells you whether space is stretching or compressing from one moment to the next.")}
         </div>`,
 
         // 17 - Splitting Einstein's equations: 10 = 6 + 4
@@ -349,7 +349,7 @@ const Slides = (function () {
                     just sorted into <strong>&ldquo;what evolves&rdquo;</strong> and <strong>&ldquo;what must stay true.&rdquo;</strong>
                 </p>
             </div>
-            ${note("This is the single most important slide for connecting everything back to Einstein. When you project the 4D Einstein equation onto the slices (and along the normal direction), the 10 components split cleanly: the 4 equations with no second time derivative are constraints — they don't tell you how anything moves, they restrict what counts as valid data (Hamiltonian constraint = energy vs curvature; 3 momentum constraints = momentum vs how the slice bends). The remaining 6 are the true evolution equations for the spatial metric. This is exactly like electromagnetism: div E = ρ is a constraint, curl B = J + dE/dt is evolution. Same structure, same origin — Maxwell and Einstein both split into constraints + evolution under a 3+1 decomposition.")}
+            ${note("This connects everything back to Einstein. Once you slice spacetime, the 10 equations naturally sort themselves. 6 of them contain time derivatives &mdash; they're the 'marching orders' that say how geometry changes from one moment to the next. The other 4 contain NO time derivatives &mdash; they're consistency checks that the data must pass at every single moment: (1) the energy must match the curvature (Hamiltonian constraint), and (2-4) the momentum flow must match how space is bending (3 momentum constraints). If your initial data fails these checks, it doesn't represent a valid universe. Analogy: in electricity, 'charges create electric field lines' (div E = &rho;) is a constraint &mdash; it must be true NOW &mdash; while 'changing magnetic fields create electric fields' is evolution. Same logic.")}
         </div>`,
 
         // 18 - ADM evolution equations
@@ -369,9 +369,9 @@ const Slides = (function () {
                 <div class="eq-box small">
                     $$ \\partial_t K_{ij} = -D_i D_j \\alpha + \\alpha\\left(R_{ij} + K K_{ij} - 2K_{ik}K^k_{\\;j}\\right) + \\beta^k D_k K_{ij} + K_{ik}D_j\\beta^k + K_{jk}D_i\\beta^k - 8\\pi\\alpha\\left(S_{ij} - \\tfrac{1}{2}\\gamma_{ij}(S - \\rho)\\right) $$
                 </div>
-                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">How the embedding curvature evolves &mdash; this is where matter couples in</p>
+                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">How the bending rate changes &mdash; this is where matter and gravity feed back into each other</p>
             </div>
-            ${note("These are the heart of numerical relativity. The first equation says the spatial metric evolves via the extrinsic curvature (how the slice is bending). The second is more complex &mdash; it involves the 3D Ricci tensor R_ij, the lapse gradient, and the matter source terms S_ij and &rho;. Together they form a coupled system: &gamma; drives K, K drives &gamma;.")}
+            ${note("These are the heart of numerical relativity. The first equation is intuitive: the shape of space changes because the slice is bending (K_ij is the bending rate). The second equation is more involved &mdash; it says the bending rate itself changes due to: (1) how the clock speed varies across space, (2) how curved space already is, and (3) the matter present. Together they form a feedback loop: the shape drives the bending, and the bending drives the shape. This is what the computer solves every timestep.")}
         </div>`,
 
         // 18 - ADM constraints
@@ -393,7 +393,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">Momentum flow must be consistent with how the slice bends</p>
             </div>
-            ${note("If you start with valid initial data (constraints = 0), the evolution equations guarantee they stay zero &mdash; analytically. But on a computer, truncation errors accumulate and the constraints drift. If the drift grows exponentially, the simulation crashes. This is exactly what happened for 30 years. The key insight of BSSN/CCZ4: reformulate so that constraint violations are damped, not amplified.")}
+            ${note("If you start with a perfectly valid snapshot (constraints satisfied), the rules of GR guarantee they stay satisfied forever &mdash; in theory. But a computer uses approximate arithmetic, so small errors creep in every step. If those errors snowball, the simulation crashes. This is exactly what happened for 30 years. The breakthrough of BSSN/CCZ4: rewrite the equations so that errors shrink over time instead of growing.")}
         </div>`,
 
         // 19 - Why ADM fails
@@ -402,9 +402,9 @@ const Slides = (function () {
             <h2>Why ADM Crashes</h2>
             <div class="reveal-item">
                 <ul>
-                    <li>ADM equations are only <em>weakly hyperbolic</em></li>
-                    <li>Small numerical errors grow exponentially</li>
-                    <li>Constraint violations amplify &rarr; simulation blows up</li>
+                    <li>ADM's equations don't move information at well-defined speeds</li>
+                    <li>Tiny numerical errors have no "speed limit" &mdash; they pile up instantly</li>
+                    <li>Errors grow exponentially &rarr; simulation blows up within milliseconds of physics</li>
                 </ul>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
@@ -413,7 +413,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px; text-align:center;">
                 <p style="color:#bbb;">ADM &rarr; BSSN &rarr; CCZ4</p>
             </div>
-            ${note("Weak hyperbolicity means the system has degenerate characteristics &mdash; some wave speeds are zero or ill-defined. This allows high-frequency numerical noise to grow without bound. The solution: add new variables and algebraic constraints that make the system strongly hyperbolic, meaning all modes propagate at well-defined finite speeds.")}
+            ${note("Here's the issue in plain terms: a good numerical system needs every disturbance to travel at a definite, finite speed — like sound waves in air. ADM has some modes with zero or undefined speed, meaning errors just sit there and grow. It's like a speaker with no damping: even the tiniest hum gets amplified without limit. The fix (BSSN/CCZ4) rewrites the same Einstein physics so that every disturbance — real or numerical — travels at a known, finite speed. Once that's true, errors get carried off the grid instead of piling up.")}
         </div>`,
 
         // 20 - BSSN decomposition
@@ -427,24 +427,24 @@ const Slides = (function () {
                 </p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <p>Split the metric into a conformal factor and a unit-determinant piece:</p>
+                <p>Separate the overall "scale" of space from its "shape":</p>
                 <div class="eq-box small" style="margin-top:10px;">
                     $$ \\gamma_{ij} = e^{4\\phi}\\,\\tilde{\\gamma}_{ij} \\qquad \\text{where } \\det(\\tilde{\\gamma}_{ij}) = 1 $$
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <p>Split the extrinsic curvature into trace and traceless parts:</p>
+                <p>Separate the "average expansion" of space from how it's being stretched unevenly:</p>
                 <div class="eq-box small" style="margin-top:10px;">
                     $$ K_{ij} = e^{4\\phi}\\left(\\tilde{A}_{ij} + \\tfrac{1}{3}\\tilde{\\gamma}_{ij} K\\right) $$
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <p>Promote the contracted Christoffel symbols to independent variables:</p>
+                <p>Track how the coordinates drift as their own evolving quantity:</p>
                 <div class="eq-box small" style="margin-top:10px;">
                     $$ \\tilde{\\Gamma}^i = \\tilde{\\gamma}^{jk}\\tilde{\\Gamma}^i_{\\;jk} $$
                 </div>
             </div>
-            ${note("BSSN (Baumgarte-Shapiro-Shibata-Nakamura) introduces 5 key changes: (1) conformal factor &phi; separated out, (2) traceless A_ij instead of full K_ij, (3) trace K evolved separately, (4) conformal connection functions promoted to evolved variables, (5) determinant constraint enforced algebraically. This transforms weakly hyperbolic ADM into a strongly hyperbolic system.")}
+            ${note("BSSN (Baumgarte-Shapiro-Shibata-Nakamura) splits the variables into cleaner pieces: (1) separate out the overall 'scale' of space (conformal factor), (2) track the shape-changing part of curvature on its own, (3) evolve the average curvature separately, (4) track how coordinates drift as their own variable, (5) enforce that the volume of a grid cell stays correct at every step. Result: all disturbances now travel at definite speeds. The computer can finally trust the equations &mdash; errors don't pile up, they propagate away.")}
         </div>`,
 
         // 21 - BSSN evolution equations
@@ -469,7 +469,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.85rem; margin-top:4px;">Trace of extrinsic curvature</p>
             </div>
-            ${note("Now we evolve &phi;, the conformal metric, K, the traceless part A_ij, and the conformal connection functions separately. Each equation is simpler than the monolithic ADM version, and crucially, the system is strongly hyperbolic: all characteristic speeds are finite and well-defined. This is why simulations stopped crashing.")}
+            ${note("Instead of evolving one big tangled set of equations, we now march forward five cleaner pieces: the scale factor, the rescaled shape of space, the average curvature, the shape-change rate, and the coordinate-drift trackers. Each equation is simpler than the old ADM version. The key payoff: all disturbances now travel at known, finite speeds, so numerical noise gets carried away harmlessly instead of blowing up. This is why simulations stopped crashing after 30 years of failure.")}
         </div>`,
 
         // 22 - CCZ4
@@ -499,7 +499,7 @@ const Slides = (function () {
                     <li>Constraint errors are actively suppressed, not just tolerated</li>
                 </ul>
             </div>
-            ${note("CCZ4 (Conformal and Covariant Z4) extends BSSN by adding a 4-vector Z&mu; that absorbs constraint violations. The damping terms with &kappa;1 and &kappa;2 ensure that any constraint error decays exponentially in time rather than growing or persisting. This is the formulation used in GRTeclyn/GRChombo. It's like adding friction to a pendulum &mdash; small oscillations die out instead of persisting.")}
+            ${note("CCZ4 (Conformal and Covariant Z4) adds a 'clean-up crew' to BSSN. It introduces extra variables (Z and &Theta;) that measure how far the simulation has drifted from a valid solution. The damping terms (&kappa;1, &kappa;2) act like friction: they drag those errors back to zero exponentially. Think of a ball in a bowl &mdash; BSSN puts the ball on a flat table (errors don't grow, but they don't shrink either). CCZ4 puts it in a bowl &mdash; any displacement rolls back to the centre. This is the formulation used in GRTeclyn/GRChombo. It's like adding friction to a pendulum &mdash; small oscillations die out instead of persisting.")}
         </div>`,
 
         // 23 - Gauge conditions
@@ -521,7 +521,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.85rem; margin-top:4px;">Steers the grid to prevent coordinate stretching</p>
             </div>
-            ${note("These gauge conditions are the 'moving punctures' breakthrough. 1+log slicing makes &alpha;&rarr;0 at the singularity, effectively freezing the slice before it hits the black hole interior. The Gamma-driver condition adjusts the shift to follow the black hole as it moves through the grid. Together they made long-term stable binary black hole simulations possible for the first time in 2005.")}
+            ${note("These are the 'moving punctures' breakthrough. The first rule (1+log slicing) makes the clock tick slower and slower near a black hole &mdash; so the simulation never actually reaches the singularity inside. It's like Zeno's paradox: you keep halving the step so you never arrive. The second rule (Gamma-driver) makes the grid coordinates follow the black hole as it moves, like a camera tracking a moving car instead of watching it fly off-screen. Together these two tricks made long-term stable binary black hole simulations possible for the first time in 2005.")}
         </div>`,
 
         // 24 - 2005 summary
@@ -586,7 +586,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:15px;">
                 <p>If the code is correct, the differences between solutions must shrink at a predictable rate set by the finite-difference order.</p>
             </div>
-            ${note("This is the single most important validation step in numerical relativity. Without convergence testing, you cannot distinguish real physics from numerical noise. The idea: a 4th-order finite difference scheme means the error scales as (Δx)⁴. Double the resolution and the error should drop by a factor of 2⁴ = 16. If it doesn't, something is wrong with the code.")}
+            ${note("This is how we tell real physics from computer artifacts. The logic: if the answer changes a LOT when you double the resolution, you haven't used enough grid points yet. But if doubling the grid barely changes the answer &mdash; and the change shrinks at the expected rate &mdash; you can trust the result. For a 4th-order scheme, doubling resolution should cut the error by 2x2x2x2 = 16 times. If it does, the code is correct. If it doesn't, something is wrong.")}
         </div>`,
 
         // 28 - Richardson extrapolation
@@ -611,7 +611,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">4th-order code &rArr; $Q \\to 16$ &emsp; | &emsp; 2nd-order &rArr; $Q \\to 4$</p>
             </div>
-            ${note("Q is the self-convergence ratio. If Q approaches 2ⁿ (where n is the finite-difference order), the code is converging correctly. In practice you plot (f_coarse − f_medium) vs (f_medium − f_fine) × 2ⁿ — if the curves overlap, convergence is clean. GRTeclyn uses 4th-order spatial stencils, so we expect Q→16. This is shown in the wormhole paper (arXiv:2604.00071, Fig. 5) for the gravitational wave extraction at different radii.")}
+            ${note("Q is the 'sanity check number'. You run the simulation three times (coarse, medium, fine grid). Q measures whether the improvement from coarse→medium matches the improvement from medium→fine at the expected rate. If Q approaches 16 (for a 4th-order code), the code is converging correctly &mdash; the answer is real physics, not numerical junk. If Q is wildly different from 16, there's a bug. GRTeclyn uses 4th-order stencils, so we expect Q→16. This is demonstrated in the wormhole paper (arXiv:2604.00071, Fig. 5).")}
         </div>`,
 
         // 29 - CPU vs GPU animation
@@ -726,11 +726,11 @@ const Slides = (function () {
             <span class="part-label">Part 5 &mdash; Wormholes</span>
             <h2>Traversable Wormholes</h2>
             <div class="reveal-item">
-                <p>A topological bridge held open by <em>exotic matter</em> &mdash; matter that violates the null energy condition.</p>
+                <p>A tunnel through spacetime held open by <em>exotic matter</em> &mdash; a hypothetical substance with <strong>negative</strong> energy that pushes space apart instead of pulling it together.</p>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
                 <div class="eq-box small">
-                    $$ T_{\\mu\\nu}\\, k^\\mu k^\\nu < 0 \\quad \\text{(NEC violated)} $$
+                    $$ T_{\\mu\\nu}\\, k^\\mu k^\\nu < 0 \\quad \\text{(negative energy &mdash; "anti-gravity")} $$
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
@@ -742,7 +742,7 @@ const Slides = (function () {
                     N. Shirokov &mdash; <em>Wormhole Dynamics: Nonlinear Collapse and GW Emission</em> &mdash; arXiv:2604.00071
                 </a>
             </div>
-            ${note("The Null Energy Condition (NEC) says that for any null vector k, the stress-energy must be non-negative. Exotic matter violates this &mdash; it has negative energy density, acting as 'anti-gravity'. Ellis-Bronnikov wormholes use a phantom scalar field (&phi; with wrong-sign kinetic term). See arXiv:2604.00071 for the full 3D numerical-relativity evolutions using GRTeclyn.")}
+            ${note("Normal matter always has positive energy &mdash; it attracts. Exotic matter has negative energy &mdash; it repels, acting like anti-gravity. You need this repulsion to prop a wormhole's throat open against gravity trying to crush it shut. The equation on screen is just saying: the energy measured by any light-speed observer is negative. Nobody has found such matter in nature, but GR allows it, and we can simulate what happens with it. Ellis-Bronnikov wormholes use a 'phantom' field &mdash; a field whose energy is backwards (kinetic energy is negative). See arXiv:2604.00071 for the full 3D simulations using GRTeclyn.")}
         </div>`,
 
         // 32 - Phantom bounce animation
@@ -757,7 +757,7 @@ const Slides = (function () {
                 <span class="paper-label">Research Paper</span>
                 N. Shirokov &mdash; <em>Wormhole Dynamics: Nonlinear Collapse and Gravitational-Wave Emission</em> &mdash; arXiv:2604.00071 [gr-qc]
             </a>
-            ${note("We remove half the exotic matter support (S_support=0.5) and add a quadrupolar perturbation (A_phi=0.02). Gravity crushes the throat. An apparent horizon forms. But the swallowed phantom matter triggers a violent rebound — the 'phantom bounce' — launching an outward curvature shock and gravitational waves propagating at v≈c.")}
+            ${note("We remove half the exotic matter holding the throat open and give it a slight squeeze. Gravity wins and crushes the tunnel shut &mdash; a black hole forms. But the exotic matter that got swallowed doesn't just disappear: its negative energy fights back violently, triggering a 'phantom bounce' &mdash; an explosion of curvature that launches gravitational waves outward at the speed of light.")}
         </div>`,
 
         // 33 - Results
@@ -775,7 +775,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px;">
                 <p>A single exotic object can produce a detectable gravitational wave signal &mdash; no collision required. Detection needs closer sources, larger asymmetries, or next-gen detectors.</p>
             </div>
-            ${note("For the moderate perturbation amplitude simulated, an intermediate-mass (10³ solar mass) wormhole at D=1 Mpc falls slightly below Advanced LIGO design sensitivity. The GW peak propagates between extraction radii at v≈c, distinct from superluminal CCZ4 constraint modes. arXiv:2604.00071")}
+            ${note("For the squeeze strength we simulated, a wormhole weighing about 1000 Suns at a distance of ~3 million light-years would produce gravitational waves just below what Advanced LIGO can currently detect. The wave signal travels outward at the speed of light (we verified this by measuring it at different distances from the source). Stronger squeezes or closer sources would be detectable. arXiv:2604.00071")}
         </div>`,
 
         // 34 - Rotating wormhole
@@ -790,7 +790,7 @@ const Slides = (function () {
                     <li>Massive, coherent burst of gravitational waves</li>
                 </ul>
             </div>
-            ${note("For the rotating case, we engineer a Q-ball torus &mdash; a spinning ring of complex scalar field. The angular momentum means the system already has no spherical symmetry. When we smoothly turn off the exotic support, the rotating throat collapses and emits gravitational waves without needing any extra perturbation. The signal is strong and coherent.")}
+            ${note("For the rotating case, we build a spinning doughnut of exotic matter holding the wormhole open. Because it's already spinning, the shape is already non-spherical &mdash; so when we turn off the exotic support, the collapse naturally produces gravitational waves without needing an artificial 'squeeze'. The spinning collapse generates a strong, clean gravitational wave burst.")}
         </div>`,
 
         // 35 - Conclusion
