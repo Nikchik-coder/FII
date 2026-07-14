@@ -13,6 +13,10 @@
     const R_MAX = 8;
     const GRID = 80;
 
+    // Distinct particle colors
+    const PARTICLE_COLORS = [0x4fc3f7, 0xffd54f, 0xff8a65, 0x81c784, 0xce93d8, 0xef5350];
+    let colorIdx = 0;
+
     // Embedding height: z(r) = -k / (r + eps)
     function embedZ(r) {
         if (r < R_MIN) return -M * 6;
@@ -95,19 +99,19 @@
 
         // Wireframe
         const wireMat = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
+            color: 0x88bbff,
             wireframe: true,
             transparent: true,
-            opacity: 0.08
+            opacity: 0.1
         });
         surface = new THREE.Mesh(geometry, wireMat);
         scene.add(surface);
 
         // Solid translucent underlay
         const solidMat = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
+            color: 0x4488cc,
             transparent: true,
-            opacity: 0.015,
+            opacity: 0.03,
             side: THREE.DoubleSide
         });
         const solidMesh = new THREE.Mesh(geometry.clone(), solidMat);
@@ -142,12 +146,15 @@
     function addParticle(r, speed) {
         const angle = Math.random() * Math.PI * 2;
         const vTangent = speed;
+        const color = PARTICLE_COLORS[colorIdx % PARTICLE_COLORS.length];
+        colorIdx++;
         particles.push({
             r: r,
             theta: angle,
             vr: 0,
             vtheta: vTangent / r,
-            alive: true
+            alive: true,
+            color: color
         });
 
         // Trail line
@@ -156,9 +163,9 @@
         trailGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         trailGeo.setDrawRange(0, 0);
         const trailMat = new THREE.LineBasicMaterial({
-            color: 0xffffff,
+            color: color,
             transparent: true,
-            opacity: 0.2
+            opacity: 0.4
         });
         const trailLine = new THREE.Line(trailGeo, trailMat);
         scene.add(trailLine);
@@ -231,16 +238,29 @@
             const z = p.r * Math.sin(p.theta);
             const y = embedZ(p.r);
 
-            const geo = new THREE.SphereGeometry(0.12, 8, 8);
+            // Main particle (bigger)
+            const geo = new THREE.SphereGeometry(0.18, 12, 12);
             const mat = new THREE.MeshBasicMaterial({
-                color: 0xffffff,
+                color: p.color || 0xffffff,
                 transparent: true,
-                opacity: 0.9
+                opacity: 0.95
             });
             const mesh = new THREE.Mesh(geo, mat);
             mesh.position.set(x, y, z);
             mesh.userData.isParticle = true;
             scene.add(mesh);
+
+            // Glow halo
+            const glowGeo = new THREE.SphereGeometry(0.35, 12, 12);
+            const glowMat = new THREE.MeshBasicMaterial({
+                color: p.color || 0xffffff,
+                transparent: true,
+                opacity: 0.15
+            });
+            const glow = new THREE.Mesh(glowGeo, glowMat);
+            glow.position.set(x, y, z);
+            glow.userData.isParticle = true;
+            scene.add(glow);
         });
     }
 

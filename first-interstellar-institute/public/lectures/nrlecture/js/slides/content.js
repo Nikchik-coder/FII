@@ -102,20 +102,39 @@ const Slides = (function () {
             <span class="part-label">Part 1 &mdash; Unpacking the Geometry</span>
             <h2>The Metric Tensor</h2>
             <div class="reveal-item">
-                <p>The metric $g_{\\mu\\nu}$ encodes all information about distances and angles in spacetime.</p>
+                <p>$ds^2$ is the <strong>proper distance</strong> &mdash; the actual physical separation between two
+                nearby events, as measured by a ruler or a clock right there.</p>
             </div>
-            <div class="reveal-item" style="margin-top:15px;">
+            <div class="reveal-item" style="margin-top:12px;">
                 <div class="eq-box small">
                     $$ ds^2 = g_{\\mu\\nu}\\, dx^\\mu\\, dx^\\nu $$
                 </div>
+                <p style="text-align:center; color:#bbb; font-size:0.95rem; margin-top:6px;">
+                    The metric $g_{\\mu\\nu}$ is the lookup table that converts coordinate differences
+                    ($dx$) into real distances ($ds$). It changes from point to point &mdash; that change <em>is</em> gravity.
+                </p>
             </div>
-            <div class="reveal-item" style="margin-top:15px;">
-                <p style="color:#bbb; font-size:1.1rem;">For Schwarzschild (a single black hole):</p>
-                <div class="eq-box small" style="margin-top:10px;">
+            <div class="reveal-item" style="margin-top:12px;">
+                <p style="color:#bbb; font-size:1.05rem;">For a single non-spinning black hole (Schwarzschild):</p>
+                <div class="eq-box small" style="margin-top:8px;">
                     $$ ds^2 = -\\left(1 - \\frac{2M}{r}\\right)dt^2 + \\left(1 - \\frac{2M}{r}\\right)^{-1}dr^2 + r^2 d\\Omega^2 $$
                 </div>
+                <p style="text-align:center; color:#bbb; font-size:0.95rem; margin-top:6px;">
+                    Near the black hole ($r \\to 2M$): clocks freeze, radial distances blow up.
+                </p>
             </div>
-            ${note("The metric is the master ruler of spacetime. It's a table of 10 numbers at every point that tells you the actual distance between two nearby events &mdash; accounting for curvature. In flat space it's simple (Pythagorean theorem). Near a black hole the numbers warp: distances stretch, time slows. The Schwarzschild metric shown here is one of the rare cases we can solve exactly by hand &mdash; a single non-spinning black hole.")}
+            ${note("On a flat table, the distance formula is the Pythagorean theorem: ds² = dx² + dy². The metric there is just 1's on the diagonal. In curved spacetime, the metric g_μν warps those 1's: near a black hole, the time-time component shrinks to zero (clocks stop) and the radial component blows up (space stretches to infinity). ds² is what a local observer actually measures &mdash; it's the ground truth. The coordinate labels (t, r, angles) are just addresses; the metric converts addresses into real distances. This is why we say 'gravity is geometry' &mdash; a warped metric IS a gravitational field.")}
+        </div>`,
+
+        // 6b - ds interactive demo
+        `<div class="slide" data-anim="dsmetric">
+            <span class="part-label">Part 1 &mdash; Seeing the Metric</span>
+            <h2>How $ds$ Changes Near a Mass</h2>
+            <div class="anim-container" id="dsMetricContainer" style="height:400px;">
+                <canvas id="dsMetricCanvas"></canvas>
+            </div>
+            <p class="anim-hint">drag the mass around &mdash; watch the rulers stretch</p>
+            ${note("Each little ruler represents ds &mdash; the actual physical distance between two grid points. Far from the mass (green rulers), ds is normal &mdash; the grid is flat. Near the mass (red rulers), ds is stretched &mdash; the same coordinate gap corresponds to a much larger real distance. This is exactly what the metric does: it converts coordinate separations into physical distances, and near a massive object those distances are warped. Drag the mass to see it live.")}
         </div>`,
 
         // 7 - Christoffel symbols
@@ -126,7 +145,7 @@ const Slides = (function () {
                 <p>The "road map corrections" &mdash; they tell you how much your rulers and protractors twist as you move through curved space:</p>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
-                <div class="eq-box">
+                <div class="eq-box small">
                     $$ \\Gamma^\\alpha_{\\;\\mu\\nu} = \\frac{1}{2}\\,g^{\\alpha\\beta}\\left( \\partial_\\mu g_{\\beta\\nu} + \\partial_\\nu g_{\\beta\\mu} - \\partial_\\beta g_{\\mu\\nu} \\right) $$
                 </div>
             </div>
@@ -238,6 +257,34 @@ const Slides = (function () {
                 </p>
             </div>
             ${note("This is the key difficulty. In electromagnetism, light doesn't create more light. But in GR, gravity gravitates. The energy stored in the gravitational field itself acts as a source of more gravity. This non-linearity makes analytical solutions almost impossible for dynamic scenarios.")}
+        </div>`,
+
+        // -- Discretization (moved here: the audience should know what a grid is before ADM)
+        `<div class="slide">
+            <span class="part-label">Part 1 &mdash; How Computers See Equations</span>
+            <h2>Discretizing Spacetime</h2>
+            <div class="reveal-item">
+                <p style="max-width:760px;">
+                    A computer can't handle smooth, continuous functions. It needs to chop
+                    space into a grid of tiny cubes and approximate derivatives as simple differences
+                    between neighbouring points.
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:20px;">
+                <div class="eq-box small">
+                    $$ \\frac{\\partial f}{\\partial x}\\bigg|_i \\approx \\frac{f_{i+1} - f_{i-1}}{2\\,\\Delta x} $$
+                </div>
+                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:6px;">
+                    "Slope at point $i$" &asymp; "value to the right minus value to the left, divided by the gap"
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:15px;">
+                <p style="text-align:center; color:#bbb; max-width:760px;">
+                    This is how every simulation in physics works. The question for GR is:
+                    <strong>how do we rewrite Einstein's equations so this grid approach actually works?</strong>
+                </p>
+            </div>
+            ${note("This is the key idea to grasp before Part 2. Computers can't do calculus — they can only do arithmetic on a finite set of numbers. So we replace the continuous spacetime manifold with a 3D grid of points (like pixels in 3D). Derivatives become simple subtractions between neighbouring grid values. A typical production simulation uses 512³ = ~134 million grid cells, with finer grids nested around black holes (adaptive mesh refinement). The whole challenge of numerical relativity is rewriting Einstein's equations in a form that's stable and accurate on such a grid.")}
         </div>`,
 
         // 14 - Bridge: why reformulate Einstein's equations
@@ -369,7 +416,7 @@ const Slides = (function () {
                 <div class="eq-box small">
                     $$ \\partial_t K_{ij} = -D_i D_j \\alpha + \\alpha\\left(R_{ij} + K K_{ij} - 2K_{ik}K^k_{\\;j}\\right) + \\beta^k D_k K_{ij} + K_{ik}D_j\\beta^k + K_{jk}D_i\\beta^k - 8\\pi\\alpha\\left(S_{ij} - \\tfrac{1}{2}\\gamma_{ij}(S - \\rho)\\right) $$
                 </div>
-                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">How the bending rate changes &mdash; this is where matter and gravity feed back into each other</p>
+                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px; max-width:760px; margin-left:auto; margin-right:auto;">How the bending rate changes &mdash; this is where matter and gravity feed back into each other</p>
             </div>
             ${note("These are the heart of numerical relativity. The first equation is intuitive: the shape of space changes because the slice is bending (K_ij is the bending rate). The second equation is more involved &mdash; it says the bending rate itself changes due to: (1) how the clock speed varies across space, (2) how curved space already is, and (3) the matter present. Together they form a feedback loop: the shape drives the bending, and the bending drives the shape. This is what the computer solves every timestep.")}
         </div>`,
@@ -379,21 +426,32 @@ const Slides = (function () {
             <span class="part-label">Part 2 &mdash; ADM Constraints</span>
             <h2>Constraint Equations</h2>
             <div class="reveal-item">
-                <p>The other <strong>4</strong> from the split &mdash; conditions that must hold on every slice, with no time derivatives.</p>
+                <p>The other <strong>4</strong> equations have no time derivatives &mdash; they are <strong>sanity checks</strong> that the data on every slice must pass.</p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
                 <div class="eq-box small">
                     $$ \\mathcal{H} \\equiv R + K^2 - K_{ij}K^{ij} - 16\\pi\\rho = 0 \\qquad \\text{(Hamiltonian)} $$
                 </div>
-                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">Energy must be consistent with curvature</p>
+                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">
+                    The amount of matter-energy must match the curvature of space.<br>
+                    <em>Too much energy for the curvature? Not a valid universe.</em>
+                </p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
                 <div class="eq-box small">
                     $$ \\mathcal{M}^i \\equiv D_j K^{ij} - D^i K - 8\\pi j^i = 0 \\qquad \\text{(Momentum)} $$
                 </div>
-                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">Momentum flow must be consistent with how the slice bends</p>
+                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">
+                    The flow of momentum must match how space is bending over time.<br>
+                    <em>Matter moving left but space bending right? Impossible.</em>
+                </p>
             </div>
-            ${note("If you start with a perfectly valid snapshot (constraints satisfied), the rules of GR guarantee they stay satisfied forever &mdash; in theory. But a computer uses approximate arithmetic, so small errors creep in every step. If those errors snowball, the simulation crashes. This is exactly what happened for 30 years. The breakthrough of BSSN/CCZ4: rewrite the equations so that errors shrink over time instead of growing.")}
+            <div class="reveal-item" style="margin-top:15px;">
+                <p style="text-align:center; color:#e87d7d; max-width:760px; margin:0 auto;">
+                    If you start with bad initial data (constraints violated), the simulation <strong>crashes immediately</strong> &mdash; it's not a valid starting point for any universe.
+                </p>
+            </div>
+            ${note("Think of constraints like the rules of Sudoku: they don't tell you the next move, they tell you whether the current board is valid. If the numbers don't add up, you can't keep playing. The Hamiltonian constraint checks the 'energy budget' &mdash; the total matter-energy at each point must equal the total curvature there. The momentum constraints check the 'flow budget' &mdash; the way matter is moving must match the way space is bending. If you start with valid data, GR guarantees constraints stay satisfied &mdash; in exact math. But on a computer, small rounding errors leak in each step. If those errors pile up (which they did for 30 years with ADM), the simulation blows up. BSSN/CCZ4 fix this.")}
         </div>`,
 
         // 19 - Why ADM fails
@@ -550,22 +608,6 @@ const Slides = (function () {
             </div>
             <p class="anim-hint">click to send a gravitational wave through the detector</p>
             ${note("LIGO is a Michelson interferometer with two 4 km arms at right angles. A laser is split at the beam splitter; each half travels down an arm, bounces off a mirror, and returns. Normally the beams recombine destructively (no signal). A gravitational wave stretches one arm and compresses the other by ~10⁻²¹ m, shifting the interference pattern. LIGO matched its signal against ~200,000 NR waveform templates to identify GW150914: two black holes (36+29 solar masses) merging 1.3 billion light-years away. Nobel Prize 2017.")}
-        </div>`,
-
-        // 26 - Discretization
-        `<div class="slide">
-            <span class="part-label">Part 4 &mdash; Modern Tech</span>
-            <h2>Discretizing Spacetime</h2>
-            <div class="reveal-item">
-                <p>Chop 3D space into a grid of tiny cubes. Calculate gravity at every corner.</p>
-            </div>
-            <div class="reveal-item" style="margin-top:20px;">
-                <div class="eq-box small">
-                    $$ \\frac{\\partial f}{\\partial x}\\bigg|_i \\approx \\frac{f_{i+1} - f_{i-1}}{2\\,\\Delta x} $$
-                </div>
-                <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:6px;">Finite differencing on the grid</p>
-            </div>
-            ${note("We replace continuous spacetime with a discrete grid. Derivatives become finite differences. A typical production run might have 512³ grid cells with 6-8 levels of adaptive mesh refinement, resolving features from the gravitational wave zone all the way down to the black hole horizon.")}
         </div>`,
 
         // 27 - Convergence testing
