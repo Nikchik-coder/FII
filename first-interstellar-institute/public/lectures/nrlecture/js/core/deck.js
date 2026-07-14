@@ -58,6 +58,17 @@ const Deck = (function () {
         if (btn) btn.classList.toggle('active', notesVisible);
         document.body.classList.toggle('notes-on', notesVisible);
         updateNotes();
+        // Re-init the current animation so canvases resize to new container
+        setTimeout(() => {
+            const active = slides[current];
+            if (active) {
+                const animName = active.dataset.anim;
+                if (animName) {
+                    const fn = window['initAnim_' + animName];
+                    if (fn) fn();
+                }
+            }
+        }, 350); // wait for CSS transition to finish
     }
 
     // ---- Table of Contents (auto-generated from slide DOM) ----

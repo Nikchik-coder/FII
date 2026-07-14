@@ -466,6 +466,24 @@ body.notes-on .progress {
     bottom: 18vh;
 }
 
+body.notes-on .anim-container {
+    height: 260px !important;
+}
+
+body.notes-on .slide {
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+body.notes-on h2 {
+    margin-bottom: 15px;
+}
+
+body.notes-on p, body.notes-on li {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
 .notes-toggle {
     position: fixed;
     bottom: 25px;
