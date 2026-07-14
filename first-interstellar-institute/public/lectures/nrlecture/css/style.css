@@ -278,7 +278,7 @@ ul li::before {
 .era-dot[data-era="2015"] { left: 78%; }
 .era-dot[data-era="2026"] { left: 100%; }
 
-.era-dot::before {
+.era-dot::after {
     content: '';
     display: block;
     width: 4px;
@@ -289,7 +289,7 @@ ul li::before {
     margin: 0 auto;
 }
 
-.era-dot.active::before {
+.era-dot.active::after {
     background: #fff;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
     width: 5px;
