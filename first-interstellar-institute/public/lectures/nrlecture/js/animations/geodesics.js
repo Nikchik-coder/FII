@@ -4,7 +4,7 @@
     let scene, camera, renderer, container;
     let surface, particles = [];
     let running = false, time = 0;
-    let mouseDown = false, mouseX = 0, mouseY = 0;
+    let mouseDown = false, mouseX = 0, mouseY = 0, dragDistance = 0;
     let camTheta = 0.6, camPhi = 0.8, camDist = 12;
     let trails = [];
 
@@ -173,7 +173,8 @@
     }
 
     function onClick(e) {
-        // Add particle at random orbit
+        // Only add particle on a real click, not after a drag
+        if (dragDistance > 5) return;
         const r = 2.0 + Math.random() * 4;
         const speed = 0.2 + Math.random() * 0.25;
         addParticle(r, speed);
@@ -273,6 +274,7 @@
 
     function onMouseDown(e) {
         mouseDown = true;
+        dragDistance = 0;
         mouseX = e.clientX;
         mouseY = e.clientY;
     }
@@ -281,6 +283,7 @@
         if (!mouseDown) return;
         const dx = e.clientX - mouseX;
         const dy = e.clientY - mouseY;
+        dragDistance += Math.abs(dx) + Math.abs(dy);
         camTheta += dx * 0.005;
         camPhi = Math.max(0.2, Math.min(1.4, camPhi + dy * 0.005));
         mouseX = e.clientX;

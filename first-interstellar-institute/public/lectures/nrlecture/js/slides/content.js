@@ -160,7 +160,7 @@ const Slides = (function () {
             <span class="part-label">Part 1 &mdash; Curvature</span>
             <h2>Riemann Curvature Tensor</h2>
             <div class="reveal-item">
-                <div class="eq-box">
+                <div class="eq-box small">
                     $$ R^\\alpha_{\\;\\beta\\mu\\nu} = \\partial_\\mu \\Gamma^\\alpha_{\\nu\\beta} - \\partial_\\nu \\Gamma^\\alpha_{\\mu\\beta} + \\Gamma^\\alpha_{\\mu\\lambda}\\Gamma^\\lambda_{\\nu\\beta} - \\Gamma^\\alpha_{\\nu\\lambda}\\Gamma^\\lambda_{\\mu\\beta} $$
                 </div>
             </div>
@@ -185,7 +185,7 @@ const Slides = (function () {
                 </div>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
-                <div class="eq-box">
+                <div class="eq-box small">
                     $$ G_{\\mu\\nu} = R_{\\mu\\nu} - \\tfrac{1}{2}\\,g_{\\mu\\nu}\\,R $$
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:1rem; margin-top:8px;">The Einstein tensor &mdash; built from the metric, its first and second derivatives.</p>
@@ -229,7 +229,7 @@ const Slides = (function () {
             <span class="part-label">Part 1 &mdash; Geodesic Equation</span>
             <h2>Free Fall = Straightest Possible Path</h2>
             <div class="reveal-item">
-                <div class="eq-box">
+                <div class="eq-box small">
                     $$ \\frac{d^2 x^\\mu}{d\\tau^2} + \\Gamma^\\mu_{\\;\\alpha\\beta}\\,\\frac{dx^\\alpha}{d\\tau}\\frac{dx^\\beta}{d\\tau} = 0 $$
                 </div>
             </div>
@@ -643,7 +643,7 @@ const Slides = (function () {
             </div>
             <div class="reveal-item" style="margin-top:6px;">
                 <p style="font-size:0.95rem;">With three resolutions ($\\Delta x,\\; \\Delta x/2,\\; \\Delta x/4$), compute the <strong>convergence factor</strong>:</p>
-                <div class="eq-box small" style="margin:8px 0; font-size:1.3rem;">
+                <div class="eq-box small" style="margin:8px 0;">
                     $$ Q = \\frac{f_{\\Delta x} - f_{\\Delta x/2}}{f_{\\Delta x/2} - f_{\\Delta x/4}} $$
                 </div>
             </div>
