@@ -39,7 +39,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 100px;
+    padding: 70px 100px 60px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
@@ -245,8 +245,8 @@ ul li::before {
     align-items: flex-end;
     gap: 0;
     width: 520px;
-    height: 50px;
-    padding-bottom: 8px;
+    height: 38px;
+    padding-bottom: 6px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -258,7 +258,7 @@ ul li::before {
 
 .era-line {
     position: absolute;
-    bottom: 11px;
+    bottom: 9px;
     left: 0;
     right: 0;
     height: 1px;
@@ -284,29 +284,30 @@ ul li::before {
 
 .era-dot::before {
     content: '';
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transition: all 0.4s ease;
     position: relative;
     z-index: 1;
+    flex-shrink: 0;
 }
 
 .era-dot.active::before {
     background: #fff;
     border-color: #fff;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    width: 8px;
-    height: 8px;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+    width: 6px;
+    height: 6px;
 }
 
 .era-year {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    color: rgba(255, 255, 255, 0.2);
-    margin-bottom: 5px;
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.15);
+    margin-bottom: 3px;
     letter-spacing: 0.5px;
     transition: color 0.4s ease;
     white-space: nowrap;
@@ -328,16 +329,16 @@ ul li::before {
 }
 
 .era-dot.active .era-label {
-    font-size: 0.5rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.45rem;
+    color: rgba(255, 255, 255, 0.4);
     height: auto;
-    margin-bottom: 1px;
+    margin-bottom: 0;
 }
 
 /* Glowing segment between dots for the active era range */
 .era-timeline .era-segment {
     position: absolute;
-    bottom: 10px;
+    bottom: 8px;
     height: 2px;
     background: rgba(255, 255, 255, 0.25);
     transition: all 0.4s ease;
