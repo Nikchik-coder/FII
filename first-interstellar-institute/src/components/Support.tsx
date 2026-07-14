@@ -20,40 +20,41 @@ export default function Support({ id }: { id: string }) {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert('Address copied!'); // Can be replaced with a toast later
+    alert('Address copied!');
   };
 
   return (
-    <section id={id} className="py-24 px-6 w-full bg-slate-950">
+    <section id={id} className="py-24 px-6 w-full border-t border-white/10">
       <div className="max-w-4xl mx-auto text-center">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4">Fund the next wave of interstellar exploration</h2>
-          <div className="h-1 w-24 bg-slate-700 mx-auto rounded mb-6"></div>
-          
-          <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-8 mb-10 text-left">
-            <h3 className="text-xl font-orbitron font-bold mb-3 text-blue-400">Why do we need your support?</h3>
-            <p className="text-slate-300 leading-relaxed">
+          <span className="part-label block mb-4">04 — Support</span>
+          <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">Fund the next wave of interstellar exploration</h2>
+          <div className="sep mb-6" />
+
+          <div className="bg-white/[0.03] border border-white/10 rounded-md p-8 mb-10 text-left">
+            <h3 className="text-xl font-orbitron font-bold mb-3 text-[#e8e4df]">Why do we need your support?</h3>
+            <p className="text-[#e8e4df]/70 leading-relaxed">
               We are running complex numerical relativity research on GPU supercomputers using the open-source{' '}
-              <a 
-                href="https://grtlcollaboration.github.io/GRTeclyn/building_gpus/" 
-                target="_blank" 
+              <a
+                href="https://grtlcollaboration.github.io/GRTeclyn/building_gpus/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"
+                className="text-white underline underline-offset-4 hover:text-[#e8e4df] transition-colors"
               >
                 GRTeclyn code base
               </a>. 
               These high-performance computing resources are incredibly expensive. Your crypto donations directly fund the computational time required to simulate warp drives, wormhole dynamics, and publish our findings.
             </p>
           </div>
-          
-          <p className="text-slate-400 max-w-2xl mx-auto mb-8">
+
+          <p className="text-[#e8e4df]/60 max-w-2xl mx-auto mb-8">
             Fund the next video lecture and research paper by donating crypto.
           </p>
         </div>
-        
-        <button 
+
+        <button
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl transition-all duration-300 font-bold text-lg shadow-lg shadow-blue-900/30 hover:shadow-blue-900/50 hover:-translate-y-1 font-orbitron"
+          className="inline-flex items-center gap-3 border border-white/20 hover:border-white/40 hover:bg-white/5 text-[#e8e4df] px-8 py-4 rounded-md transition-all duration-300 font-bold text-lg font-orbitron"
         >
           <Wallet size={24} />
           Donate USDT
@@ -64,35 +65,35 @@ export default function Support({ id }: { id: string }) {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           {/* Modal Content */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            
+          <div className="bg-[#222] border border-white/10 rounded-md w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-2 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 text-[#888] hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-full transition-colors z-10"
             >
               <X size={24} />
             </button>
 
             <div className="p-8">
               <h3 className="text-2xl font-orbitron font-bold mb-8 text-center text-white">Select Network</h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {cryptoAddresses.map((crypto) => (
-                  <div key={crypto.coin} className="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col items-center hover:border-slate-600 transition-colors">
-                    <h4 className="text-lg font-bold mb-4 font-orbitron text-slate-200">{crypto.coin}</h4>
-                    
-                    <div className="bg-white p-2 rounded-xl mb-4 shadow-lg">
+                  <div key={crypto.coin} className="bg-[#1a1a1a] p-6 rounded-md border border-white/10 flex flex-col items-center hover:border-white/30 transition-colors">
+                    <h4 className="text-lg font-bold mb-4 font-orbitron text-[#e8e4df]">{crypto.coin}</h4>
+
+                    <div className="bg-white p-2 rounded-md mb-4 shadow-lg">
                        <QRCodeSVG value={crypto.address} size={120} level="H" />
                     </div>
 
-                    <p className="text-[10px] sm:text-xs text-slate-400 mb-4 font-mono break-all w-full bg-black/50 p-2 rounded-lg border border-slate-800">
+                    <p className="text-[10px] sm:text-xs text-[#888] mb-4 font-mono break-all w-full bg-black/50 p-2 rounded-md border border-white/10">
                       {crypto.address}
                     </p>
-                    
-                    <button 
+
+                    <button
                       onClick={() => copyToClipboard(crypto.address)}
-                      className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition-colors w-full font-medium"
+                      className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-[#e8e4df] px-4 py-2 rounded-md transition-colors w-full font-medium"
                     >
                       <Copy size={16} />
                       Copy Address

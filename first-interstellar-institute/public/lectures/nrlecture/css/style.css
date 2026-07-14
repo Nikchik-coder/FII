@@ -1,0 +1,482 @@
+/* Blackboard chalk theme */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #1a1a1a;
+    color: #e8e4df;
+    font-family: 'EB Garamond', Georgia, serif;
+    height: 100vh;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* Slide container */
+.deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 100px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Typography */
+h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+}
+
+p, li {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #eee;
+    max-width: 800px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+ul li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: #999;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.part-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #999;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Equation box */
+.eq-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 30px 50px;
+    margin: 25px 0;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.eq-box.small {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+}
+
+.eq-highlight {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Animation container within a slide */
+.anim-container {
+    width: 100%;
+    max-width: 900px;
+    height: 400px;
+    position: relative;
+    margin: 20px 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.anim-container canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.anim-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #999;
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    bottom: 25px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #888;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+}
+
+.nav button:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+}
+
+.slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #999;
+    margin: 0 8px;
+}
+
+/* Progress bar */
+.progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.4s ease;
+    z-index: 100;
+}
+
+/* Separator line */
+.sep {
+    width: 60px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 25px 0;
+}
+
+/* Two column layout */
+.columns {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    max-width: 1000px;
+    align-items: flex-start;
+}
+
+.col {
+    flex: 1;
+}
+
+/* Fade-in items (click to reveal) */
+.reveal-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.reveal-item.shown {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Paper reference link */
+.paper-ref {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #bbb;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 10px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.paper-ref:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.paper-ref .paper-label {
+    color: #999;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Speaker notes - hidden data inside slides */
+.slide-note {
+    display: none;
+}
+
+/* Notes panel: fixed to bottom, hidden by default */
+#notesPanel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: #ccc;
+    background: #111;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 300;
+    transition: height 0.3s ease;
+}
+
+#notesPanel .notes-inner {
+    padding: 14px 60px;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 0.85rem;
+}
+
+#notesPanel.visible {
+    height: 18vh;
+}
+
+/* When notes are on, shrink the entire deck + move nav up */
+body.notes-on .deck {
+    height: 82vh;
+}
+
+body.notes-on .slide {
+    height: 82vh;
+}
+
+body.notes-on .nav {
+    bottom: calc(18vh + 10px);
+}
+
+body.notes-on .notes-toggle {
+    bottom: calc(18vh + 10px);
+}
+
+body.notes-on .progress {
+    bottom: 18vh;
+}
+
+.notes-toggle {
+    position: fixed;
+    bottom: 25px;
+    left: 30px;
+    z-index: 250;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #999;
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    cursor: pointer;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+
+.notes-toggle:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+}
+
+.notes-toggle.active {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Table of contents — side arrow button */
+.toc-toggle {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 450;
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    color: rgba(255,255,255,0.4);
+    padding: 18px 5px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.toc-toggle:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    background: rgba(30, 30, 30, 0.95);
+}
+
+.toc-toggle.active {
+    color: #fff;
+    left: 280px;
+}
+
+/* Side panel */
+.toc-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: #111;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 400;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    padding: 16px 0;
+}
+
+.toc-panel.visible {
+    transform: translateX(0);
+}
+
+/* Push the deck, nav, notes-toggle, and progress bar when TOC is open */
+body.toc-open .deck,
+body.toc-open .nav,
+body.toc-open .notes-toggle,
+body.toc-open .progress,
+body.toc-open #notesPanel {
+    margin-left: 280px;
+    transition: margin-left 0.3s ease;
+}
+
+body.toc-open .deck {
+    width: calc(100vw - 280px);
+}
+
+body.toc-open .slide {
+    width: calc(100vw - 280px);
+}
+
+.toc-panel .toc-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 16px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.toc-panel .toc-section {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px 3px;
+}
+
+.toc-panel .toc-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 5px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.toc-panel .toc-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.95);
+}
+
+.toc-panel .toc-item.active {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+}
+
+.toc-panel .toc-item .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.25);
+    min-width: 20px;
+}
+
+/* Chalk-dust subtle texture overlay */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='4' height='4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1' height='1' fill='rgba(255,255,255,0.008)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+}
