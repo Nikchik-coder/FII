@@ -240,22 +240,51 @@ const Slides = (function () {
             ${note("This is the key difficulty. In electromagnetism, light doesn't create more light. But in GR, gravity gravitates. The energy stored in the gravitational field itself acts as a source of more gravity. This non-linearity makes analytical solutions almost impossible for dynamic scenarios.")}
         </div>`,
 
-        // 14 - Part 2: ADM intro
+        // 14 - Bridge: why reformulate Einstein's equations
+        `<div class="slide">
+            <span class="part-label">Part 2 &mdash; From Geometry to a Movie</span>
+            <h2>The Equations Don't Point Forward in Time</h2>
+            <div class="reveal-item">
+                <p style="text-align:center; max-width:760px;">
+                    $G_{\\mu\\nu} = 8\\pi T_{\\mu\\nu}$ is <strong>covariant</strong>: space and time are fused into one
+                    4D block. There is no built-in "now", no "next".
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:18px;">
+                <p style="text-align:center; max-width:760px;">
+                    But a computer can't solve for all of spacetime at once. It needs an
+                    <strong>initial-value problem</strong>: give it the geometry <em>now</em>,
+                    ask for the geometry an instant <em>later</em>.
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:18px;">
+                <p style="text-align:center; color:#bbb; max-width:760px;">
+                    So we must break the 4D symmetry &mdash; single out a time direction and rewrite GR as
+                    <strong>3D space evolving through time</strong>.
+                </p>
+            </div>
+            ${note("This is the conceptual heart of the whole reformulation. Einstein wrote his equations in covariant form on purpose: no observer, no coordinate, no time direction is special. That elegance is exactly what makes them hard to compute. A computer marches step by step — it needs to know the 'state now' and a rule for the 'state next'. This is called a Cauchy problem, or initial-value problem. To get there we deliberately give up manifest 4D covariance and pick a foliation: a stack of 3D 'now' slices labelled by a time coordinate. Everything in Part 2 — ADM, BSSN, CCZ4 — is just increasingly clever ways of writing the SAME Einstein equation as 'space evolving in time'.")}
+        </div>`,
+
+        // 15 - Part 2: ADM 3+1 decomposition
         `<div class="slide">
             <span class="part-label">Part 2 &mdash; The ADM Formalism</span>
-            <h2>Putting the Universe in a Computer</h2>
+            <h2>The 3+1 Decomposition</h2>
             <div class="reveal-item">
-                <p>Spacetime is a 4D block. Computers need cause &rarr; effect.</p>
-            </div>
-            <div class="reveal-item" style="margin-top:20px;">
-                <p><strong>The 3+1 Decomposition</strong> &mdash; slice the 4D loaf into 3D spatial slices, one moment at a time.</p>
+                <p>Rewrite the 4D metric so that time is explicitly separated from space:</p>
             </div>
             <div class="reveal-item" style="margin-top:20px;">
                 <div class="eq-box small">
                     $$ ds^2 = -\\alpha^2 dt^2 + \\gamma_{ij}\\left(dx^i + \\beta^i dt\\right)\\left(dx^j + \\beta^j dt\\right) $$
                 </div>
             </div>
-            ${note("Arnowitt, Deser, and Misner (1959) showed how to decompose the 4D metric into a 3D spatial metric &gamma;, a lapse function &alpha;, and a shift vector &beta;. This turns Einstein's equations from a geometric statement about 4D spacetime into an initial-value problem: given the state now, compute the state one timestep later.")}
+            <div class="reveal-item" style="margin-top:18px;">
+                <p style="text-align:center; color:#bbb; max-width:760px;">
+                    The 10 metric components regroup into a 3D spatial metric $\\gamma_{ij}$ (6),
+                    a lapse $\\alpha$ (1), and a shift $\\beta^i$ (3). Same geometry &mdash; new bookkeeping.
+                </p>
+            </div>
+            ${note("Arnowitt, Deser, and Misner (1959) showed how to split the 4D metric into a 3D spatial metric &gamma;_ij (the geometry of each 'now' slice), a lapse function &alpha; (how much proper time elapses between slices), and a shift vector &beta;^i (how the spatial coordinates slide from one slice to the next). Crucially, the 10 numbers in g_&mu;&nu; are exactly repackaged into 6 + 1 + 3 = 10. Nothing is lost — we've just organized the metric around a chosen time direction, turning Einstein's equations into an initial-value problem.")}
         </div>`,
 
         // 15 - Bread slicer animation
@@ -292,12 +321,43 @@ const Slides = (function () {
             ${note("The lapse controls time: near a black hole, we slow the clock down (&alpha;&rarr;0) to prevent the simulation from falling into the singularity. The shift slides the coordinates to keep the grid from tangling. The extrinsic curvature K tells us how each 3D slice is 'bent' as seen from the 4D perspective.")}
         </div>`,
 
-        // 17 - ADM evolution equations
+        // 17 - Splitting Einstein's equations: 10 = 6 + 4
+        `<div class="slide">
+            <span class="part-label">Part 2 &mdash; Splitting Einstein's Equations</span>
+            <h2>10 Equations &rarr; 6 + 4</h2>
+            <div class="reveal-item">
+                <p style="text-align:center; max-width:760px;">
+                    Feed the 3+1 split back into $G_{\\mu\\nu} = 8\\pi T_{\\mu\\nu}$.
+                    The 10 equations sort themselves into two very different kinds:
+                </p>
+            </div>
+            <div class="columns" style="margin-top:20px;">
+                <div class="col reveal-item">
+                    <h3>6 Evolution</h3>
+                    <p style="font-size:1.05rem;">Contain <strong>second time derivatives</strong>. They tell you how the
+                    geometry $\\gamma_{ij}$ and its rate of change $K_{ij}$ march forward in time.</p>
+                </div>
+                <div class="col reveal-item">
+                    <h3>4 Constraints</h3>
+                    <p style="font-size:1.05rem;">Contain <strong>no time derivatives</strong>. They are conditions the data
+                    must already satisfy on <em>every</em> slice &mdash; 1 Hamiltonian + 3 momentum.</p>
+                </div>
+            </div>
+            <div class="reveal-item" style="margin-top:22px;">
+                <p style="text-align:center; color:#bbb; max-width:760px;">
+                    This is the bridge back to Einstein: ADM <em>is</em> $G_{\\mu\\nu}=8\\pi T_{\\mu\\nu}$,
+                    just sorted into <strong>&ldquo;what evolves&rdquo;</strong> and <strong>&ldquo;what must stay true.&rdquo;</strong>
+                </p>
+            </div>
+            ${note("This is the single most important slide for connecting everything back to Einstein. When you project the 4D Einstein equation onto the slices (and along the normal direction), the 10 components split cleanly: the 4 equations with no second time derivative are constraints — they don't tell you how anything moves, they restrict what counts as valid data (Hamiltonian constraint = energy vs curvature; 3 momentum constraints = momentum vs how the slice bends). The remaining 6 are the true evolution equations for the spatial metric. This is exactly like electromagnetism: div E = ρ is a constraint, curl B = J + dE/dt is evolution. Same structure, same origin — Maxwell and Einstein both split into constraints + evolution under a 3+1 decomposition.")}
+        </div>`,
+
+        // 18 - ADM evolution equations
         `<div class="slide">
             <span class="part-label">Part 2 &mdash; ADM Evolution</span>
             <h2>ADM Evolution Equations</h2>
             <div class="reveal-item">
-                <p>Two dynamical variables: the spatial metric $\\gamma_{ij}$ and the extrinsic curvature $K_{ij}$.</p>
+                <p>The <strong>6 evolution</strong> equations, written for the spatial metric $\\gamma_{ij}$ and the extrinsic curvature $K_{ij}$:</p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
                 <div class="eq-box small">
@@ -319,7 +379,7 @@ const Slides = (function () {
             <span class="part-label">Part 2 &mdash; ADM Constraints</span>
             <h2>Constraint Equations</h2>
             <div class="reveal-item">
-                <p>Not all of Einstein's equations are evolution. Four are <em>constraints</em> &mdash; conditions that must hold on every slice.</p>
+                <p>The other <strong>4</strong> from the split &mdash; conditions that must hold on every slice, with no time derivatives.</p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
                 <div class="eq-box small">
@@ -359,8 +419,14 @@ const Slides = (function () {
         // 20 - BSSN decomposition
         `<div class="slide">
             <span class="part-label">Part 2 &mdash; BSSN Formulation</span>
-            <h2>BSSN: The Conformal Decomposition</h2>
+            <h2>BSSN: Same Physics, Better Variables</h2>
             <div class="reveal-item">
+                <p style="text-align:center; color:#bbb; max-width:760px;">
+                    The fix is <em>not</em> new physics &mdash; it's a change of variables. We rewrite the exact same
+                    ADM equations in a form the computer can trust.
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:15px;">
                 <p>Split the metric into a conformal factor and a unit-determinant piece:</p>
                 <div class="eq-box small" style="margin-top:10px;">
                     $$ \\gamma_{ij} = e^{4\\phi}\\,\\tilde{\\gamma}_{ij} \\qquad \\text{where } \\det(\\tilde{\\gamma}_{ij}) = 1 $$
@@ -411,7 +477,14 @@ const Slides = (function () {
             <span class="part-label">Part 2 &mdash; CCZ4 Formulation</span>
             <h2>CCZ4: Constraint Damping</h2>
             <div class="reveal-item">
-                <p>BSSN is stable, but constraint violations still slowly drift. CCZ4 actively damps them:</p>
+                <p style="text-align:center; color:#bbb; max-width:780px;">
+                    Recap: <strong>ADM</strong> = Einstein as evolution + constraints &nbsp;&rarr;&nbsp;
+                    <strong>BSSN</strong> = same equations, stable variables &nbsp;&rarr;&nbsp;
+                    <strong>CCZ4</strong> = the final refinement.
+                </p>
+            </div>
+            <div class="reveal-item" style="margin-top:15px;">
+                <p>BSSN keeps constraint errors from exploding, but they still slowly drift. CCZ4 actively <strong>damps</strong> them back to zero:</p>
             </div>
             <div class="reveal-item" style="margin-top:15px;">
                 <div class="eq-box small">
