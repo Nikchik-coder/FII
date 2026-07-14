@@ -237,15 +237,16 @@ ul li::before {
 /* ===== Era timeline bar ===== */
 .era-timeline {
     position: fixed;
-    top: 18px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 200;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 0;
     width: 520px;
-    height: 24px;
+    height: 50px;
+    padding-bottom: 8px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -257,18 +258,17 @@ ul li::before {
 
 .era-line {
     position: absolute;
-    top: 50%;
+    bottom: 11px;
     left: 0;
     right: 0;
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-50%);
 }
 
 .era-dot {
     position: absolute;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
     transform: translateX(-50%);
     transition: all 0.4s ease;
@@ -306,7 +306,7 @@ ul li::before {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem;
     color: rgba(255, 255, 255, 0.2);
-    margin-top: 6px;
+    margin-bottom: 5px;
     letter-spacing: 0.5px;
     transition: color 0.4s ease;
     white-space: nowrap;
@@ -331,16 +331,15 @@ ul li::before {
     font-size: 0.5rem;
     color: rgba(255, 255, 255, 0.5);
     height: auto;
-    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 /* Glowing segment between dots for the active era range */
 .era-timeline .era-segment {
     position: absolute;
-    top: 50%;
+    bottom: 10px;
     height: 2px;
     background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-50%);
     transition: all 0.4s ease;
     border-radius: 1px;
 }
