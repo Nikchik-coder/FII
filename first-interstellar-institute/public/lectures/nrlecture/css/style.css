@@ -39,7 +39,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 70px 100px 60px;
+    padding: 55px 100px 50px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
@@ -237,16 +237,12 @@ ul li::before {
 /* ===== Era timeline bar ===== */
 .era-timeline {
     position: fixed;
-    top: 0;
+    top: 6px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 200;
-    display: flex;
-    align-items: flex-end;
-    gap: 0;
-    width: 520px;
-    height: 38px;
-    padding-bottom: 6px;
+    width: 420px;
+    height: 6px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -258,89 +254,62 @@ ul li::before {
 
 .era-line {
     position: absolute;
-    bottom: 9px;
+    top: 50%;
     left: 0;
     right: 0;
     height: 1px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-50%);
 }
 
 .era-dot {
     position: absolute;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     transition: all 0.4s ease;
 }
 
-/* Position each dot along the timeline (spread across 520px) */
+/* Position each dot along the timeline */
 .era-dot[data-era="1915"] { left: 0%; }
 .era-dot[data-era="1959"] { left: 20%; }
 .era-dot[data-era="1995"] { left: 40%; }
-.era-dot[data-era="2005"] { left: 55%; }
-.era-dot[data-era="2015"] { left: 75%; }
+.era-dot[data-era="2005"] { left: 58%; }
+.era-dot[data-era="2015"] { left: 78%; }
 .era-dot[data-era="2026"] { left: 100%; }
 
 .era-dot::before {
     content: '';
-    width: 5px;
-    height: 5px;
+    display: block;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     transition: all 0.4s ease;
-    position: relative;
-    z-index: 1;
-    flex-shrink: 0;
 }
 
 .era-dot.active::before {
     background: #fff;
-    border-color: #fff;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
-    width: 6px;
-    height: 6px;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+    width: 5px;
+    height: 5px;
 }
 
+/* Year labels — only visible on hover / active, positioned below */
 .era-year {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
-    color: rgba(255, 255, 255, 0.15);
-    margin-bottom: 3px;
-    letter-spacing: 0.5px;
-    transition: color 0.4s ease;
-    white-space: nowrap;
-}
-
-.era-dot.active .era-year {
-    color: rgba(255, 255, 255, 0.9);
+    display: none;
 }
 
 .era-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0;
-    color: rgba(255, 255, 255, 0);
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    transition: all 0.4s ease;
-    height: 0;
-    overflow: hidden;
-}
-
-.era-dot.active .era-label {
-    font-size: 0.45rem;
-    color: rgba(255, 255, 255, 0.4);
-    height: auto;
-    margin-bottom: 0;
+    display: none;
 }
 
 /* Glowing segment between dots for the active era range */
 .era-timeline .era-segment {
     position: absolute;
-    bottom: 8px;
+    top: 50%;
     height: 2px;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%);
     transition: all 0.4s ease;
     border-radius: 1px;
 }
@@ -701,16 +670,10 @@ body::after {
         margin: 15px 0;
     }
 
-    /* Timeline - hide on very small screens */
+    /* Timeline - narrower on mobile */
     .era-timeline {
-        width: 300px;
-        top: 10px;
-    }
-    .era-year {
-        font-size: 0.45rem;
-    }
-    .era-dot.active .era-label {
-        display: none;
+        width: 250px;
+        top: 5px;
     }
 
     /* Back button - smaller on mobile */
