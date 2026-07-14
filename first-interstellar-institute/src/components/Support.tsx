@@ -24,14 +24,14 @@ export default function Support({ id }: { id: string }) {
   };
 
   return (
-    <section id={id} className="py-24 px-6 w-full border-t border-white/10">
+    <section id={id} className="py-16 md:py-24 px-6 w-full border-t border-white/10">
       <div className="max-w-4xl mx-auto text-center">
         <div className="text-center mb-12">
           <span className="part-label block mb-4">04 — Support</span>
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">Fund the next wave of interstellar exploration</h2>
+          <h2 className="text-2xl md:text-4xl font-orbitron font-bold mb-4 text-white">Fund the next wave of interstellar exploration</h2>
           <div className="sep mb-6" />
 
-          <div className="bg-white/[0.03] border border-white/10 rounded-md p-8 mb-10 text-left">
+          <div className="bg-white/[0.03] border border-white/10 rounded-md p-5 md:p-8 mb-10 text-left">
             <h3 className="text-xl font-orbitron font-bold mb-3 text-[#e8e4df]">Why do we need your support?</h3>
             <p className="text-[#e8e4df]/70 leading-relaxed">
               We are running complex numerical relativity research on GPU supercomputers using the open-source{' '}
@@ -75,8 +75,8 @@ export default function Support({ id }: { id: string }) {
               <X size={24} />
             </button>
 
-            <div className="p-8">
-              <h3 className="text-2xl font-orbitron font-bold mb-8 text-center text-white">Select Network</h3>
+            <div className="p-5 md:p-8">
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold mb-6 md:mb-8 text-center text-white">Select Network</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {cryptoAddresses.map((crypto) => (

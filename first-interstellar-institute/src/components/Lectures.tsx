@@ -2,7 +2,7 @@ import { Presentation, ArrowRight } from 'lucide-react';
 
 export default function Lectures({ id }: { id: string }) {
   return (
-    <section id={id} className="py-24 px-6 border-y border-white/10">
+    <section id={id} className="py-16 md:py-24 px-6 border-y border-white/10">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="part-label block mb-4">02 — Lectures</span>

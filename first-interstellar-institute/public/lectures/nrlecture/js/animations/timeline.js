@@ -30,10 +30,9 @@
         W = canvas.width = container.clientWidth;
         H = canvas.height = container.clientHeight;
         ctx = canvas.getContext('2d');
-        step = -1;
+        // Show all events immediately (no click-to-advance)
+        step = aiEvents.length - 1;
         running = true;
-
-        container.addEventListener('click', advance);
         draw();
     }
 

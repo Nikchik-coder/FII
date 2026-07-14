@@ -2,7 +2,7 @@ import { FileText, ExternalLink } from 'lucide-react';
 
 export default function Articles({ id }: { id: string }) {
   return (
-    <section id={id} className="py-24 px-6 max-w-6xl mx-auto">
+    <section id={id} className="py-16 md:py-24 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
         <span className="part-label block mb-4">03 — Articles</span>
         <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">Research Articles</h2>

@@ -30,7 +30,6 @@ const Slides = (function () {
             <div class="anim-container" id="timelineContainer" style="height:500px;">
                 <canvas id="timelineCanvas"></canvas>
             </div>
-            <p class="anim-hint">click to advance the timeline</p>
             ${note("Both AI and Numerical Relativity had decades-long 'dark ages' where the theory existed but the algorithms and hardware couldn't deliver. Both broke through when the right mathematical tricks were paired with GPUs and massive computational power. Key NR figures: Arnowitt, Deser, Misner (ADM), Nakamura, Shibata, Baumgarte, Shapiro (BSSN), Bona, Alic, Rezzolla (CCZ4), Pretorius, Campanelli, Baker (2005 breakthrough).")}
         </div>`,
 
