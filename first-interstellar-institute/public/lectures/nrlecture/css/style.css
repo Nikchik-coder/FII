@@ -271,6 +271,7 @@ ul li::before {
     background: rgba(255, 255, 255, 0.15);
     transform: translateX(-50%);
     transition: all 0.4s ease;
+    overflow: visible;
 }
 
 /* Position each dot along the timeline */
@@ -290,9 +291,7 @@ ul li::before {
 
 .era-year {
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 12px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
     color: rgba(255, 255, 255, 0.35);
@@ -301,9 +300,23 @@ ul li::before {
     transition: color 0.4s ease;
     line-height: 1;
     pointer-events: none;
+    transform: translateX(-50%);
 }
 
-.era-dot.active .era-year {
+/* Position year labels to match dot positions */
+.era-year[data-era="1915"] { left: 0%; }
+.era-year[data-era="1959"] { left: 20%; }
+.era-year[data-era="1995"] { left: 40%; }
+.era-year[data-era="2005"] { left: 58%; }
+.era-year[data-era="2015"] { left: 78%; }
+.era-year[data-era="2026"] { left: 100%; }
+
+.era-timeline.active-1915 .era-year[data-era="1915"],
+.era-timeline.active-1959 .era-year[data-era="1959"],
+.era-timeline.active-1995 .era-year[data-era="1995"],
+.era-timeline.active-2005 .era-year[data-era="2005"],
+.era-timeline.active-2015 .era-year[data-era="2015"],
+.era-timeline.active-2026 .era-year[data-era="2026"] {
     color: rgba(255, 255, 255, 0.9);
 }
 

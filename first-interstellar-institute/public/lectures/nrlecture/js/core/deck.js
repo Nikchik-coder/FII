@@ -207,6 +207,11 @@ const Deck = (function () {
             dot.classList.toggle('active', activeEras.includes(era));
         });
 
+        // Update year label colors via container classes
+        ['1915', '1959', '1995', '2005', '2015', '2026'].forEach(era => {
+            timeline.classList.toggle('active-' + era, activeEras.includes(era));
+        });
+
         // Update glowing segment (show a line from first to last active era)
         let segment = timeline.querySelector('.era-segment');
         if (!segment) {
