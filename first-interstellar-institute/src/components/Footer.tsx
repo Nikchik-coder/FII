@@ -5,8 +5,8 @@ export default function Footer() {
     <footer className="border-t border-white/10 py-8 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-6 md:gap-0">
         {/* Centered Text */}
-        <p className="text-xs sm:text-sm text-[#888] font-orbitron tracking-widest text-center">
-          FIRST INTERSTELLAR INSTITUTE © 2026
+        <p className="text-xs sm:text-sm text-[#888] font-mono tracking-[0.2em] uppercase text-center">
+          First Interstellar Institute © 2026
         </p>
 
         {/* Bottom Right Icons (Desktop) / Bottom Icons (Mobile) */}

@@ -7,8 +7,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Orbitron', 'sans-serif'],
-        orbitron: ['Orbitron', 'sans-serif'],
+        sans: ['"EB Garamond"', 'Georgia', 'serif'],
+        serif: ['"EB Garamond"', 'Georgia', 'serif'],
+        // Alias kept so existing font-orbitron classes pick up the lecture typeface
+        orbitron: ['"EB Garamond"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },

@@ -3,7 +3,7 @@ export default function About({ id }: { id: string }) {
     <section id={id} className="py-16 md:py-24 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
         <span className="part-label block mb-4">01 — About</span>
-        <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">About the Institute</h2>
+        <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-white">About the Institute</h2>
         <div className="sep" />
       </div>
 

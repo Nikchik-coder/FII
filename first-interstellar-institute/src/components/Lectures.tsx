@@ -6,7 +6,7 @@ export default function Lectures({ id }: { id: string }) {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="part-label block mb-4">02 — Lectures</span>
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">Video Lectures</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-white">Video Lectures</h2>
           <div className="sep mb-6" />
           <p className="text-[#e8e4df]/60 max-w-2xl mx-auto">
             In-depth explorations of advanced physics concepts, from warp drive mechanics to wormhole dynamics.
@@ -24,7 +24,7 @@ export default function Lectures({ id }: { id: string }) {
             <Presentation size={40} />
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-2xl font-bold font-orbitron mb-2 group-hover:text-white transition-colors text-[#e8e4df]">
+            <h3 className="text-2xl font-bold font-serif font-semibold mb-2 group-hover:text-white transition-colors text-[#e8e4df]">
               Slicing Spacetime
             </h3>
             <p className="text-[#e8e4df]/60 max-w-2xl">
@@ -52,7 +52,7 @@ export default function Lectures({ id }: { id: string }) {
                 allowFullScreen
               ></iframe>
             </div>
-            <h3 className="text-xl font-bold mt-6 mb-2 font-orbitron text-[#e8e4df]">
+            <h3 className="text-xl font-bold mt-6 mb-2 font-serif font-semibold text-[#e8e4df]">
               Why Einstein&apos;s Gravity Needed Supercomputers
             </h3>
             <p className="text-[#e8e4df]/60">
@@ -73,7 +73,7 @@ export default function Lectures({ id }: { id: string }) {
                 allowFullScreen
               ></iframe>
             </div>
-            <h3 className="text-xl font-bold mt-6 mb-2 font-orbitron text-[#e8e4df]">Warp Drive Physics</h3>
+            <h3 className="text-xl font-bold mt-6 mb-2 font-serif font-semibold text-[#e8e4df]">Warp Drive Physics</h3>
             <p className="text-[#e8e4df]/60">Warp factory toolkit tutorial and analysis of Alcubierre-like metrics.</p>
           </div>
 
@@ -90,7 +90,7 @@ export default function Lectures({ id }: { id: string }) {
                 allowFullScreen
               ></iframe>
             </div>
-            <h3 className="text-xl font-bold mt-6 mb-2 font-orbitron text-[#e8e4df]">Wormhole Physics</h3>
+            <h3 className="text-xl font-bold mt-6 mb-2 font-serif font-semibold text-[#e8e4df]">Wormhole Physics</h3>
             <p className="text-[#e8e4df]/60">Comprehensive lecture on the physics and stability of traversable wormholes.</p>
           </div>
         </div>

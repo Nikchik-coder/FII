@@ -45,13 +45,13 @@ export default function Support({ id }: { id: string }) {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <span className="part-label block mb-4">05 — Support</span>
-          <h2 className="text-2xl md:text-4xl font-orbitron font-bold mb-4 text-white">
+          <h2 className="text-2xl md:text-4xl font-serif font-semibold mb-4 text-white">
             Fund the next wave of interstellar exploration
           </h2>
           <div className="sep mb-6" />
 
           <div className="bg-white/[0.03] border border-white/10 rounded-md p-5 md:p-8 mb-10 text-left max-w-4xl mx-auto">
-            <h3 className="text-xl font-orbitron font-bold mb-3 text-[#e8e4df]">Why do we need your support?</h3>
+            <h3 className="text-xl font-serif font-semibold mb-3 text-[#e8e4df]">Why do we need your support?</h3>
             <p className="text-[#e8e4df]/70 leading-relaxed">
               We are running complex numerical relativity research on GPU supercomputers using the open-source{' '}
               <a
@@ -94,7 +94,7 @@ export default function Support({ id }: { id: string }) {
                 </a>
               </div>
 
-              <h3 className="text-xl font-bold font-orbitron mb-3 text-[#e8e4df]">{crypto.coin}</h3>
+              <h3 className="text-xl font-bold font-serif font-semibold mb-3 text-[#e8e4df]">{crypto.coin}</h3>
 
               <p className="text-xs text-[#888] font-mono break-all mb-6 bg-black/40 border border-white/10 rounded-md p-3">
                 {crypto.address}

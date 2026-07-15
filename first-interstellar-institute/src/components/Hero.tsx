@@ -18,11 +18,11 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-[2] text-center px-4 max-w-4xl mx-auto">
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-orbitron font-bold text-white mb-6 tracking-wider">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-semibold text-white mb-6 tracking-wide">
           FIRST INTERSTELLAR INSTITUTE
         </h1>
         <div className="w-16 h-px bg-white/20 mx-auto mb-6" />
-        <p className="text-lg sm:text-xl md:text-2xl text-[#e8e4df]/80 font-light max-w-2xl mx-auto">
+        <p className="text-lg sm:text-xl md:text-2xl text-[#888] italic max-w-2xl mx-auto leading-relaxed">
           Advancing human understanding of warp drives, wormholes, and the physics of tomorrow to reach interstellar travel.
         </p>
       </div>

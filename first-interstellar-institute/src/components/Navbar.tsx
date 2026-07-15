@@ -66,13 +66,13 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-[#1a1a1a]/95 backdrop-blur-md border-b border-white/10 py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        <a href="#" onClick={closeMenu} className="font-orbitron font-bold text-xl tracking-wider text-white z-50">
+        <a href="#" onClick={closeMenu} className="font-mono text-sm tracking-[0.2em] uppercase text-white z-50">
           FII
         </a>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center">
-          <a href="#about" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">About</a>
+          <a href="#about" className="font-mono text-xs tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">About</a>
 
           {/* Lectures Dropdown */}
           <div
@@ -83,7 +83,7 @@ export default function Navbar() {
           >
             <button
               onClick={() => setIsLecturesOpen(!isLecturesOpen)}
-              className="flex items-center gap-1 text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors"
+              className="flex items-center gap-1 font-mono text-xs tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors"
             >
               Lectures
               <ChevronDown size={16} className={`transition-transform duration-200 ${isLecturesOpen ? 'rotate-180' : ''}`} />
@@ -133,9 +133,9 @@ export default function Navbar() {
             </div>
           </div>
 
-          <a href="#articles" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
-          <a href="#preprint" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
-          <a href="#support" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
+          <a href="#articles" className="font-mono text-xs tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
+          <a href="#preprint" className="font-mono text-xs tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
+          <a href="#support" className="font-mono text-xs tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
         </div>
 
         {/* Mobile Menu Toggle Button */}
@@ -150,13 +150,13 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       <div className={`md:hidden absolute top-full left-0 w-full bg-[#1a1a1a]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-[40rem] py-4' : 'max-h-0 py-0 border-transparent'}`}>
         <div className="flex flex-col items-center gap-4">
-          <a href="#about" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">About</a>
+          <a href="#about" onClick={closeMenu} className="font-mono text-sm tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">About</a>
 
           {/* Mobile Lectures Expandable */}
           <div className="w-full px-6 flex flex-col items-center">
             <button
               onClick={() => setIsMobileLecturesOpen(!isMobileLecturesOpen)}
-              className="flex items-center gap-1 text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors"
+              className="flex items-center gap-1 font-mono text-sm tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors"
             >
               Lectures
               <ChevronDown size={18} className={`transition-transform duration-200 ${isMobileLecturesOpen ? 'rotate-180' : ''}`} />
@@ -193,9 +193,9 @@ export default function Navbar() {
             </div>
           </div>
 
-          <a href="#articles" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
-          <a href="#preprint" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
-          <a href="#support" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
+          <a href="#articles" onClick={closeMenu} className="font-mono text-sm tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
+          <a href="#preprint" onClick={closeMenu} className="font-mono text-sm tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
+          <a href="#support" onClick={closeMenu} className="font-mono text-sm tracking-wider uppercase text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
         </div>
       </div>
     </nav>

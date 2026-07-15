@@ -5,7 +5,7 @@ export default function Articles({ id }: { id: string }) {
     <section id={id} className="py-16 md:py-24 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
         <span className="part-label block mb-4">03 — Articles</span>
-        <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">Research Articles</h2>
+        <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-white">Research Articles</h2>
         <div className="sep mb-6" />
         <p className="text-[#e8e4df]/60 max-w-2xl mx-auto">
           Published papers and preprints detailing our findings in advanced spacetime physics.
@@ -27,7 +27,7 @@ export default function Articles({ id }: { id: string }) {
             <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
           </div>
 
-          <h3 className="text-xl font-bold font-orbitron mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+          <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
             Wormhole Dynamics: Nonlinear Collapse and Gravitational-Wave Emission
           </h3>
 
@@ -44,7 +44,7 @@ export default function Articles({ id }: { id: string }) {
         {/* Placeholder for future articles */}
         <div className="block bg-white/[0.01] border border-white/10 border-dashed rounded-md p-8 flex flex-col items-center justify-center text-center opacity-50">
           <FileText size={32} className="text-[#888] mb-4" />
-          <h3 className="text-lg font-medium text-[#e8e4df]/80 font-orbitron mb-2">Future Publications</h3>
+          <h3 className="text-lg font-medium text-[#e8e4df]/80 font-serif font-semibold mb-2">Future Publications</h3>
           <p className="text-sm text-[#888]">More research papers are currently in progress.</p>
         </div>
       </div>

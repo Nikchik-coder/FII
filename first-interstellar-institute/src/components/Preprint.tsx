@@ -9,7 +9,7 @@ export default function Preprint({ id }: { id: string }) {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="part-label block mb-4">04 — Advancing Access to Science</span>
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold mb-4 text-white">PREPRINT</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-white">PREPRINT</h2>
           <div className="sep mb-6" />
           <p className="text-[#e8e4df]/60 max-w-2xl mx-auto">
             A cleaner, faster way to discover research papers from arXiv across multiple scientific fields —
@@ -42,7 +42,7 @@ export default function Preprint({ id }: { id: string }) {
               </div>
               <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
             </div>
-            <h3 className="text-xl font-bold font-orbitron mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+            <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
               Open PREPRINT
             </h3>
             <p className="text-sm text-[#e8e4df]/60 mb-4">
@@ -63,7 +63,7 @@ export default function Preprint({ id }: { id: string }) {
               </div>
               <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
             </div>
-            <h3 className="text-xl font-bold font-orbitron mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+            <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
               Mobile App
             </h3>
             <p className="text-sm text-[#e8e4df]/60 mb-4">
@@ -75,7 +75,7 @@ export default function Preprint({ id }: { id: string }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div>
-            <h3 className="text-lg font-orbitron font-bold mb-6 text-[#e8e4df]">How to use the website</h3>
+            <h3 className="text-lg font-serif font-semibold mb-6 text-[#e8e4df]">How to use the website</h3>
             <ol className="space-y-4 text-[#e8e4df]/70">
               <li>
                 <span className="text-white font-medium">1. Browse or search.</span> Use the Home feed,
@@ -97,7 +97,7 @@ export default function Preprint({ id }: { id: string }) {
           </div>
 
           <div>
-            <h3 className="text-lg font-orbitron font-bold mb-6 text-[#e8e4df]">What&apos;s in the app</h3>
+            <h3 className="text-lg font-serif font-semibold mb-6 text-[#e8e4df]">What&apos;s in the app</h3>
             <ul className="space-y-3 text-[#e8e4df]/70">
               <li>
                 <span className="text-white font-medium">arXiv feed:</span> fresh, random, and top papers
@@ -128,7 +128,7 @@ export default function Preprint({ id }: { id: string }) {
         </div>
 
         <div className="max-w-3xl mx-auto border border-white/10 rounded-md p-6 bg-white/[0.02]">
-          <h4 className="font-orbitron font-bold text-[#e8e4df] mb-2">Important to know</h4>
+          <h4 className="font-serif font-semibold text-[#e8e4df] mb-2">Important to know</h4>
           <p className="text-sm text-[#e8e4df]/60 leading-relaxed">
             PREPRINT is for discovery and discussion, not direct paper submission. You cannot publish papers
             directly on PREPRINT. To publish research, submit it to arXiv first. After it appears on arXiv, it
