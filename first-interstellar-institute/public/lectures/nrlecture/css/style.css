@@ -451,10 +451,10 @@ ul li::before {
 .concept-list li {
     position: relative;
     max-width: none;
-    padding: 0 0 14px 14px;
+    padding: 0 0 12px 14px;
     margin: 0;
-    font-size: 0.78rem;
-    line-height: 1.55;
+    font-size: 0.68rem;
+    line-height: 1.5;
     color: #d8d4cc;
 }
 
@@ -475,8 +475,8 @@ ul li::before {
 
 .concept-detail {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 0.92rem;
-    line-height: 1.55;
+    font-size: 1.05rem;
+    line-height: 1.6;
     color: #cfcabf;
     max-width: none;
 }
@@ -852,7 +852,11 @@ body::after {
     }
 
     .concept-list li {
-        font-size: 0.72rem;
-        padding-bottom: 10px;
+        font-size: 0.64rem;
+        padding-bottom: 8px;
+    }
+
+    .concept-detail {
+        font-size: 0.95rem;
     }
 }
