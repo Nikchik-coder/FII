@@ -87,13 +87,16 @@
         drawTrackLabel('ARTIFICIAL INTELLIGENCE', 14, midY - H * 0.22);
         drawTrackLabel('NUMERICAL RELATIVITY', 14, midY + H * 0.22);
 
-        // ---- Draw events ----
+        // ---- Draw events (flat baseline — no vertical stagger) ----
+        const aiTextBase = midY - 72;
+        const nrTextBase = midY + 80;
+        const aiDotY = midY - 30;
+        const nrDotY = midY + 30;
+
         for (let i = 0; i <= step; i++) {
             const x = padX + i * gap;
             const ai = aiEvents[i];
             const nr = nrEvents[i];
-            // Alternate vertical stagger so neighboring labels don't collide
-            const stagger = (i % 2 === 0) ? 0 : 22;
 
             // Vertical tick through axis
             ctx.strokeStyle = 'rgba(255,255,255,0.12)';
@@ -107,10 +110,6 @@
             const dimAlpha = 0.55;
 
             // ======== AI event (above) ========
-            const aiDotY = midY - 30;
-            const aiTextBase = midY - 72 - stagger;
-
-            // Dot
             ctx.beginPath();
             ctx.arc(x, aiDotY, ai.breakthrough ? 6 : 4, 0, Math.PI * 2);
             ctx.fillStyle = ai.breakthrough
@@ -123,7 +122,6 @@
                 ctx.stroke();
             }
 
-            // Connector line from dot to text
             ctx.strokeStyle = 'rgba(255,255,255,0.08)';
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -131,27 +129,20 @@
             ctx.lineTo(x, aiTextBase + 8);
             ctx.stroke();
 
-            // Year
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
             ctx.textAlign = 'center';
             ctx.fillText(ai.year, x, aiTextBase);
 
-            // Title
             ctx.font = '12px EB Garamond, serif';
             ctx.fillStyle = `rgba(220,220,220,${alpha * 0.85})`;
             ctx.fillText(ai.title, x, aiTextBase - 16);
 
-            // Detail (people)
             ctx.font = '9px JetBrains Mono, monospace';
             ctx.fillStyle = 'rgba(220,220,220,0.7)';
             ctx.fillText(ai.detail, x, aiTextBase - 30);
 
             // ======== NR event (below) ========
-            const nrDotY = midY + 30;
-            const nrTextBase = midY + 80 + stagger;
-
-            // Dot
             ctx.beginPath();
             ctx.arc(x, nrDotY, nr.breakthrough ? 6 : 4, 0, Math.PI * 2);
             ctx.fillStyle = nr.breakthrough
@@ -164,7 +155,6 @@
                 ctx.stroke();
             }
 
-            // Connector line from dot to text
             ctx.strokeStyle = 'rgba(255,255,255,0.08)';
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -172,18 +162,15 @@
             ctx.lineTo(x, nrTextBase - 12);
             ctx.stroke();
 
-            // Year
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
             ctx.textAlign = 'center';
             ctx.fillText(nr.year, x, nrTextBase);
 
-            // Title
             ctx.font = '13px EB Garamond, serif';
             ctx.fillStyle = `rgba(220,220,220,${alpha * 0.85})`;
             ctx.fillText(nr.title, x, nrTextBase + 18);
 
-            // Detail (people) - may be multiline
             ctx.font = '9px JetBrains Mono, monospace';
             ctx.fillStyle = 'rgba(220,220,220,0.75)';
             fillMultiline(nr.detail, x, nrTextBase + 34, 12);
@@ -199,20 +186,11 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
 
-                // Breakthrough label
                 ctx.font = '10px JetBrains Mono, monospace';
                 ctx.fillStyle = 'rgba(255,255,255,0.55)';
                 ctx.fillText('GPU', x, midY - 4);
                 ctx.fillText('REVOLUTION', x, midY + 10);
             }
-        }
-
-        // ---- Legend ----
-        if (step >= 0) {
-            ctx.font = '9px JetBrains Mono, monospace';
-            ctx.textAlign = 'right';
-            ctx.fillStyle = 'rgba(255,255,255,0.2)';
-            ctx.fillText(`${step + 1} / ${aiEvents.length}`, W - 15, H - 10);
         }
     }
 
