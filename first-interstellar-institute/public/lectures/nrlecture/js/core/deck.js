@@ -10,6 +10,56 @@ const Deck = (function () {
     let tocVisible = false;
     let notesPanel = null;
     let tocPanel = null;
+    let slideNotes = null; // loaded from data/slide-notes.json
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function getNotesEntry(index) {
+        if (!slideNotes || !Array.isArray(slideNotes.slides)) return null;
+        return slideNotes.slides[index] || null;
+    }
+
+    function renderNotesHtml(entry) {
+        if (!entry) {
+            return '<div class="concept-label">Key concepts</div>' +
+                '<p class="concept-empty">No summary for this slide.</p>';
+        }
+        let html = '';
+        const concepts = entry.concepts || [];
+        if (concepts.length) {
+            html += '<div class="concept-label">Key concepts</div><ul class="concept-list">';
+            concepts.forEach((c) => {
+                html += `<li>${escapeHtml(c)}</li>`;
+            });
+            html += '</ul>';
+        }
+        if (entry.notes) {
+            html += '<div class="concept-label concept-detail-label">Notes</div>';
+            html += `<div class="concept-detail">${escapeHtml(entry.notes)}</div>`;
+        }
+        if (!html) {
+            html = '<div class="concept-label">Key concepts</div>' +
+                '<p class="concept-empty">No summary for this slide.</p>';
+        }
+        return html;
+    }
+
+    async function loadSlideNotes() {
+        try {
+            const res = await fetch('data/slide-notes.json');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            slideNotes = await res.json();
+        } catch (err) {
+            console.warn('Could not load slide-notes.json', err);
+            slideNotes = null;
+        }
+    }
 
     function show(n) {
         if (n < 0 || n >= slides.length) return;
@@ -50,20 +100,24 @@ const Deck = (function () {
 
     function updateNotes() {
         if (!notesPanel) return;
-        const active = slides[current];
-        const noteEl = active ? active.querySelector('.slide-note') : null;
         const inner = notesPanel.querySelector('.notes-inner') || notesPanel;
         if (!notesVisible) {
             notesPanel.classList.remove('visible');
             return;
         }
         notesPanel.classList.add('visible');
+        const entry = getNotesEntry(current);
+        if (entry) {
+            inner.innerHTML = renderNotesHtml(entry);
+            return;
+        }
+        // Fallback: legacy inline .slide-note if JSON missing
+        const active = slides[current];
+        const noteEl = active ? active.querySelector('.slide-note') : null;
         if (noteEl) {
             inner.innerHTML = noteEl.innerHTML;
         } else {
-            inner.innerHTML =
-                '<div class="concept-label">Key concepts</div>' +
-                '<p class="concept-empty">No summary for this slide.</p>';
+            inner.innerHTML = renderNotesHtml(null);
         }
     }
 
@@ -271,7 +325,7 @@ const Deck = (function () {
         if (current > 0) show(current - 1);
     }
 
-    function init() {
+    async function init() {
         slides = Array.from(document.querySelectorAll('.slide'));
 
         // Notes / key-concepts panel (on by default)
@@ -279,6 +333,8 @@ const Deck = (function () {
         const notesBtn = document.getElementById('notesToggle');
         if (notesBtn) notesBtn.classList.add('active');
         document.body.classList.add('notes-on');
+
+        await loadSlideNotes();
 
         // Build TOC (auto-generated from slide DOM)
         buildTOC();
@@ -313,5 +369,18 @@ const Deck = (function () {
 
     function getCurrent() { return current; }
 
-    return { init, show, next, prev, restart, getCurrent, toggleNotes, toggleTOC };
+    /** TTS helpers: plain spoken text for the current (or given) slide */
+    function getVoiceover(index) {
+        const entry = getNotesEntry(index == null ? current : index);
+        return entry && entry.voiceover ? entry.voiceover : '';
+    }
+
+    function getSlideNotesData() {
+        return slideNotes;
+    }
+
+    return {
+        init, show, next, prev, restart, getCurrent, toggleNotes, toggleTOC,
+        getVoiceover, getSlideNotesData
+    };
 })();

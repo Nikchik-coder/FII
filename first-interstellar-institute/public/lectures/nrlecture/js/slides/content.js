@@ -3,17 +3,6 @@
 
 const Slides = (function () {
 
-    // Helper: key-concept bullets + fuller notes for the side panel
-    function note(detail, ...concepts) {
-        const items = concepts.map((c) => `<li>${c}</li>`).join('');
-        const conceptsBlock = concepts.length
-            ? `<div class="concept-label">Key concepts</div><ul class="concept-list">${items}</ul>`
-            : '';
-        const detailBlock = detail
-            ? `<div class="concept-label concept-detail-label">Notes</div><div class="concept-detail">${detail}</div>`
-            : '';
-        return `<div class="slide-note">${conceptsBlock}${detailBlock}</div>`;
-    }
 
     const html = [
 
@@ -25,7 +14,7 @@ const Slides = (function () {
             <p style="text-align:center; color:#bbb; font-style:italic;">
                 How Supercomputers and GPUs Unlock<br>the Universe's Deepest Secrets
             </p>
-            ${note("Einstein published GR in 1915 using pen and paper. Today we'll see how supercomputers and GPUs turned his impossible equations into a digital laboratory for the cosmos.", "GR began as pen-and-paper theory in 1915", "Today: supercomputers + GPUs = a digital lab for the cosmos")}
+            
         </div>`,
 
         // 1 - Timeline animation (overview first)
@@ -37,7 +26,7 @@ const Slides = (function () {
             <div class="anim-container" id="timelineContainer" style="height:500px;">
                 <canvas id="timelineCanvas"></canvas>
             </div>
-            ${note("Both AI and Numerical Relativity had decades-long 'dark ages' where the theory existed but the algorithms and hardware couldn't deliver. Both broke through when the right mathematical tricks were paired with GPUs and massive computational power. Key NR figures: Arnowitt, Deser, Misner (ADM), Nakamura, Shibata, Baumgarte, Shapiro (BSSN), Bona, Alic, Rezzolla (CCZ4), Pretorius, Campanelli, Baker (2005 breakthrough).", "AI and NR were both stuck for decades despite having the theory", "Breakthroughs came from better math formulations + GPU hardware", "NR path: ADM → BSSN → CCZ4 → 2005 → LIGO 2015")}
+            
         </div>`,
 
         // 2 - Motivation: GW detection needs NR (right after timeline — "why NR?")
@@ -54,7 +43,7 @@ const Slides = (function () {
                     Without numerical relativity, gravitational wave astronomy would be blind.
                 </p>
             </div>
-            ${note("Einstein predicted gravitational waves in 1916, but for nearly a century no one could calculate what the signal from a black hole merger actually looks like. Pen-and-paper approximations (post-Newtonian theory) work for the slow inspiral phase, and perturbation theory handles the ringdown, but the merger — where the signal is loudest and carries the most information — is violently non-linear. Only full numerical relativity can solve it. LIGO's 2015 detection of GW150914 was only possible because NR had produced a bank of ~200,000 template waveforms to match against the detector noise. Without those templates, the signal would have been buried.", "Inspiral &amp; ringdown have approximations; the <strong>merger</strong> needs full NR", "LIGO matched GW150914 against ~200,000 NR templates", "Without NR, gravitational-wave astronomy is blind")}
+            
         </div>`,
 
         // 3 - Motivation: why GR?
@@ -77,7 +66,7 @@ const Slides = (function () {
                     Maxwell showed electromagnetic changes travel at <em>c</em> &mdash; gravity must too.
                 </p>
             </div>
-            ${note("Newton's law of gravitation implies instantaneous action at a distance: F = GMm/r². If the Sun disappeared, Earth would instantly feel the change. But special relativity (1905) showed nothing travels faster than light. Einstein spent 10 years (1905–1915) building GR to fix this. In GR, changes in the gravitational field propagate as gravitational waves at exactly c. If the Sun vanished, Earth would continue orbiting for ~8.3 minutes until the gravitational disturbance arrived. This is directly analogous to Maxwell's equations, where changes in the electromagnetic field propagate at c.", "Newton implies instant gravity across any distance", "Special relativity forbids faster-than-light information", "In GR, gravity propagates at <em>c</em> (~8.3 min from the Sun)")}
+            
         </div>`,
 
         // 3b - Differential geometry heritage (after Newton motivation)
@@ -92,7 +81,7 @@ const Slides = (function () {
                 <canvas id="diffGeomCanvas"></canvas>
             </div>
             <p class="anim-hint">Gauss &rarr; Riemann &rarr; Christoffel / Ricci&ndash;Levi-Civita &rarr; Einstein</p>
-            ${note("Gauss (1827) showed how to measure the intrinsic curvature of a surface — Theorema Egregium: curvature is real, not just how the surface sits in 3D. Riemann (1854) generalized that to n-dimensional manifolds with a metric — the ancestor of g_μν. Christoffel introduced the connection symbols Γ that track how directions twist. Ricci and Levi-Civita forged tensor calculus ('absolute differential calculus') so you can write laws the same in every coordinate system. Einstein (with Grossmann's help) took that machinery and identified the Einstein tensor with the stress-energy of matter — gravity = geometry of spacetime. Without this 19th-century geometry, GR could not have been written.", "Einstein inherited 19th-century differential geometry", "Gauss → Riemann → Christoffel → Ricci / Levi-Civita", "His leap: gravity = spacetime curvature")}
+            
         </div>`,
 
         // 4 - Einstein equation
@@ -105,7 +94,7 @@ const Slides = (function () {
             <p style="text-align:center; margin-top:15px;">
                 <em>"Matter tells spacetime how to curve,<br>and spacetime tells matter how to move."</em>
             </p>
-            ${note("Left side: geometry of spacetime (how space is curved). Right side: matter and energy content. Looks simple like E=mc², but this is a deception — it's a shorthand for 10 equations.", "Left side <em>G</em>: geometry of spacetime", "Right side <em>T</em>: matter and energy", "Looks simple — shorthand for 10 equations")}
+            
         </div>`,
 
         // 5 - Shattering animation
@@ -116,7 +105,7 @@ const Slides = (function () {
                 <canvas id="shatterCanvas"></canvas>
             </div>
             <p class="anim-hint">click to shatter the equation</p>
-            ${note("That single elegant line shatters into 10 coupled, non-linear partial differential equations. Each component of the metric tensor contributes its own equation, and they all feed back into each other.", "10 coupled, non-linear PDEs", "Coupled = can't solve one alone; non-linear = gravity feeds back", "Dynamic mergers need machines")}
+            
         </div>`,
 
         // 6 - The Metric
@@ -145,7 +134,7 @@ const Slides = (function () {
                     Near the black hole ($r \\to 2M$): clocks freeze, radial distances blow up.
                 </p>
             </div>
-            ${note("On a flat table, the distance formula is the Pythagorean theorem: ds² = dx² + dy². The metric there is just 1's on the diagonal. In curved spacetime, the metric g_μν warps those 1's: near a black hole, the time-time component shrinks to zero (clocks stop) and the radial component blows up (space stretches to infinity). ds² is what a local observer actually measures &mdash; it's the ground truth. The coordinate labels (t, r, angles) are just addresses; the metric converts addresses into real distances. This is why we say 'gravity is geometry' &mdash; a warped metric IS a gravitational field.", "Coordinates are addresses; the metric converts them into real <em>ds</em>", "ds² = g<sub>μν</sub> dx<sup>μ</sup> dx<sup>ν</sup>", "A changing metric <em>is</em> gravity — geometry, not a force")}
+            
         </div>`,
 
         // 6b - ds interactive demo (flat table vs curved space)
@@ -156,7 +145,7 @@ const Slides = (function () {
                 <canvas id="dsMetricCanvas"></canvas>
             </div>
             <p class="anim-hint">drag the probe in either panel &mdash; far from $M$, both show $ds=1.00$; near $M$, only the bottom stretches. Drag $M$ to move the mass.</p>
-            ${note("Top panel is flat space (a table): every little ruler is the same length no matter where you drag the probe. The metric is trivial — ds² = dx² + dy² — so physical distance equals coordinate distance. Bottom panel is curved space near a mass: the same coordinate gap can correspond to a much larger real distance. The metric g_μν converts coordinates into real length, and near the mass those rulers stretch (green → red). Drag both to feel the contrast live.", "Flat panel: every ruler stays the same — ds ≈ 1 everywhere", "Curved panel: near the mass, the same coordinate gap stretches", "Far from M both read ~1.00; only curved space changes near M")}
+            
         </div>`,
 
         // 7 - Christoffel symbols
@@ -174,7 +163,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:15px;">
                 <p style="color:#bbb; font-size:1rem;">40 of these correction terms &mdash; each computed from the metric and how it changes nearby.</p>
             </div>
-            ${note("Think of it this way: on a flat table, 'forward' means the same thing everywhere. On a curved surface like a globe, 'forward' at the equator and 'forward' at the pole point in completely different directions. The Christoffel symbols are the bookkeeping that tracks how directions shift as you move. In flat space they're zero (no corrections needed). Near a black hole they become huge (directions twist wildly). They are the building blocks that go into measuring true curvature.", "Christoffel symbols track how directions twist as you move", "Flat space → Γ = 0; near a black hole → Γ huge", "Building blocks of curvature — not curvature itself yet")}
+            
         </div>`,
 
         // 7b - Parallel transport animation
@@ -185,7 +174,7 @@ const Slides = (function () {
                 <canvas id="parallelTransportCanvas"></canvas>
             </div>
             <p class="anim-hint">watch the arrow return rotated on the curved surface</p>
-            ${note("On a flat surface, carry an arrow around any closed loop and it comes back pointing the same way. On a curved surface like a sphere, it comes back rotated. That rotation angle IS what the Christoffel symbols measure. This is parallel transport: moving a vector along a path while keeping it as 'straight' as possible. The fact that the result depends on the path is the definition of curvature.", "Flat loop: arrow returns unchanged", "Curved loop: arrow returns rotated", "That rotation <em>is</em> curvature showing up")}
+            
         </div>`,
 
         // 8 - Riemann tensor
@@ -200,7 +189,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:15px;">
                 <p>20 independent components in 4D &mdash; this is the complete answer to "how curved is spacetime here?"</p>
             </div>
-            ${note("The Riemann tensor measures tidal forces &mdash; how two nearby objects get pulled apart or squeezed together. Imagine two balls falling side by side toward Earth: they drift closer because gravity converges toward the centre. That 'drift' is curvature. This tensor captures all such effects. It's built entirely from the Christoffel symbols and how they change.", "Riemann = full answer to “how curved is it here?” (20 components in 4D)", "Physical meaning: tidal forces / relative drift of free-fallers", "Built from Christoffels and how they change")}
+            
         </div>`,
 
         // 8b - Geodesic deviation animation
@@ -211,7 +200,7 @@ const Slides = (function () {
                 <canvas id="geodevCanvas"></canvas>
             </div>
             <p class="anim-hint">two "ants" walk straight &mdash; on a curved surface they converge</p>
-            ${note("Two ants start side by side and walk 'straight ahead.' On a flat table they stay parallel forever. On a sphere (or curved spacetime) they converge or diverge. The rate of convergence IS the Riemann curvature tensor. This is how gravity works in GR: nearby freely-falling objects drift together not because of a 'force,' but because the space between them is curved.", "Parallel free-fallers converge or diverge on curved geometry", "That drift rate is what Riemann measures", "No force between them — the space between them is curved")}
+            
         </div>`,
 
         // 9 - Ricci tensor and scalar
@@ -234,7 +223,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:1rem; margin-top:8px;">The Einstein tensor &mdash; built from the metric, its first and second derivatives.</p>
             </div>
-            ${note("We compress the 20-number Riemann tensor into a smaller 10-number version (the Ricci tensor), and then into a single number (the Ricci scalar). The Einstein tensor combines these two in a specific way that automatically guarantees energy is conserved &mdash; what goes in must come out. This is the left-hand side of Einstein's equation.", "Compress Riemann → Ricci → scalar → Einstein tensor G", "G is built so energy is automatically conserved", "This is the left-hand side of Einstein’s equation")}
+            
         </div>`,
 
         // 10 - Stress-energy tensor
@@ -256,7 +245,7 @@ const Slides = (function () {
                     $$ T_{\\mu\\nu} = \\nabla_\\mu \\phi\\, \\nabla_\\nu \\phi - g_{\\mu\\nu}\\left(\\tfrac{1}{2}\\nabla_\\alpha\\phi\\,\\nabla^\\alpha\\phi + V(\\phi)\\right) $$
                 </div>
             </div>
-            ${note("The stress-energy tensor is the source of gravity &mdash; it answers 'how much stuff is here and how is it moving?' For a fluid: &rho; is energy density (how concentrated the mass-energy is), p is pressure, u is the velocity. For the exotic matter in our wormhole simulations, we use a scalar field &phi; &mdash; think of it as an invisible substance filling space whose energy and pressure are set by its vibrations and its potential energy landscape V(&phi;).", "T<sub>μν</sub> answers: how much stuff is here, and how is it moving?", "Normal matter attracts; exotic (negative energy) can repel", "Wormhole support needs exotic matter")}
+            
         </div>`,
 
         // 11 - Geodesics animation (3D)
@@ -265,7 +254,7 @@ const Slides = (function () {
             <h2>Motion in Curved Spacetime</h2>
             <div class="anim-container" id="geodesicsContainer"></div>
             <p class="anim-hint">click the surface to add particles &mdash; drag to rotate</p>
-            ${note("The curved surface is a visual analogy &mdash; imagine stretching a rubber sheet with a heavy ball. The depth of the funnel shows how strong gravity is. Objects always take the straightest possible path on this surface (called a geodesic). Near the centre, the funnel is steep so paths curve sharply &mdash; objects spiral in. There is no 'force' pulling them &mdash; they're just following the straightest line they can on a surface that happens to be curved.", "Free motion = the straightest possible path (a geodesic)", "No mystical force — objects follow geometry", "Rubber-sheet funnel is an analogy, not literal 2D rubber")}
+            
         </div>`,
 
         // 12 - Geodesic equation
@@ -280,7 +269,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px;">
                 <p>No forces &mdash; only the curvature of spacetime guides the motion.</p>
             </div>
-            ${note("This is Newton's F=ma rewritten for curved spacetime. The Christoffel symbols play the role of gravity &mdash; they're what makes paths curve. In flat space they vanish and you get perfectly straight lines. &tau; is the time measured by the falling object's own clock.", "Geodesic equation = Newton’s F=ma rewritten for curved spacetime", "Christoffel symbols play the role of “gravity”", "Flat space → Γ = 0 → straight lines")}
+            
         </div>`,
 
         // 13 - Non-linearity
@@ -300,7 +289,7 @@ const Slides = (function () {
                     For anything dynamic &mdash; we need machines.
                 </p>
             </div>
-            ${note("This is the key difficulty. In electromagnetism, light doesn't create more light. But in GR, gravity gravitates. The energy stored in the gravitational field itself acts as a source of more gravity. This non-linearity makes analytical solutions almost impossible for dynamic scenarios.", "In GR, gravity gravitates — field energy sources more gravity", "Feedback loop makes dynamic analytics nearly impossible", "Mergers and collapse need numerical machines")}
+            
         </div>`,
 
         // 13b - Light cone tilting animation
@@ -311,7 +300,7 @@ const Slides = (function () {
                 <canvas id="lightConesCanvas"></canvas>
             </div>
             <p class="anim-hint">watch the photons try to escape &mdash; click to restart</p>
-            ${note("A light cone shows all possible future directions for a light ray. Far from a black hole, cones are upright &mdash; light can go in any direction. As you approach the horizon, the cones tilt inward. At the horizon, the outgoing light ray is barely vertical &mdash; it takes infinite coordinate time to escape. Inside the horizon, BOTH sides of the cone point inward. There is literally no future direction that leads out. This is why nothing escapes a black hole &mdash; not because of a 'force,' but because the geometry of spacetime itself has tilted to point only inward.", "Far away: upright cones; near horizon: cones tilt inward", "Inside: both futures point inward — no escape path", "Nothing escapes because geometry has no outward future")}
+            
         </div>`,
 
         // -- Discretization (moved here: the audience should know what a grid is before ADM)
@@ -339,7 +328,7 @@ const Slides = (function () {
                     <strong>how do we rewrite Einstein's equations so this grid approach actually works?</strong>
                 </p>
             </div>
-            ${note("This is the key idea to grasp before Part 2. Computers can't do calculus — they can only do arithmetic on a finite set of numbers. So we replace the continuous spacetime manifold with a 3D grid of points (like pixels in 3D). Derivatives become simple subtractions between neighbouring grid values. A typical production simulation uses 512³ = ~134 million grid cells, with finer grids nested around black holes (adaptive mesh refinement). The whole challenge of numerical relativity is rewriting Einstein's equations in a form that's stable and accurate on such a grid.", "Computers need a grid + finite differences (neighbor arithmetic)", "Continuous spacetime → discrete cells", "Next question: rewrite Einstein so this grid approach is stable")}
+            
         </div>`,
 
         // Finite difference interactive demo
@@ -350,7 +339,7 @@ const Slides = (function () {
                 <canvas id="finiteDiffCanvas"></canvas>
             </div>
             <p class="anim-hint">drag the slider to change grid resolution</p>
-            ${note("Top: a smooth function (white) approximated by grid points (cyan). At low resolution (few points), the approximation is jagged and wrong. At high resolution it's nearly perfect. Bottom: the derivative &mdash; finite differences amplify errors, so the derivative approximation is always worse than the function approximation. This is why numerical relativity needs high-resolution grids and high-order stencils (4th or 6th order).", "Coarse grids look jagged; derivatives amplify errors", "NR needs fine grids and high-order stencils (4th/6th order)", "Resolution is not optional — it decides accuracy")}
+            
         </div>`,
 
         // 14 - Bridge: why reformulate Einstein's equations
@@ -376,7 +365,7 @@ const Slides = (function () {
                     <strong>3D space evolving through time</strong>.
                 </p>
             </div>
-            ${note("This is the conceptual heart of the whole reformulation. Einstein deliberately wrote his equations so that no direction in spacetime is special &mdash; time and space are treated equally. That elegance is exactly what makes them hard to compute. A computer needs a recipe: 'here is the state NOW, here is the rule to get the state ONE STEP LATER.' So we must break the symmetry on purpose: pick a direction to call 'time', and chop spacetime into a stack of 3D snapshots (like frames in a movie). Everything in Part 2 &mdash; ADM, BSSN, CCZ4 &mdash; is just increasingly clever ways of writing the SAME Einstein equation as 'space evolving in time'.", "Covariant GR has no built-in “now → next”", "Computers need an initial-value problem", "3+1 rewrite: same physics as space evolving through time")}
+            
         </div>`,
 
         // 15 - Part 2: ADM 3+1 decomposition
@@ -397,7 +386,7 @@ const Slides = (function () {
                     a lapse $\\alpha$ (1), and a shift $\\beta^i$ (3). Same geometry &mdash; new bookkeeping.
                 </p>
             </div>
-            ${note("Arnowitt, Deser, and Misner (1959) showed how to split the 4D spacetime description into pieces a computer can use. The spatial metric &gamma;_ij (6 numbers) describes the shape of space on each 'now' slice. The lapse &alpha; (1 number) says how much real time passes between slices &mdash; it's the clock speed. The shift &beta;^i (3 numbers) says how the coordinate grid slides sideways from one slice to the next. That's 6 + 1 + 3 = 10, exactly the same 10 numbers the original 4D metric had. Nothing is lost &mdash; we've just reorganized everything around a chosen time direction so a computer can march forward step by step.", "Split the metric into γ<sub>ij</sub> (6) + α (1) + β<sup>i</sup> (3) = 10", "Same information, reorganized for time-stepping", "Each slice is space at one “now”")}
+            
         </div>`,
 
         // 15 - Bread slicer animation
@@ -408,7 +397,7 @@ const Slides = (function () {
                 <canvas id="slicerCanvas"></canvas>
             </div>
             <p class="anim-hint">click to slice &mdash; each slice = space at one moment</p>
-            ${note("Think of the entire history of the universe as a loaf of bread. Each slice is a 3D snapshot of space at one instant. The computer calculates the geometry of each slice, then uses the evolution equations to step to the next one &mdash; like a flipbook.", "Universe history = a loaf; each slice is space at one instant", "Computer flips from slice to slice like a flipbook", "This is the 3+1 picture made visual")}
+            
         </div>`,
 
         // 16 - Lapse, Shift, Extrinsic Curvature
@@ -431,7 +420,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.95rem; margin-top:8px;">Extrinsic curvature &mdash; how fast the shape of each slice is changing</p>
             </div>
-            ${note("The lapse controls the clock: near a black hole, we deliberately slow time down (&alpha;&rarr;0) so the simulation never reaches the singularity inside. The shift slides the coordinate grid sideways to stop it from getting tangled up. The extrinsic curvature K is the rate of change of the slice's shape &mdash; it tells you whether space is stretching or compressing from one moment to the next.", "Lapse α = clock speed between slices (→ 0 near a black hole)", "Shift β = sideways slide of the coordinate grid", "Extrinsic curvature K = how fast the slice’s shape changes")}
+            
         </div>`,
 
         // 16b - Lapse & Shift interactive demo
@@ -442,7 +431,7 @@ const Slides = (function () {
                 <canvas id="lapseShiftCanvas"></canvas>
             </div>
             <p class="anim-hint">drag the sliders to change lapse and shift</p>
-            ${note("Drag the lapse slider: high lapse means lots of proper time between slices (clocks running fast), low lapse means slices are compressed (clocks nearly frozen &mdash; this is what happens near a black hole). Drag the shift slider: nonzero shift means the coordinate grid slides sideways from one slice to the next. Watch how the connecting lines between grid points tilt when the shift is nonzero.", "High lapse → lots of proper time; low lapse → nearly frozen clocks", "Nonzero shift tilts the connecting grid lines", "These are coordinate tools — not new physics")}
+            
         </div>`,
 
         // 17 - Splitting Einstein's equations: 10 = 6 + 4
@@ -473,7 +462,7 @@ const Slides = (function () {
                     just sorted into <strong>&ldquo;what evolves&rdquo;</strong> and <strong>&ldquo;what must stay true.&rdquo;</strong>
                 </p>
             </div>
-            ${note("This connects everything back to Einstein. Once you slice spacetime, the 10 equations naturally sort themselves. 6 of them contain time derivatives &mdash; they're the 'marching orders' that say how geometry changes from one moment to the next. The other 4 contain NO time derivatives &mdash; they're consistency checks that the data must pass at every single moment: (1) the energy must match the curvature (Hamiltonian constraint), and (2-4) the momentum flow must match how space is bending (3 momentum constraints). If your initial data fails these checks, it doesn't represent a valid universe. Analogy: in electricity, 'charges create electric field lines' (div E = &rho;) is a constraint &mdash; it must be true NOW &mdash; while 'changing magnetic fields create electric fields' is evolution. Same logic.", "10 equations → 6 evolution + 4 constraints", "Evolution marches geometry forward; constraints must hold every slice", "Bad initial data → simulation crashes immediately")}
+            
         </div>`,
 
         // 18 - ADM evolution equations
@@ -495,7 +484,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px; max-width:760px; margin-left:auto; margin-right:auto;">How the bending rate changes &mdash; this is where matter and gravity feed back into each other</p>
             </div>
-            ${note("These are the heart of numerical relativity. The first equation is intuitive: the shape of space changes because the slice is bending (K_ij is the bending rate). The second equation is more involved &mdash; it says the bending rate itself changes due to: (1) how the clock speed varies across space, (2) how curved space already is, and (3) the matter present. Together they form a feedback loop: the shape drives the bending, and the bending drives the shape. This is what the computer solves every timestep.", "Shape of space changes because the slice is bending (K)", "The bending rate itself changes from clocks, curvature, and matter", "Feedback loop shape ↔ bending is what each timestep solves")}
+            
         </div>`,
 
         // 18 - ADM constraints
@@ -528,7 +517,7 @@ const Slides = (function () {
                     If you start with bad initial data (constraints violated), the simulation <strong>crashes immediately</strong> &mdash; it's not a valid starting point for any universe.
                 </p>
             </div>
-            ${note("Think of constraints like the rules of Sudoku: they don't tell you the next move, they tell you whether the current board is valid. If the numbers don't add up, you can't keep playing. The Hamiltonian constraint checks the 'energy budget' &mdash; the total matter-energy at each point must equal the total curvature there. The momentum constraints check the 'flow budget' &mdash; the way matter is moving must match the way space is bending. If you start with valid data, GR guarantees constraints stay satisfied &mdash; in exact math. But on a computer, small rounding errors leak in each step. If those errors pile up (which they did for 30 years with ADM), the simulation blows up. BSSN/CCZ4 fix this.", "Constraints = Sudoku rules: legal board check, not the next move", "Hamiltonian = energy budget; momentum = flow budget", "Computers leak errors — BSSN/CCZ4 control that")}
+            
         </div>`,
 
         // 19 - Why ADM fails
@@ -548,7 +537,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px; text-align:center;">
                 <p style="color:#bbb;">ADM &rarr; BSSN &rarr; CCZ4</p>
             </div>
-            ${note("Here's the issue in plain terms: a good numerical system needs every disturbance to travel at a definite, finite speed — like sound waves in air. ADM has some modes with zero or undefined speed, meaning errors just sit there and grow. It's like a speaker with no damping: even the tiniest hum gets amplified without limit. The fix (BSSN/CCZ4) rewrites the same Einstein physics so that every disturbance — real or numerical — travels at a known, finite speed. Once that's true, errors get carried off the grid instead of piling up.", "Good numerics need disturbances to travel at definite finite speeds", "ADM has zero/undefined modes → errors explode", "Physics was right; the packaging was wrong for grids")}
+            
         </div>`,
 
         // 19b - ADM vs BSSN stability animation
@@ -559,7 +548,7 @@ const Slides = (function () {
                 <canvas id="admBssnCanvas"></canvas>
             </div>
             <p class="anim-hint">watch ADM crash while BSSN stays stable &mdash; click to restart</p>
-            ${note("Both panels start with the same initial data and the same tiny numerical noise (unavoidable on a computer). ADM: the noise has no speed limit, so it grows exponentially &mdash; the wave distorts, colours shift to red, and the simulation crashes. BSSN: the same noise is carried away at finite speed and stays bounded. The physics is identical &mdash; only the mathematical form of the equations differs. This is why NR was stuck for 30 years.", "Same physics + same tiny noise in both panels", "ADM: noise grows → crash; BSSN: noise is carried away", "This is why NR was stuck for ~30 years")}
+            
         </div>`,
 
         // 20 - BSSN decomposition
@@ -590,7 +579,7 @@ const Slides = (function () {
                     $$ \\tilde{\\Gamma}^i = \\tilde{\\gamma}^{jk}\\tilde{\\Gamma}^i_{\\;jk} $$
                 </div>
             </div>
-            ${note("BSSN (Baumgarte-Shapiro-Shibata-Nakamura) splits the variables into cleaner pieces: (1) separate out the overall 'scale' of space (conformal factor), (2) track the shape-changing part of curvature on its own, (3) evolve the average curvature separately, (4) track how coordinates drift as their own variable, (5) enforce that the volume of a grid cell stays correct at every step. Result: all disturbances now travel at definite speeds. The computer can finally trust the equations &mdash; errors don't pile up, they propagate away.", "Not new gravity — a change of variables", "Split overall scale from shape; evolve cleaner pieces", "Disturbances travel at known finite speeds → stable runs")}
+            
         </div>`,
 
         // 21 - BSSN evolution equations
@@ -615,7 +604,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.85rem; margin-top:4px;">Trace of extrinsic curvature</p>
             </div>
-            ${note("Instead of evolving one big tangled set of equations, we now march forward five cleaner pieces: the scale factor, the rescaled shape of space, the average curvature, the shape-change rate, and the coordinate-drift trackers. Each equation is simpler than the old ADM version. The key payoff: all disturbances now travel at known, finite speeds, so numerical noise gets carried away harmlessly instead of blowing up. This is why simulations stopped crashing after 30 years of failure.", "March cleaner pieces: scale, shape, average curvature, …", "Numerical noise propagates away instead of blowing up", "This unlocked long, stable black-hole simulations")}
+            
         </div>`,
 
         // 22 - CCZ4
@@ -645,7 +634,7 @@ const Slides = (function () {
                     <li>Constraint errors are actively suppressed, not just tolerated</li>
                 </ul>
             </div>
-            ${note("CCZ4 (Conformal and Covariant Z4) adds a 'clean-up crew' to BSSN. It introduces extra variables (Z and &Theta;) that measure how far the simulation has drifted from a valid solution. The damping terms (&kappa;1, &kappa;2) act like friction: they drag those errors back to zero exponentially. Think of a ball in a bowl &mdash; BSSN puts the ball on a flat table (errors don't grow, but they don't shrink either). CCZ4 puts it in a bowl &mdash; any displacement rolls back to the centre. This is the formulation used in GRTeclyn/GRChombo. It's like adding friction to a pendulum &mdash; small oscillations die out instead of persisting.", "BSSN stops explosions; errors can still slowly drift", "CCZ4 adds damping fields that drag errors back to zero", "Analogy: flat table (BSSN) → bowl (CCZ4)")}
+            
         </div>`,
 
         // 23 - Gauge conditions
@@ -667,7 +656,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.85rem; margin-top:4px;">Steers the grid to prevent coordinate stretching</p>
             </div>
-            ${note("These are the 'moving punctures' breakthrough. The first rule (1+log slicing) makes the clock tick slower and slower near a black hole &mdash; so the simulation never actually reaches the singularity inside. It's like Zeno's paradox: you keep halving the step so you never arrive. The second rule (Gamma-driver) makes the grid coordinates follow the black hole as it moves, like a camera tracking a moving car instead of watching it fly off-screen. Together these two tricks made long-term stable binary black hole simulations possible for the first time in 2005.", "Lapse and shift are free coordinate choices", "1+log slicing freezes clocks near singularities", "Gamma-driver tracks moving black holes (moving punctures)")}
+            
         </div>`,
 
         // 24 - 2005 summary
@@ -684,7 +673,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px;">
                 <p>The recipe: <strong>BSSN/CCZ4</strong> + <strong>1+log slicing</strong> + <strong>Gamma-driver shift</strong> = stable, long-term evolution of binary black holes through merger and ringdown.</p>
             </div>
-            ${note("Three independent groups solved it nearly simultaneously in 2005-2006. Pretorius used generalized harmonic coordinates (a different approach). Campanelli et al. and Baker et al. used the moving punctures method with BSSN. The community quickly converged on BSSN/CCZ4 with moving punctures as the standard workhorse, which is what GRTeclyn uses today.", "2005: Pretorius; Campanelli et al.; Baker et al.", "Standard recipe: BSSN/CCZ4 + 1+log + Gamma-driver", "Stable inspiral → merger → ringdown")}
+            
         </div>`,
 
         // 24b - Binary black hole inspiral animation
@@ -695,7 +684,7 @@ const Slides = (function () {
                 <canvas id="binaryBHCanvas"></canvas>
             </div>
             <p class="anim-hint">inspiral &rarr; merger &rarr; ringdown &mdash; click to restart</p>
-            ${note("This is THE result of numerical relativity. Two black holes spiral together, losing energy to gravitational waves. The orbit shrinks, the frequency increases (the 'chirp'). At merger, the gravitational wave amplitude peaks. After merger, the remnant black hole rings down like a struck bell, emitting damped gravitational waves. The waveform at the bottom is what LIGO detects. Without NR, we could not compute what happens during the merger &mdash; the loudest, most information-rich part of the signal.", "Inspiral chirp → loud merger → ringdown", "That waveform is what LIGO matches", "Without NR, the merger piece is missing")}
+            
         </div>`,
 
         // 25 - LIGO schematic + explanation
@@ -706,7 +695,7 @@ const Slides = (function () {
                 <canvas id="ligoCanvas"></canvas>
             </div>
             <p class="anim-hint">click to send a gravitational wave through the detector</p>
-            ${note("LIGO is a Michelson interferometer with two 4 km arms at right angles. A laser is split at the beam splitter; each half travels down an arm, bounces off a mirror, and returns. Normally the beams recombine destructively (no signal). A gravitational wave stretches one arm and compresses the other by ~10⁻²¹ m, shifting the interference pattern. LIGO matched its signal against ~200,000 NR waveform templates to identify GW150914: two black holes (36+29 solar masses) merging 1.3 billion light-years away. Nobel Prize 2017.", "Michelson interferometer: two ~4 km arms at right angles", "A GW stretches one arm and squeezes the other by ~10⁻²¹", "GW150914 was enabled by NR waveform templates")}
+            
         </div>`,
 
         // 25b - GW Polarization animation
@@ -717,7 +706,7 @@ const Slides = (function () {
                 <canvas id="gwPolCanvas"></canvas>
             </div>
             <p class="anim-hint">a ring of test particles deforms as the wave passes</p>
-            ${note("Gravitational waves have two polarizations: h+ (plus) squeezes and stretches along the x/y axes, while h&times; (cross) does the same but rotated 45 degrees. A ring of freely-floating test particles deforms as the wave passes. LIGO's two perpendicular arms are perfectly oriented to detect h+ &mdash; one arm stretches while the other compresses, changing the interference pattern.", "Two polarizations: h<sub>+</sub> and h<sub>×</sub>", "A ring of free particles deforms as the wave passes", "LIGO’s perpendicular arms are well suited to catch h<sub>+</sub>")}
+            
         </div>`,
 
         // 27 - Convergence testing
@@ -738,7 +727,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:15px;">
                 <p>If the code is correct, the differences between solutions must shrink at a predictable rate set by the finite-difference order.</p>
             </div>
-            ${note("This is how we tell real physics from computer artifacts. The logic: if the answer changes a LOT when you double the resolution, you haven't used enough grid points yet. But if doubling the grid barely changes the answer &mdash; and the change shrinks at the expected rate &mdash; you can trust the result. For a 4th-order scheme, doubling resolution should cut the error by 2x2x2x2 = 16 times. If it does, the code is correct. If it doesn't, something is wrong.", "Run the same problem at three resolutions", "Differences must shrink at the rate set by the scheme order", "This separates real physics from numerical junk")}
+            
         </div>`,
 
         // 28 - Richardson extrapolation
@@ -763,7 +752,7 @@ const Slides = (function () {
                 </div>
                 <p style="text-align:center; color:#bbb; font-size:0.9rem; margin-top:4px;">4th-order code &rArr; $Q \\to 16$ &emsp; | &emsp; 2nd-order &rArr; $Q \\to 4$</p>
             </div>
-            ${note("Q is the 'sanity check number'. You run the simulation three times (coarse, medium, fine grid). Q measures whether the improvement from coarse→medium matches the improvement from medium→fine at the expected rate. If Q approaches 16 (for a 4th-order code), the code is converging correctly &mdash; the answer is real physics, not numerical junk. If Q is wildly different from 16, there's a bug. GRTeclyn uses 4th-order stencils, so we expect Q→16. This is demonstrated in the wormhole paper (arXiv:2604.00071, Fig. 5).", "Error model → convergence factor Q → 2<sup>n</sup>", "4th-order code: expect Q → 16", "Wild Q means a bug or under-resolved run")}
+            
         </div>`,
 
         // 28b - Convergence animation
@@ -774,7 +763,7 @@ const Slides = (function () {
                 <canvas id="convergenceCanvas"></canvas>
             </div>
             <p class="anim-hint">three resolutions converge &mdash; Q &rarr; 16 for 4th-order &mdash; click to restart</p>
-            ${note("Three simulations of the same physics at different grid resolutions. Red (coarse) deviates the most, yellow (medium) is better, green (fine) is nearly exact. The Q-factor readout shows the ratio of errors: for a 4th-order code, Q converges to 16. This is how we validate that our results are real physics and not numerical artifacts. GRTeclyn uses 4th-order stencils.", "Coarse / medium / fine solutions converge together", "Q readout → 16 for a 4th-order scheme", "Visual proof the answer is trustworthy")}
+            
         </div>`,
 
         // 29 - CPU vs GPU animation
@@ -789,7 +778,7 @@ const Slides = (function () {
                 <canvas id="gpuCanvas"></canvas>
             </div>
             <p class="anim-hint">animation runs continuously &mdash; watch the red stalls on the CPU side</p>
-            ${note("LEFT PANEL: A CPU cluster with 4 cores. Each core has its own memory (small box). To share data, packets must travel through PCIe interconnect at ~25 GB/s with microsecond latency. Red 'WAIT' labels show where a packet stalls waiting for the link. RIGHT PANEL: A GPU with thousands of tiny cores (dots in the grid) all sharing a single unified VRAM pool via HBM3 at ~3.35 TB/s. No stalling &mdash; any core can read any data instantly. For NR, every grid cell needs its neighbours' data every timestep, so the GPU's shared memory is transformative. Exact numbers on the next slide.", "CPU cores are islands that talk over slow links (stalls)", "GPU cores share one fast memory pool and run in parallel", "NR stencil updates love memory bandwidth")}
+            
         </div>`,
 
         // 30 - CPU vs GPU: the numbers
@@ -834,7 +823,7 @@ const Slides = (function () {
                     <strong>memory-bandwidth bound</strong>. That ~7&times; bandwidth is the number that matters most.
                 </p>
             </div>
-            ${note("These are representative peak figures. A high-end 64-core server CPU delivers a few TFLOP/s of FP64 and ~0.5 TB/s of memory bandwidth (multi-channel DDR5). An NVIDIA H100 delivers ~34 TFLOP/s FP64 (about 67 with tensor cores), ~3.35 TB/s from HBM3, and ~16,900 CUDA cores. But raw FLOP/s is not the bottleneck for numerical relativity: the BSSN/CCZ4 update is a stencil — each grid point reads its neighbours every step — so performance is limited by how fast you can move data, not multiply it. That's why the ~7x memory-bandwidth advantage of HBM3 over DDR5 is the decisive factor, more than the FLOP count. Add thousands of cores updating cells in parallel and one GPU replaces a rack of CPUs.", "NR updates are stencil / memory-bandwidth bound", "~7× bandwidth (HBM vs DDR) matters more than raw FLOPs", "One data-center GPU can replace a rack of CPUs")}
+            
         </div>`,
 
         // 31 - Riding the AI wave
@@ -865,7 +854,7 @@ const Slides = (function () {
                     Einstein's equations into a routine numerical experiment.
                 </p>
             </div>
-            ${note("This closes the loop with the opening timeline slide. The explosion of AI has triggered the largest build-out of parallel-compute hardware in history — NVIDIA's data-center revenue grew roughly tenfold between 2023 and 2025, and every generation (A100 -> H100 -> H200 -> GB200) brings more memory bandwidth and tighter GPU-to-GPU interconnect. Numerical relativity is a direct beneficiary: we don't have to justify building exotic supercomputers, we just run our codes on the same GPUs the AI industry is mass-producing. The economies of scale from AI make cutting-edge GR simulations affordable. It's the same story as 2012 for deep learning — the hardware finally caught up with the theory.", "The same AI GPUs also solve Einstein’s equations", "NR rides the AI hardware boom for free", "Closes the opening timeline loop")}
+            
         </div>`,
 
         // AMR animation + explanation
@@ -876,7 +865,7 @@ const Slides = (function () {
                 <canvas id="amrCanvas"></canvas>
             </div>
             <p class="anim-hint">drag the black hole &mdash; the refined grid follows</p>
-            ${note("Adaptive Mesh Refinement (AMR) is the key to practical NR simulations. A uniform fine grid over the entire domain would need millions of cells. AMR puts fine grids only where curvature is large (near black holes, gravitational wave fronts) and keeps coarse grids far away. This cuts the computational cost by orders of magnitude. GRTeclyn is built on AMReX (Adaptive Mesh Refinement for the Exascale), which handles all the grid management, load balancing, and GPU offloading automatically. Without AMR, simulating binary black holes or wormholes would be computationally impossible.", "Fine grid only where curvature is large", "Coarse grid far away — cuts cost by orders of magnitude", "Without AMR, realistic binary/wormhole runs are impractical")}
+            
         </div>`,
 
         // 32 - GRTeclyn
@@ -892,7 +881,7 @@ const Slides = (function () {
                     <li>NVLink: multi-GPU without bottlenecks</li>
                 </ul>
             </div>
-            ${note("GRTeclyn is built on AMReX (Adaptive Mesh Refinement for the Exascale). It offloads all physics computation to the GPU, exploiting exactly the memory-bandwidth and parallelism advantages we just saw. The grid automatically refines around black holes and gravitational wave fronts, putting resolution only where it's needed. This is what makes exotic spacetime simulations like wormholes computationally feasible.", "From the GRChombo ecosystem; built for GPUs", "AMR via AMReX (load balance + GPU offload)", "Makes exotic spacetime simulations feasible")}
+            
         </div>`,
 
         // 31 - Wormholes intro
@@ -916,7 +905,7 @@ const Slides = (function () {
                     N. Shirokov &mdash; <em>Wormhole Dynamics: Nonlinear Collapse and GW Emission</em> &mdash; arXiv:2604.00071
                 </a>
             </div>
-            ${note("Normal matter always has positive energy &mdash; it attracts. Exotic matter has negative energy &mdash; it repels, acting like anti-gravity. You need this repulsion to prop a wormhole's throat open against gravity trying to crush it shut. The equation on screen is just saying: the energy measured by any light-speed observer is negative. Nobody has found such matter in nature, but GR allows it, and we can simulate what happens with it. Ellis-Bronnikov wormholes use a 'phantom' field &mdash; a field whose energy is backwards (kinetic energy is negative). See arXiv:2604.00071 for the full 3D simulations using GRTeclyn.", "Traversable wormholes need exotic negative-energy support", "Research question: what happens when that support is removed?", "Paper: arXiv:2604.00071")}
+            
         </div>`,
 
         // 32 - Phantom bounce animation
@@ -931,7 +920,7 @@ const Slides = (function () {
                 <span class="paper-label">Research Paper</span>
                 N. Shirokov &mdash; <em>Wormhole Dynamics: Nonlinear Collapse and Gravitational-Wave Emission</em> &mdash; arXiv:2604.00071 [gr-qc]
             </a>
-            ${note("We remove half the exotic matter holding the throat open and give it a slight squeeze. Gravity wins and crushes the tunnel shut &mdash; a black hole forms. But the exotic matter that got swallowed doesn't just disappear: its negative energy fights back violently, triggering a 'phantom bounce' &mdash; an explosion of curvature that launches gravitational waves outward at the speed of light.", "Remove support → throat collapses → apparent horizon", "Swallowed exotic matter triggers a phantom bounce", "Asymmetric collapse launches gravitational waves at ~c")}
+            
         </div>`,
 
         // 33 - Results
@@ -949,7 +938,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:20px;">
                 <p>A single exotic object can produce a detectable gravitational wave signal &mdash; no collision required. Detection needs closer sources, larger asymmetries, or next-gen detectors.</p>
             </div>
-            ${note("For the squeeze strength we simulated, a wormhole weighing about 1000 Suns at a distance of ~3 million light-years would produce gravitational waves just below what Advanced LIGO can currently detect. The wave signal travels outward at the speed of light (we verified this by measuring it at different distances from the source). Stronger squeezes or closer sources would be detectable. arXiv:2604.00071", "Collapse + bounce + asymmetric GW emission", "~10³ M<sub>⊙</sub> wormhole at ~1 Mpc sits near Adv. LIGO sensitivity", "A single exotic object can radiate GWs — no collision required")}
+            
         </div>`,
 
         // 34 - Rotating wormhole
@@ -964,7 +953,7 @@ const Slides = (function () {
                     <li>Massive, coherent burst of gravitational waves</li>
                 </ul>
             </div>
-            ${note("For the rotating case, we build a spinning doughnut of exotic matter holding the wormhole open. Because it's already spinning, the shape is already non-spherical &mdash; so when we turn off the exotic support, the collapse naturally produces gravitational waves without needing an artificial 'squeeze'. The spinning collapse generates a strong, clean gravitational wave burst.", "Spinning exotic torus holds the throat open", "Rotation already breaks symmetry", "Collapse emits a strong, coherent GW burst — no artificial squeeze")}
+            
         </div>`,
 
         // 35 - Conclusion
@@ -982,7 +971,7 @@ const Slides = (function () {
             <div class="reveal-item" style="margin-top:30px; text-align:center;">
                 <p><em>We heard black holes merge in 2015.<br>Tomorrow, we might catch a wormhole collapsing.</em></p>
             </div>
-            ${note("Key takeaway: the journey from Einstein's pen-and-paper theory to GPU-powered wormhole simulations required breakthroughs in mathematics (ADM, BSSN), algorithms (moving punctures, AMR), and hardware (GPUs, NVLink). Each was necessary. None was sufficient alone.", "10 non-linear PDEs → 3+1 movie → 2005 stability → GPUs + AMR", "Each breakthrough was necessary; none alone was enough", "Closing: we heard BH mergers in 2015 — wormholes may be next")}
+            
         </div>`,
 
         // 36 - Q&A
@@ -996,6 +985,10 @@ const Slides = (function () {
     function inject() {
         const deck = document.getElementById('deck');
         deck.innerHTML = html.join('');
+        // Stamp stable ids so notes JSON / TTS can key by slide index
+        deck.querySelectorAll('.slide').forEach((el, i) => {
+            el.dataset.slideId = String(i);
+        });
     }
 
     return { inject };
