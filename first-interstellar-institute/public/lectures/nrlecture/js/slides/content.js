@@ -33,7 +33,24 @@ const Slides = (function () {
             ${note("Both AI and Numerical Relativity had decades-long 'dark ages' where the theory existed but the algorithms and hardware couldn't deliver. Both broke through when the right mathematical tricks were paired with GPUs and massive computational power. Key NR figures: Arnowitt, Deser, Misner (ADM), Nakamura, Shibata, Baumgarte, Shapiro (BSSN), Bona, Alic, Rezzolla (CCZ4), Pretorius, Campanelli, Baker (2005 breakthrough).")}
         </div>`,
 
-        // 2 - Motivation: why GR?
+        // 2 - Motivation: GW detection needs NR (right after timeline — "why NR?")
+        `<div class="slide" data-anim="gwmotivation">
+            <span class="part-label">Part 1 &mdash; Why Numerical Relativity?</span>
+            <h2>The Missing Waveforms</h2>
+            <div class="anim-container" id="gwMotivContainer" style="height:370px;">
+                <canvas id="gwMotivCanvas"></canvas>
+            </div>
+            <p class="anim-hint">click to advance</p>
+            <div class="reveal-item" style="margin-top:8px;">
+                <p style="text-align:center; max-width:720px;">
+                    LIGO matched its signal against <strong>~200,000 NR waveform templates</strong>.<br>
+                    Without numerical relativity, gravitational wave astronomy would be blind.
+                </p>
+            </div>
+            ${note("Einstein predicted gravitational waves in 1916, but for nearly a century no one could calculate what the signal from a black hole merger actually looks like. Pen-and-paper approximations (post-Newtonian theory) work for the slow inspiral phase, and perturbation theory handles the ringdown, but the merger — where the signal is loudest and carries the most information — is violently non-linear. Only full numerical relativity can solve it. LIGO's 2015 detection of GW150914 was only possible because NR had produced a bank of ~200,000 template waveforms to match against the detector noise. Without those templates, the signal would have been buried.")}
+        </div>`,
+
+        // 3 - Motivation: why GR?
         `<div class="slide" data-anim="gravspeed">
             <span class="part-label">Part 1 &mdash; Why General Relativity?</span>
             <h2>The Problem with Newton</h2>
@@ -54,23 +71,6 @@ const Slides = (function () {
                 </p>
             </div>
             ${note("Newton's law of gravitation implies instantaneous action at a distance: F = GMm/r². If the Sun disappeared, Earth would instantly feel the change. But special relativity (1905) showed nothing travels faster than light. Einstein spent 10 years (1905–1915) building GR to fix this. In GR, changes in the gravitational field propagate as gravitational waves at exactly c. If the Sun vanished, Earth would continue orbiting for ~8.3 minutes until the gravitational disturbance arrived. This is directly analogous to Maxwell's equations, where changes in the electromagnetic field propagate at c.")}
-        </div>`,
-
-        // 3 - Motivation: GW detection needs NR
-        `<div class="slide" data-anim="gwmotivation">
-            <span class="part-label">Part 1 &mdash; Why Numerical Relativity?</span>
-            <h2>The Missing Waveforms</h2>
-            <div class="anim-container" id="gwMotivContainer" style="height:370px;">
-                <canvas id="gwMotivCanvas"></canvas>
-            </div>
-            <p class="anim-hint">click to advance</p>
-            <div class="reveal-item" style="margin-top:8px;">
-                <p style="text-align:center; max-width:720px;">
-                    LIGO matched its signal against <strong>~200,000 NR waveform templates</strong>.<br>
-                    Without numerical relativity, gravitational wave astronomy would be blind.
-                </p>
-            </div>
-            ${note("Einstein predicted gravitational waves in 1916, but for nearly a century no one could calculate what the signal from a black hole merger actually looks like. Pen-and-paper approximations (post-Newtonian theory) work for the slow inspiral phase, and perturbation theory handles the ringdown, but the merger — where the signal is loudest and carries the most information — is violently non-linear. Only full numerical relativity can solve it. LIGO's 2015 detection of GW150914 was only possible because NR had produced a bank of ~200,000 template waveforms to match against the detector noise. Without those templates, the signal would have been buried.")}
         </div>`,
 
         // 4 - Einstein equation
