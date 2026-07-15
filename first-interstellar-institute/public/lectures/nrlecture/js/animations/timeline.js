@@ -51,12 +51,27 @@
         return lines.length;
     }
 
+    function drawTrackLabel(text, x, y) {
+        ctx.save();
+        ctx.font = '11px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.translate(x, y);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(text, 0, 0);
+        ctx.restore();
+    }
+
     function draw() {
         ctx.clearRect(0, 0, W, H);
 
         const midY = H / 2;
-        const padX = 50;
-        const usableW = W - padX * 2;
+        // Left gutter for vertical track labels — keeps them clear of event text
+        const labelGutter = 26;
+        const padX = 48 + labelGutter;
+        const rightPad = 36;
+        const usableW = W - padX - rightPad;
         const count = aiEvents.length;
         const gap = usableW / (count - 1);
 
@@ -65,21 +80,20 @@
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(padX - 10, midY);
-        ctx.lineTo(W - padX + 10, midY);
+        ctx.lineTo(W - rightPad + 10, midY);
         ctx.stroke();
 
-        // ---- Track labels ----
-        ctx.font = '12px JetBrains Mono, monospace';
-        ctx.textAlign = 'left';
-        ctx.fillStyle = 'rgba(255,255,255,0.35)';
-        ctx.fillText('ARTIFICIAL INTELLIGENCE', padX - 10, midY - H * 0.36);
-        ctx.fillText('NUMERICAL RELATIVITY', padX - 10, midY + H * 0.36 + 14);
+        // ---- Track labels (vertical, in left gutter) ----
+        drawTrackLabel('ARTIFICIAL INTELLIGENCE', 14, midY - H * 0.22);
+        drawTrackLabel('NUMERICAL RELATIVITY', 14, midY + H * 0.22);
 
         // ---- Draw events ----
         for (let i = 0; i <= step; i++) {
             const x = padX + i * gap;
             const ai = aiEvents[i];
             const nr = nrEvents[i];
+            // Alternate vertical stagger so neighboring labels don't collide
+            const stagger = (i % 2 === 0) ? 0 : 22;
 
             // Vertical tick through axis
             ctx.strokeStyle = 'rgba(255,255,255,0.12)';
@@ -94,6 +108,7 @@
 
             // ======== AI event (above) ========
             const aiDotY = midY - 30;
+            const aiTextBase = midY - 72 - stagger;
 
             // Dot
             ctx.beginPath();
@@ -113,27 +128,28 @@
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(x, aiDotY - (ai.breakthrough ? 6 : 4));
-            ctx.lineTo(x, midY - 65);
+            ctx.lineTo(x, aiTextBase + 8);
             ctx.stroke();
 
             // Year
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
             ctx.textAlign = 'center';
-            ctx.fillText(ai.year, x, midY - 72);
+            ctx.fillText(ai.year, x, aiTextBase);
 
             // Title
             ctx.font = '12px EB Garamond, serif';
             ctx.fillStyle = `rgba(220,220,220,${alpha * 0.85})`;
-            ctx.fillText(ai.title, x, midY - 88);
+            ctx.fillText(ai.title, x, aiTextBase - 16);
 
             // Detail (people)
             ctx.font = '9px JetBrains Mono, monospace';
             ctx.fillStyle = 'rgba(220,220,220,0.7)';
-            ctx.fillText(ai.detail, x, midY - 102);
+            ctx.fillText(ai.detail, x, aiTextBase - 30);
 
             // ======== NR event (below) ========
             const nrDotY = midY + 30;
+            const nrTextBase = midY + 80 + stagger;
 
             // Dot
             ctx.beginPath();
@@ -153,24 +169,24 @@
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(x, nrDotY + (nr.breakthrough ? 6 : 4));
-            ctx.lineTo(x, midY + 65);
+            ctx.lineTo(x, nrTextBase - 12);
             ctx.stroke();
 
             // Year
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
             ctx.textAlign = 'center';
-            ctx.fillText(nr.year, x, midY + 80);
+            ctx.fillText(nr.year, x, nrTextBase);
 
             // Title
             ctx.font = '13px EB Garamond, serif';
             ctx.fillStyle = `rgba(220,220,220,${alpha * 0.85})`;
-            ctx.fillText(nr.title, x, midY + 98);
+            ctx.fillText(nr.title, x, nrTextBase + 18);
 
             // Detail (people) - may be multiline
             ctx.font = '9px JetBrains Mono, monospace';
             ctx.fillStyle = 'rgba(220,220,220,0.75)';
-            fillMultiline(nr.detail, x, midY + 114, 12);
+            fillMultiline(nr.detail, x, nrTextBase + 34, 12);
 
             // ======== Breakthrough connector ========
             if (ai.breakthrough && nr.breakthrough) {
