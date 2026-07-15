@@ -3,6 +3,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Lectures from './components/Lectures';
 import Articles from './components/Articles';
+import Preprint from './components/Preprint';
 import Support from './components/Support';
 import Footer from './components/Footer';
 
@@ -18,6 +19,7 @@ function App() {
           <About id="about" />
           <Lectures id="lectures" />
           <Articles id="articles" />
+          <Preprint id="preprint" />
           <Support id="support" />
         </main>
         <Footer />

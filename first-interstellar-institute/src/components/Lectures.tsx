@@ -45,6 +45,27 @@ export default function Lectures({ id }: { id: string }) {
               <iframe
                 width="100%"
                 height="100%"
+                src="https://www.youtube.com/embed/u8vp9aRIVas"
+                title="Why Einstein's Gravity Needed Supercomputers"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <h3 className="text-xl font-bold mt-6 mb-2 font-orbitron text-[#e8e4df]">
+              Why Einstein&apos;s Gravity Needed Supercomputers
+            </h3>
+            <p className="text-[#e8e4df]/60">
+              How numerical relativity and supercomputers make Einstein&apos;s gravity computable.
+            </p>
+          </div>
+
+          {/* Lecture 2 */}
+          <div className="flex flex-col">
+            <div className="aspect-video w-full rounded-md overflow-hidden shadow-2xl border border-white/10 bg-black">
+              <iframe
+                width="100%"
+                height="100%"
                 src="https://www.youtube.com/embed/-JUgMG99Las"
                 title="Warp Drive Physics | Warp factory toolkit tutorial"
                 frameBorder="0"
@@ -56,7 +77,7 @@ export default function Lectures({ id }: { id: string }) {
             <p className="text-[#e8e4df]/60">Warp factory toolkit tutorial and analysis of Alcubierre-like metrics.</p>
           </div>
 
-          {/* Lecture 2 */}
+          {/* Lecture 3 */}
           <div className="flex flex-col">
             <div className="aspect-video w-full rounded-md overflow-hidden shadow-2xl border border-white/10 bg-black">
               <iframe

@@ -10,6 +10,13 @@ const LECTURES = [
     icon: Presentation,
   },
   {
+    title: "Why Einstein's Gravity Needed Supercomputers",
+    description: 'Numerical relativity & supercomputers',
+    href: 'https://www.youtube.com/watch?v=u8vp9aRIVas',
+    external: true,
+    icon: Video,
+  },
+  {
     title: 'Warp Drive Physics',
     description: 'Warp factory toolkit tutorial',
     href: 'https://www.youtube.com/watch?v=-JUgMG99Las',
@@ -127,6 +134,7 @@ export default function Navbar() {
           </div>
 
           <a href="#articles" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
+          <a href="#preprint" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
           <a href="#support" className="text-sm font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
         </div>
 
@@ -140,7 +148,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden absolute top-full left-0 w-full bg-[#1a1a1a]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-[32rem] py-4' : 'max-h-0 py-0 border-transparent'}`}>
+      <div className={`md:hidden absolute top-full left-0 w-full bg-[#1a1a1a]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-[40rem] py-4' : 'max-h-0 py-0 border-transparent'}`}>
         <div className="flex flex-col items-center gap-4">
           <a href="#about" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">About</a>
 
@@ -153,7 +161,7 @@ export default function Navbar() {
               Lectures
               <ChevronDown size={18} className={`transition-transform duration-200 ${isMobileLecturesOpen ? 'rotate-180' : ''}`} />
             </button>
-            <div className={`overflow-hidden transition-all duration-300 ${isMobileLecturesOpen ? 'max-h-96 mt-3' : 'max-h-0'}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${isMobileLecturesOpen ? 'max-h-[28rem] mt-3' : 'max-h-0'}`}>
               <div className="flex flex-col gap-3 w-full max-w-xs">
                 <a
                   href="#lectures"
@@ -186,6 +194,7 @@ export default function Navbar() {
           </div>
 
           <a href="#articles" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Articles</a>
+          <a href="#preprint" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">PREPRINT</a>
           <a href="#support" onClick={closeMenu} className="text-base font-medium text-[#e8e4df]/80 hover:text-white transition-colors">Support</a>
         </div>
       </div>
