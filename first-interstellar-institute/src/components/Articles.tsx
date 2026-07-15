@@ -27,7 +27,7 @@ export default function Articles({ id }: { id: string }) {
             <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
           </div>
 
-          <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+          <h3 className="text-xl font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
             Wormhole Dynamics: Nonlinear Collapse and Gravitational-Wave Emission
           </h3>
 
@@ -44,7 +44,7 @@ export default function Articles({ id }: { id: string }) {
         {/* Placeholder for future articles */}
         <div className="block bg-white/[0.01] border border-white/10 border-dashed rounded-md p-8 flex flex-col items-center justify-center text-center opacity-50">
           <FileText size={32} className="text-[#888] mb-4" />
-          <h3 className="text-lg font-medium text-[#e8e4df]/80 font-serif font-semibold mb-2">Future Publications</h3>
+          <h3 className="text-lg text-[#e8e4df]/80 font-serif font-semibold mb-2">Future Publications</h3>
           <p className="text-sm text-[#888]">More research papers are currently in progress.</p>
         </div>
       </div>

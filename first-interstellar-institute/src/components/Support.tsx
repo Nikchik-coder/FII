@@ -94,7 +94,7 @@ export default function Support({ id }: { id: string }) {
                 </a>
               </div>
 
-              <h3 className="text-xl font-bold font-serif font-semibold mb-3 text-[#e8e4df]">{crypto.coin}</h3>
+              <h3 className="text-xl font-serif font-semibold mb-3 text-[#e8e4df]">{crypto.coin}</h3>
 
               <p className="text-xs text-[#888] font-mono break-all mb-6 bg-black/40 border border-white/10 rounded-md p-3">
                 {crypto.address}

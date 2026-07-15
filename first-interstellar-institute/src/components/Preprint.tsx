@@ -42,7 +42,7 @@ export default function Preprint({ id }: { id: string }) {
               </div>
               <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
             </div>
-            <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+            <h3 className="text-xl font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
               Open PREPRINT
             </h3>
             <p className="text-sm text-[#e8e4df]/60 mb-4">
@@ -63,7 +63,7 @@ export default function Preprint({ id }: { id: string }) {
               </div>
               <ExternalLink size={20} className="text-[#888] group-hover:text-[#e8e4df] transition-colors" />
             </div>
-            <h3 className="text-xl font-bold font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
+            <h3 className="text-xl font-serif font-semibold mb-3 group-hover:text-white transition-colors text-[#e8e4df]">
               Mobile App
             </h3>
             <p className="text-sm text-[#e8e4df]/60 mb-4">
