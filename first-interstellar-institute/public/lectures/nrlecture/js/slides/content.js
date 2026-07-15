@@ -133,7 +133,7 @@ const Slides = (function () {
             <div class="anim-container" id="dsMetricContainer" style="height:520px;">
                 <canvas id="dsMetricCanvas"></canvas>
             </div>
-            <p class="anim-hint">top: drag the probe &mdash; $ds$ stays fixed &nbsp;|&nbsp; bottom: drag the mass &mdash; $ds$ stretches</p>
+            <p class="anim-hint">drag the probe in either panel &mdash; far from $M$, both show $ds=1.00$; near $M$, only the bottom stretches. Drag $M$ to move the mass.</p>
             ${note("Top panel is flat space (a table): every little ruler is the same length no matter where you drag the probe. The metric is trivial — ds² = dx² + dy² — so physical distance equals coordinate distance. Bottom panel is curved space near a mass: the same coordinate gap can correspond to a much larger real distance. The metric g_μν converts coordinates into real length, and near the mass those rulers stretch (green → red). Drag both to feel the contrast live.")}
         </div>`,
 

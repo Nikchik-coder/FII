@@ -3,18 +3,19 @@
     let canvas, ctx, W, H, running = false;
     let animFrame;
 
-    // Flat panel: drag a probe; ds never changes
+    // Both panels use a probe; curved also has a draggable mass
     let flatProbeX, flatProbeY;
-    // Curved panel: drag the mass; ds stretches near it
+    let curvedProbeX, curvedProbeY;
     let massX, massY;
 
-    let dragTarget = null; // 'flat' | 'mass' | null
+    let dragTarget = null; // 'flat' | 'curvedProbe' | 'mass' | null
 
     const GRID = 36;
     const MASS_STRENGTH = 2800;
     const BASE_RULER = 12;
-    const GAP = 10; // gap between panels
+    const GAP = 10;
     const HEADER = 28;
+    const MASS_HIT_R = 28;
 
     function init() {
         canvas = document.getElementById('dsMetricCanvas');
@@ -26,9 +27,13 @@
 
         const { flat, curved } = panels();
         flatProbeX = flat.x + flat.w * 0.35;
-        flatProbeY = flat.y + flat.h * 0.5;
-        massX = curved.x + curved.w * 0.55;
-        massY = curved.y + curved.h * 0.5;
+        flatProbeY = flat.y + flat.h * 0.55;
+
+        // Mass on the left; probe starts far to the right so ds = 1.00 (same as flat)
+        massX = curved.x + curved.w * 0.28;
+        massY = curved.y + curved.h * 0.55;
+        curvedProbeX = curved.x + curved.w * 0.78;
+        curvedProbeY = curved.y + curved.h * 0.55;
 
         canvas.addEventListener('mousedown', onDown);
         canvas.addEventListener('mousemove', onMove);
@@ -57,9 +62,7 @@
         const y = clientY - rect.top;
         return {
             x: clamp(x, panel.x + 8, panel.x + panel.w - 8),
-            y: clamp(y, panel.y + HEADER, panel.y + panel.h - 8),
-            rawX: x,
-            rawY: y
+            y: clamp(y, panel.y + HEADER, panel.y + panel.h - 8)
         };
     }
 
@@ -74,23 +77,38 @@
         return null;
     }
 
+    function dist(ax, ay, bx, by) {
+        const dx = ax - bx;
+        const dy = ay - by;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     function onDown(e) {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const which = hitPanel(x, y);
+
         if (which === 'flat') {
             dragTarget = 'flat';
-            const p = panels().flat;
-            const loc = localCoords(p, e.clientX, e.clientY);
+            const loc = localCoords(panels().flat, e.clientX, e.clientY);
             flatProbeX = loc.x;
             flatProbeY = loc.y;
-        } else if (which === 'curved') {
-            dragTarget = 'mass';
-            const p = panels().curved;
-            const loc = localCoords(p, e.clientX, e.clientY);
-            massX = loc.x;
-            massY = loc.y;
+            return;
+        }
+
+        if (which === 'curved') {
+            const loc = localCoords(panels().curved, e.clientX, e.clientY);
+            // Grab mass only if click is on it; otherwise move the probe
+            if (dist(loc.x, loc.y, massX, massY) <= MASS_HIT_R) {
+                dragTarget = 'mass';
+                massX = loc.x;
+                massY = loc.y;
+            } else {
+                dragTarget = 'curvedProbe';
+                curvedProbeX = loc.x;
+                curvedProbeY = loc.y;
+            }
         }
     }
 
@@ -104,6 +122,10 @@
             const loc = localCoords(panels().curved, e.clientX, e.clientY);
             massX = loc.x;
             massY = loc.y;
+        } else if (dragTarget === 'curvedProbe') {
+            const loc = localCoords(panels().curved, e.clientX, e.clientY);
+            curvedProbeX = loc.x;
+            curvedProbeY = loc.y;
         }
     }
 
@@ -122,7 +144,6 @@
         onMove({ clientX: t.clientX, clientY: t.clientY });
     }
 
-    // --- Curved geometry helpers (local to curved panel) ---
     function warp(x, y, panel) {
         const dx = x - massX;
         const dy = y - massY;
@@ -134,6 +155,7 @@
         };
     }
 
+    // Same coordinate gap as flat (dx = 1 in ruler units) → flat limit is exactly 1.00
     function dsStretch(x, y) {
         const dx = x - massX;
         const dy = y - massY;
@@ -149,6 +171,13 @@
         return `rgba(${r}, ${g}, ${b}, 0.85)`;
     }
 
+    function dsLabel(stretch) {
+        if (stretch < 1.08) return 'same as flat';
+        if (stretch < 1.5) return 'mildly stretched';
+        if (stretch < 2.2) return 'stretched';
+        return 'strongly stretched';
+    }
+
     function drawRuler(x, y, len, color) {
         const displayLen = Math.min(len, 42);
         ctx.strokeStyle = color;
@@ -162,6 +191,16 @@
         ctx.lineTo(x - displayLen / 2, y + 3);
         ctx.moveTo(x + displayLen / 2, y - 3);
         ctx.lineTo(x + displayLen / 2, y + 3);
+        ctx.stroke();
+    }
+
+    function drawProbe(x, y, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.fill();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
         ctx.stroke();
     }
 
@@ -181,7 +220,6 @@
     function drawFlatPanel(panel) {
         clipPanel(panel);
 
-        // Flat grid
         ctx.strokeStyle = 'rgba(100, 160, 255, 0.18)';
         ctx.lineWidth = 1;
         for (let gx = panel.x; gx <= panel.x + panel.w; gx += GRID) {
@@ -197,28 +235,17 @@
             ctx.stroke();
         }
 
-        // Uniform rulers — ds identical everywhere
         for (let gx = panel.x + GRID; gx < panel.x + panel.w - 8; gx += GRID * 2) {
             for (let gy = panel.y + HEADER + GRID; gy < panel.y + panel.h - 8; gy += GRID * 2) {
                 drawRuler(gx, gy, BASE_RULER, 'rgba(80, 220, 100, 0.8)');
             }
         }
 
-        // Probe cursor
-        ctx.beginPath();
-        ctx.arc(flatProbeX, flatProbeY, 7, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(80, 220, 100, 0.9)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Highlight ruler at probe (same length as all others)
+        drawProbe(flatProbeX, flatProbeY, 'rgba(80, 220, 100, 0.9)');
         drawRuler(flatProbeX, flatProbeY - 18, BASE_RULER, 'rgba(80, 220, 100, 1)');
 
         ctx.restore();
 
-        // Header + equation (outside clip so always crisp)
         ctx.textAlign = 'left';
         ctx.font = 'bold 12px JetBrains Mono, monospace';
         ctx.fillStyle = 'rgba(255,255,255,0.75)';
@@ -229,7 +256,7 @@
         ctx.textAlign = 'right';
         ctx.fillText('ds\u00b2 = dx\u00b2 + dy\u00b2', panel.x + panel.w - 12, panel.labelY);
 
-        // Live readout — constant
+        // Same units / same baseline as curved panel
         ctx.textAlign = 'left';
         ctx.font = '11px JetBrains Mono, monospace';
         ctx.fillStyle = 'rgba(80, 220, 100, 0.95)';
@@ -239,7 +266,6 @@
     function drawCurvedPanel(panel) {
         clipPanel(panel);
 
-        // Warped grid
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'rgba(100, 160, 255, 0.22)';
         for (let gx = panel.x; gx <= panel.x + panel.w + GRID; gx += GRID) {
@@ -263,7 +289,6 @@
             ctx.stroke();
         }
 
-        // Stretching rulers
         for (let gx = panel.x + GRID; gx < panel.x + panel.w - 8; gx += GRID * 2) {
             for (let gy = panel.y + HEADER + GRID * 0.5; gy < panel.y + panel.h - 8; gy += GRID * 2) {
                 const { wx, wy } = warp(gx, gy, panel);
@@ -290,9 +315,15 @@
         ctx.textAlign = 'center';
         ctx.fillText('M', massX, massY + 18);
 
+        // Probe at local ds (same units as flat: far away → 1.00)
+        const stretch = dsStretch(curvedProbeX, curvedProbeY);
+        const { wx, wy } = warp(curvedProbeX, curvedProbeY, panel);
+        const probeColor = stretchColor(stretch);
+        drawProbe(wx, wy, probeColor);
+        drawRuler(wx, wy - 18, BASE_RULER * stretch, probeColor);
+
         ctx.restore();
 
-        // Header + equation
         ctx.textAlign = 'left';
         ctx.font = 'bold 12px JetBrains Mono, monospace';
         ctx.fillStyle = 'rgba(255,255,255,0.75)';
@@ -303,27 +334,19 @@
         ctx.textAlign = 'right';
         ctx.fillText('ds\u00b2 = g\u03bc\u03bd  dx\u03bc dx\u03bd', panel.x + panel.w - 12, panel.labelY);
 
-        // Live ds at a sample point near the mass (offset so readable)
-        const sampleX = clamp(massX + 48, panel.x + 20, panel.x + panel.w - 20);
-        const sampleY = clamp(massY, panel.y + HEADER + 10, panel.y + panel.h - 20);
-        const stretch = dsStretch(sampleX, sampleY);
-        const dsVal = stretch.toFixed(2);
-        const color = stretchColor(stretch);
-
+        // Same format / same baseline as flat panel
         ctx.textAlign = 'left';
         ctx.font = '11px JetBrains Mono, monospace';
-        ctx.fillStyle = color;
+        ctx.fillStyle = probeColor;
         ctx.fillText(
-            `ds = ${dsVal}  (${stretch < 1.15 ? 'almost flat' : stretch < 2 ? 'stretched' : 'strongly stretched'})`,
+            `ds = ${stretch.toFixed(2)}  (${dsLabel(stretch)})`,
             panel.x + 10,
             panel.y + panel.h - 10
         );
 
-        // Mini legend
-        ctx.fillStyle = 'rgba(80, 220, 100, 0.85)';
-        ctx.fillText('green = normal', panel.x + panel.w - 200, panel.y + panel.h - 10);
-        ctx.fillStyle = 'rgba(255, 100, 40, 0.85)';
-        ctx.fillText('red = stretched', panel.x + panel.w - 100, panel.y + panel.h - 10);
+        ctx.fillStyle = 'rgba(180,180,180,0.55)';
+        ctx.textAlign = 'right';
+        ctx.fillText('drag probe  ·  drag M', panel.x + panel.w - 12, panel.y + panel.h - 10);
     }
 
     function draw() {
