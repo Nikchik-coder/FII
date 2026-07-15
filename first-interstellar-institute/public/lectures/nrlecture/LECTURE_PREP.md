@@ -122,7 +122,7 @@ ds^2 = g_{\mu\nu}\, dx^\mu\, dx^\nu
 
 **Schwarzschild (one non-spinning black hole):** near \(r \to 2M\) (the horizon), clocks freeze and radial distances blow up. That is geometry, not a force pulling you.
 
-**Interactive idea:** little rulers stretch near a mass — same grid step, bigger physical length.
+**Interactive slide:** top = flat table — drag the probe, every ruler stays the same, \(ds^2 = dx^2 + dy^2\). Bottom = curved space — drag the mass, rulers stretch near \(M\), \(ds^2 = g_{\mu\nu}\,dx^\mu dx^\nu\), live \(ds\) readout changes.
 
 ---
 
