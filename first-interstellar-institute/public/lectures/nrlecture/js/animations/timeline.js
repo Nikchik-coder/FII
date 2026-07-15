@@ -70,7 +70,8 @@
         // Left gutter for vertical track labels — keeps them clear of event text
         const labelGutter = 26;
         const padX = 48 + labelGutter;
-        const rightPad = 36;
+        // Inset last column enough that centered labels (e.g. "ChatGPT / LLMs") fit
+        const rightPad = 78;
         const usableW = W - padX - rightPad;
         const count = aiEvents.length;
         const gap = usableW / (count - 1);
@@ -108,6 +109,8 @@
 
             const alpha = 0.9;
             const dimAlpha = 0.55;
+            // Edge columns align inward so labels aren't clipped by the container
+            const labelAlign = i === 0 ? 'left' : i === count - 1 ? 'right' : 'center';
 
             // ======== AI event (above) ========
             ctx.beginPath();
@@ -129,9 +132,9 @@
             ctx.lineTo(x, aiTextBase + 8);
             ctx.stroke();
 
+            ctx.textAlign = labelAlign;
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
-            ctx.textAlign = 'center';
             ctx.fillText(ai.year, x, aiTextBase);
 
             ctx.font = '12px EB Garamond, serif';
@@ -162,9 +165,9 @@
             ctx.lineTo(x, nrTextBase - 12);
             ctx.stroke();
 
+            ctx.textAlign = labelAlign;
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.font = 'bold 15px JetBrains Mono, monospace';
-            ctx.textAlign = 'center';
             ctx.fillText(nr.year, x, nrTextBase);
 
             ctx.font = '13px EB Garamond, serif';
@@ -186,6 +189,7 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
 
+                ctx.textAlign = 'center';
                 ctx.font = '10px JetBrains Mono, monospace';
                 ctx.fillStyle = 'rgba(255,255,255,0.55)';
                 ctx.fillText('GPU', x, midY - 4);
