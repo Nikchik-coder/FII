@@ -1,46 +1,36 @@
-// lapse-shift.js - Visualise the lapse function (alpha) and shift vector (beta)
-// from the ADM 3+1 formalism. Stacked spatial slices with adjustable
-// proper-time spacing (lapse) and coordinate sliding (shift).
+// lapse-shift.js — ADM lapse & shift visualisation
+// Left panel: LAPSE (α) — controls how fast time flows between slices
+// Right panel: SHIFT (β) — controls how the grid slides sideways
+// Each panel has its own draggable slider with a clear before/after visual.
 (function () {
-    let canvas, ctx, W, H, running = false;
-    let animFrame;
+    var canvas, ctx, W, H, running = false;
+    var animFrame;
 
-    // Slider state
-    let lapseVal = 0.5;   // 0..1  (maps to visual spacing)
-    let shiftVal = 0.0;   // -1..1 (maps to horizontal offset per slice)
+    var lapseVal = 0.5;   // 0..1
+    var shiftVal = 0.0;   // -1..1
+    var dragging = null;
 
-    // Drag tracking
-    let dragging = null;  // 'lapse' | 'shift' | null
-
-    // Layout constants computed on init
-    let sliderLen, sliderY, lapseSliderX, shiftSliderX;
-    let viewLeft, viewRight, viewTop, viewBottom;
-
-    const NUM_SLICES = 8;
-    const NUM_POINTS = 9;
-    const HANDLE_R = 8;
+    // Panel layout
+    var panelW, midX, leftX, rightX, panelTop, panelBottom;
+    var sliderH, sliderW;
 
     function init() {
         canvas = document.getElementById('lapseShiftCanvas');
         if (!canvas) return;
-        const container = document.getElementById('lapseShiftContainer');
+        var container = document.getElementById('lapseShiftContainer');
         W = canvas.width = container.clientWidth;
         H = canvas.height = container.clientHeight;
         ctx = canvas.getContext('2d');
 
-        // Slider layout - vertical sliders on left and right edges
-        sliderLen = H * 0.50;
-        sliderY = H * 0.28;
-        lapseSliderX = W * 0.08;
-        shiftSliderX = W * 0.92;
+        midX = W / 2;
+        panelW = W * 0.46;
+        leftX = W * 0.02;
+        rightX = midX + W * 0.02;
+        panelTop = H * 0.10;
+        panelBottom = H * 0.88;
+        sliderH = (panelBottom - panelTop) * 0.55;
+        sliderW = panelW * 0.7;
 
-        // Central visualisation area
-        viewLeft = W * 0.18;
-        viewRight = W * 0.82;
-        viewTop = H * 0.08;
-        viewBottom = H * 0.90;
-
-        // Reset values
         lapseVal = 0.5;
         shiftVal = 0.0;
 
@@ -56,259 +46,388 @@
         animate();
     }
 
-    // --- Pointer helpers ---------------------------------------------------
-
+    // --- Pointer ---
     function pointerPos(e) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = W / rect.width;
-        const scaleY = H / rect.height;
+        var rect = canvas.getBoundingClientRect();
         return {
-            x: (e.clientX - rect.left) * scaleX,
-            y: (e.clientY - rect.top) * scaleY
+            x: (e.clientX - rect.left) * (W / rect.width),
+            y: (e.clientY - rect.top) * (H / rect.height)
+        };
+    }
+
+    function lapseSliderRect() {
+        return {
+            x: leftX + (panelW - sliderW) / 2,
+            y: panelTop + 40,
+            w: sliderW,
+            h: sliderH
+        };
+    }
+    function shiftSliderRect() {
+        return {
+            x: rightX + (panelW - sliderW) / 2,
+            y: panelTop + 40,
+            w: sliderW,
+            h: sliderH
         };
     }
 
     function hitSlider(px, py) {
-        // Check lapse slider
-        if (Math.abs(px - lapseSliderX) < 24 &&
-            py >= sliderY && py <= sliderY + sliderLen) {
+        var ls = lapseSliderRect();
+        if (px >= ls.x - 10 && px <= ls.x + ls.w + 10 && py >= ls.y - 10 && py <= ls.y + ls.h + 10)
             return 'lapse';
-        }
-        // Check shift slider
-        if (Math.abs(px - shiftSliderX) < 24 &&
-            py >= sliderY && py <= sliderY + sliderLen) {
+        var ss = shiftSliderRect();
+        if (px >= ss.x - 10 && px <= ss.x + ss.w + 10 && py >= ss.y - 10 && py <= ss.y + ss.h + 10)
             return 'shift';
-        }
         return null;
     }
 
     function updateSlider(px, py) {
-        const t = Math.max(0, Math.min(1, (py - sliderY) / sliderLen));
         if (dragging === 'lapse') {
-            lapseVal = 1 - t; // top = high lapse, bottom = low
+            var ls = lapseSliderRect();
+            var t = (px - ls.x) / ls.w;
+            lapseVal = Math.max(0, Math.min(1, t));
         } else if (dragging === 'shift') {
-            shiftVal = (1 - t) * 2 - 1; // top = +1, bottom = -1
+            var ss = shiftSliderRect();
+            var t = (px - ss.x) / ss.w;
+            shiftVal = Math.max(-1, Math.min(1, t * 2 - 1));
         }
     }
 
     function onDown(e) {
-        const p = pointerPos(e);
+        var p = pointerPos(e);
         dragging = hitSlider(p.x, p.y);
         if (dragging) updateSlider(p.x, p.y);
     }
     function onMove(e) {
         if (!dragging) return;
-        const p = pointerPos(e);
+        var p = pointerPos(e);
         updateSlider(p.x, p.y);
     }
     function onUp() { dragging = false; }
     function onTouchStart(e) {
         e.preventDefault();
-        const p = pointerPos(e.touches[0]);
+        var p = pointerPos(e.touches[0]);
         dragging = hitSlider(p.x, p.y);
         if (dragging) updateSlider(p.x, p.y);
     }
     function onTouchMove(e) {
         e.preventDefault();
         if (!dragging) return;
-        const p = pointerPos(e.touches[0]);
+        var p = pointerPos(e.touches[0]);
         updateSlider(p.x, p.y);
     }
 
-    // --- Drawing -----------------------------------------------------------
+    // --- Drawing ---
 
-    function drawSlider(x, val01, label, sublabel, isShift) {
-        // Track
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(x, sliderY);
-        ctx.lineTo(x, sliderY + sliderLen);
-        ctx.stroke();
-
-        // Tick marks at ends and centre
-        const tickW = 5;
+    function drawDivider() {
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
         ctx.lineWidth = 1;
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-        [0, 0.5, 1].forEach(function (t) {
-            const ty = sliderY + (1 - t) * sliderLen;
-            ctx.beginPath();
-            ctx.moveTo(x - tickW, ty);
-            ctx.lineTo(x + tickW, ty);
-            ctx.stroke();
-        });
-
-        // Handle
-        const hy = sliderY + (1 - val01) * sliderLen;
+        ctx.setLineDash([4, 6]);
         ctx.beginPath();
-        ctx.arc(x, hy, HANDLE_R, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.fill();
-
-        // Faint glow around handle
-        ctx.beginPath();
-        ctx.arc(x, hy, HANDLE_R + 4, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-        ctx.lineWidth = 1;
+        ctx.moveTo(midX, panelTop - 10);
+        ctx.lineTo(midX, panelBottom + 10);
         ctx.stroke();
+        ctx.setLineDash([]);
+    }
 
-        // Label above
-        ctx.font = '11px JetBrains Mono, monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    function drawLapsePanel() {
+        var cx = leftX + panelW / 2;
+
+        // Title
+        ctx.font = 'bold 13px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(100,180,255,0.8)';
         ctx.textAlign = 'center';
-        ctx.fillText(label, x, sliderY - 22);
-
-        ctx.font = '10px JetBrains Mono, monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.fillText(sublabel, x, sliderY - 10);
-
-        // Dynamic feedback below slider
+        ctx.fillText('LAPSE  \u03B1', cx, panelTop + 14);
         ctx.font = '10px JetBrains Mono, monospace';
         ctx.fillStyle = 'rgba(255,255,255,0.35)';
-        if (!isShift) {
-            // Lapse feedback
-            if (lapseVal < 0.25) {
-                ctx.fillStyle = 'rgba(100,180,255,0.5)';
-                ctx.fillText('time slows', x, sliderY + sliderLen + 16);
-                ctx.fillText('down', x, sliderY + sliderLen + 28);
-            } else if (lapseVal > 0.75) {
-                ctx.fillStyle = 'rgba(100,255,180,0.5)';
-                ctx.fillText('time runs', x, sliderY + sliderLen + 16);
-                ctx.fillText('fast', x, sliderY + sliderLen + 28);
-            } else {
-                ctx.fillText('moderate', x, sliderY + sliderLen + 16);
+        ctx.fillText('how fast time flows', cx, panelTop + 30);
+
+        // Slider
+        var sr = lapseSliderRect();
+        // Track
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(sr.x, sr.y + sr.h / 2);
+        ctx.lineTo(sr.x + sr.w, sr.y + sr.h / 2);
+        ctx.stroke();
+
+        // Labels at slider ends
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(100,180,255,0.4)';
+        ctx.textAlign = 'left';
+        ctx.fillText('\u03B1\u21920', sr.x - 4, sr.y + sr.h / 2 + 18);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = 'rgba(100,255,180,0.4)';
+        ctx.fillText('\u03B1=1', sr.x + sr.w + 4, sr.y + sr.h / 2 + 18);
+
+        // Filled portion
+        var handleX = sr.x + lapseVal * sr.w;
+        ctx.strokeStyle = 'rgba(100,200,255,0.5)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(sr.x, sr.y + sr.h / 2);
+        ctx.lineTo(handleX, sr.y + sr.h / 2);
+        ctx.stroke();
+
+        // Handle
+        ctx.beginPath();
+        ctx.arc(handleX, sr.y + sr.h / 2, 9, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(handleX, sr.y + sr.h / 2, 12, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(100,200,255,0.3)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // --- Visualisation: stacked slices ---
+        var visTop = sr.y + sr.h + 30;
+        var visBot = panelBottom;
+        var visH = visBot - visTop;
+        var visLeft = leftX + 30;
+        var visRight = leftX + panelW - 30;
+        var visW = visRight - visLeft;
+
+        var numSlices = 5;
+        // Spacing depends on lapse: low = compressed, high = spread
+        var minGap = visH / (numSlices * 4);
+        var maxGap = visH / (numSlices + 0.5);
+        var gap = minGap + lapseVal * (maxGap - minGap);
+        var totalH = gap * (numSlices - 1);
+        var startY = visTop + (visH - totalH) / 2;
+
+        // Draw slices
+        for (var i = 0; i < numSlices; i++) {
+            var sy = startY + (numSlices - 1 - i) * gap;
+
+            // Slice line
+            ctx.strokeStyle = 'rgba(100,200,255,' + (0.2 + 0.15 * (1 - i / numSlices)) + ')';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(visLeft, sy);
+            ctx.lineTo(visRight, sy);
+            ctx.stroke();
+
+            // Grid dots
+            for (var j = 0; j < 5; j++) {
+                var dx = visLeft + (j / 4) * visW;
+                ctx.beginPath();
+                ctx.arc(dx, sy, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0,220,255,0.6)';
+                ctx.fill();
             }
+
+            // Time label
+            ctx.font = '8px JetBrains Mono, monospace';
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.textAlign = 'right';
+            ctx.fillText('t' + i, visLeft - 6, sy + 3);
+        }
+
+        // Clock icon showing relative speed
+        var clockR = 14;
+        var clockX = visRight + 22;
+        var clockY = (visTop + visBot) / 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(clockX, clockY, clockR, 0, Math.PI * 2);
+        ctx.stroke();
+        // Clock hands — rotate based on lapse
+        var ang = Date.now() * 0.001 * (0.2 + lapseVal * 3);
+        ctx.beginPath();
+        ctx.moveTo(clockX, clockY);
+        ctx.lineTo(clockX + Math.cos(ang) * clockR * 0.7, clockY + Math.sin(ang) * clockR * 0.7);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(clockX, clockY);
+        ctx.lineTo(clockX + Math.cos(ang * 0.1) * clockR * 0.5, clockY + Math.sin(ang * 0.1) * clockR * 0.5);
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.stroke();
+
+        // Status text
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        if (lapseVal < 0.25) {
+            ctx.fillStyle = 'rgba(100,180,255,0.6)';
+            ctx.fillText('\u23F8 time nearly frozen', cx, visBot + 16);
+        } else if (lapseVal > 0.75) {
+            ctx.fillStyle = 'rgba(100,255,180,0.6)';
+            ctx.fillText('\u25B6 time flowing fast', cx, visBot + 16);
         } else {
-            // Shift feedback
-            var absShift = Math.abs(shiftVal);
-            if (absShift < 0.1) {
-                ctx.fillText('grid aligned', x, sliderY + sliderLen + 16);
-            } else {
-                var dir = shiftVal > 0 ? 'right' : 'left';
-                ctx.fillText('grid slides ' + dir, x, sliderY + sliderLen + 16);
-            }
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillText('normal time flow', cx, visBot + 16);
         }
     }
 
-    function drawSlices() {
-        // Compute vertical positions based on lapse
-        // lapse maps [0.05 .. 1] controlling spacing
-        var alphaEff = 0.05 + lapseVal * 0.95;
-
-        // Spacing: lerp between compressed and expanded
-        var minGap = (viewBottom - viewTop) / (NUM_SLICES * 3.5);
-        var maxGap = (viewBottom - viewTop) / (NUM_SLICES * 0.85);
-        var gap = minGap + alphaEff * (maxGap - minGap);
-
-        // Centre the stack vertically
-        var totalH = gap * (NUM_SLICES - 1);
-        var startY = (viewTop + viewBottom) / 2 - totalH / 2;
-
-        // Shift per slice (cumulative)
-        var maxShiftPx = (viewRight - viewLeft) * 0.06;
-        var shiftPx = shiftVal * maxShiftPx;
-
-        // Horizontal span for grid points
-        var margin = (viewRight - viewLeft) * 0.08;
-        var spanLeft = viewLeft + margin;
-        var spanRight = viewRight - margin;
-
-        // Draw from bottom slice (earliest) to top slice (latest)
-        for (var i = 0; i < NUM_SLICES; i++) {
-            var sliceY = startY + (NUM_SLICES - 1 - i) * gap;
-            var xOffset = i * shiftPx;
-
-            // Slice line
-            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(spanLeft + xOffset, sliceY);
-            ctx.lineTo(spanRight + xOffset, sliceY);
-            ctx.stroke();
-
-            // Time label on far left of slice
-            ctx.font = '9px JetBrains Mono, monospace';
-            ctx.fillStyle = 'rgba(255,255,255,0.18)';
-            ctx.textAlign = 'right';
-            ctx.fillText('t' + i, spanLeft + xOffset - 8, sliceY + 3);
-
-            // Grid points
-            for (var j = 0; j < NUM_POINTS; j++) {
-                var frac = j / (NUM_POINTS - 1);
-                var px = spanLeft + frac * (spanRight - spanLeft) + xOffset;
-
-                ctx.beginPath();
-                ctx.arc(px, sliceY, 3, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0,220,255,0.7)';
-                ctx.fill();
-
-                // Connecting line to next slice above
-                if (i < NUM_SLICES - 1) {
-                    var nextY = startY + (NUM_SLICES - 2 - i) * gap;
-                    var nextX = px + shiftPx;
-
-                    ctx.save();
-                    ctx.setLineDash([3, 4]);
-                    ctx.strokeStyle = 'rgba(255,255,255,0.10)';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(px, sliceY);
-                    ctx.lineTo(nextX, nextY);
-                    ctx.stroke();
-                    ctx.restore();
-                }
-            }
-        }
-
-        // "TIME" arrow on the right side of the view area
-        var arrowX = viewRight + 18;
-        var arrowTop = startY - 12;
-        var arrowBot = startY + totalH + 12;
-
-        ctx.strokeStyle = 'rgba(255,255,255,0.20)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(arrowX, arrowBot);
-        ctx.lineTo(arrowX, arrowTop);
-        ctx.stroke();
-
-        // Arrow head
-        ctx.beginPath();
-        ctx.moveTo(arrowX - 4, arrowTop + 8);
-        ctx.lineTo(arrowX, arrowTop);
-        ctx.lineTo(arrowX + 4, arrowTop + 8);
-        ctx.stroke();
-
-        ctx.font = '9px JetBrains Mono, monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.25)';
-        ctx.textAlign = 'center';
-        ctx.save();
-        ctx.translate(arrowX + 12, (arrowTop + arrowBot) / 2);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('TIME', 0, 0);
-        ctx.restore();
+    function drawShiftPanel() {
+        var cx = rightX + panelW / 2;
 
         // Title
-        ctx.font = '12px JetBrains Mono, monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        ctx.font = 'bold 13px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(255,180,100,0.8)';
         ctx.textAlign = 'center';
-        ctx.fillText('ADM foliation — lapse & shift', W / 2, viewTop - 8);
+        ctx.fillText('SHIFT  \u03B2', cx, panelTop + 14);
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        ctx.fillText('how the grid slides sideways', cx, panelTop + 30);
+
+        // Slider
+        var sr = shiftSliderRect();
+        // Track
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(sr.x, sr.y + sr.h / 2);
+        ctx.lineTo(sr.x + sr.w, sr.y + sr.h / 2);
+        ctx.stroke();
+
+        // Centre tick
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(sr.x + sr.w / 2, sr.y + sr.h / 2 - 6);
+        ctx.lineTo(sr.x + sr.w / 2, sr.y + sr.h / 2 + 6);
+        ctx.stroke();
+
+        // Labels
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(255,180,100,0.4)';
+        ctx.textAlign = 'left';
+        ctx.fillText('\u03B2<0', sr.x - 4, sr.y + sr.h / 2 + 18);
+        ctx.textAlign = 'right';
+        ctx.fillText('\u03B2>0', sr.x + sr.w + 4, sr.y + sr.h / 2 + 18);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.fillText('\u03B2=0', sr.x + sr.w / 2, sr.y + sr.h / 2 + 18);
+
+        // Handle
+        var handleX = sr.x + ((shiftVal + 1) / 2) * sr.w;
+        ctx.beginPath();
+        ctx.arc(handleX, sr.y + sr.h / 2, 9, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(handleX, sr.y + sr.h / 2, 12, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,180,100,0.3)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // --- Visualisation: stacked slices with horizontal offset ---
+        var visTop = sr.y + sr.h + 30;
+        var visBot = panelBottom;
+        var visH = visBot - visTop;
+        var visLeft = rightX + 30;
+        var visRight = rightX + panelW - 30;
+        var visW = visRight - visLeft;
+
+        var numSlices = 5;
+        var gap = visH / (numSlices + 0.5);
+        var totalH = gap * (numSlices - 1);
+        var startY = visTop + (visH - totalH) / 2;
+
+        var maxShift = visW * 0.15;
+
+        // Draw reference vertical line (where grid would be with zero shift)
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.setLineDash([2, 4]);
+        ctx.lineWidth = 1;
+        for (var j = 0; j < 5; j++) {
+            var refX = visLeft + (j / 4) * visW;
+            ctx.beginPath();
+            ctx.moveTo(refX, startY - 8);
+            ctx.lineTo(refX, startY + totalH + 8);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        // Draw slices with shift
+        for (var i = 0; i < numSlices; i++) {
+            var sy = startY + (numSlices - 1 - i) * gap;
+            var xOff = i * shiftVal * maxShift;
+
+            // Slice line
+            ctx.strokeStyle = 'rgba(255,180,100,' + (0.2 + 0.15 * (1 - i / numSlices)) + ')';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(visLeft + xOff, sy);
+            ctx.lineTo(visRight + xOff, sy);
+            ctx.stroke();
+
+            // Grid dots
+            for (var j = 0; j < 5; j++) {
+                var dx = visLeft + (j / 4) * visW + xOff;
+                ctx.beginPath();
+                ctx.arc(dx, sy, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,180,100,0.6)';
+                ctx.fill();
+
+                // Connecting line to point above (shows the slide)
+                if (i < numSlices - 1) {
+                    var nextOff = (i + 1) * shiftVal * maxShift;
+                    var nextDx = visLeft + (j / 4) * visW + nextOff;
+                    var nextSy = startY + (numSlices - 2 - i) * gap;
+                    ctx.strokeStyle = 'rgba(255,180,100,0.12)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(dx, sy);
+                    ctx.lineTo(nextDx, nextSy);
+                    ctx.stroke();
+                }
+            }
+
+            // Time label
+            ctx.font = '8px JetBrains Mono, monospace';
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.textAlign = 'right';
+            ctx.fillText('t' + i, visLeft - 6, sy + 3);
+        }
+
+        // Arrow showing shift direction
+        if (Math.abs(shiftVal) > 0.05) {
+            var arrowY = visTop + visH / 2;
+            var arrowStart = visLeft + visW / 2;
+            var arrowLen = shiftVal * maxShift * 2;
+            ctx.strokeStyle = 'rgba(255,180,100,0.4)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(arrowStart, arrowY);
+            ctx.lineTo(arrowStart + arrowLen, arrowY);
+            ctx.stroke();
+            // Arrowhead
+            var dir = shiftVal > 0 ? 1 : -1;
+            ctx.beginPath();
+            ctx.moveTo(arrowStart + arrowLen, arrowY);
+            ctx.lineTo(arrowStart + arrowLen - dir * 6, arrowY - 4);
+            ctx.moveTo(arrowStart + arrowLen, arrowY);
+            ctx.lineTo(arrowStart + arrowLen - dir * 6, arrowY + 4);
+            ctx.stroke();
+        }
+
+        // Status text
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        if (Math.abs(shiftVal) < 0.1) {
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillText('grid stays aligned', cx, visBot + 16);
+        } else {
+            ctx.fillStyle = 'rgba(255,180,100,0.6)';
+            ctx.fillText('grid slides ' + (shiftVal > 0 ? 'right' : 'left'), cx, visBot + 16);
+        }
     }
 
     function animate() {
         if (!running) return;
+        animFrame = requestAnimationFrame(animate);
         ctx.clearRect(0, 0, W, H);
 
-        // Draw the two sliders
-        var lapse01 = lapseVal;
-        var shift01 = (shiftVal + 1) / 2; // map -1..1 to 0..1 for slider display
-        drawSlider(lapseSliderX, lapse01, '\u03B1 (lapse)', 'clock speed', false);
-        drawSlider(shiftSliderX, shift01, '\u03B2 (shift)', 'grid slides', true);
-
-        // Draw the slices
-        drawSlices();
-
-        animFrame = requestAnimationFrame(animate);
+        drawDivider();
+        drawLapsePanel();
+        drawShiftPanel();
     }
 
     window.initAnim_lapseshift = function () {
