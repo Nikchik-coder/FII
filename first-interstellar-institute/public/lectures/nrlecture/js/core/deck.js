@@ -6,7 +6,7 @@
 const Deck = (function () {
     let current = 0;
     let slides = [];
-    let notesVisible = false;
+    let notesVisible = true; // Key concepts panel on by default for readers
     let tocVisible = false;
     let notesPanel = null;
     let tocPanel = null;
@@ -16,8 +16,7 @@ const Deck = (function () {
         slides.forEach((s, i) => s.classList.toggle('active', i === n));
         current = n;
         document.getElementById('counter').textContent = `${n + 1} / ${slides.length}`;
-        document.getElementById('progress').style.width =
-            `${((n + 1) / slides.length) * 100}%`;
+        updateProgress();
 
         // Reset reveal items on new slide
         const active = slides[n];
@@ -39,16 +38,32 @@ const Deck = (function () {
         }
     }
 
+    function updateProgress() {
+        const pct = (current + 1) / slides.length;
+        const bar = document.getElementById('progress');
+        if (!bar) return;
+        // Keep the bar under the deck only (not under the concepts panel)
+        bar.style.width = notesVisible
+            ? `calc((100vw - 300px) * ${pct})`
+            : `${pct * 100}%`;
+    }
+
     function updateNotes() {
         if (!notesPanel) return;
         const active = slides[current];
         const noteEl = active ? active.querySelector('.slide-note') : null;
         const inner = notesPanel.querySelector('.notes-inner') || notesPanel;
-        if (noteEl && notesVisible) {
-            inner.innerHTML = noteEl.innerHTML;
-            notesPanel.classList.add('visible');
-        } else {
+        if (!notesVisible) {
             notesPanel.classList.remove('visible');
+            return;
+        }
+        notesPanel.classList.add('visible');
+        if (noteEl) {
+            inner.innerHTML = noteEl.innerHTML;
+        } else {
+            inner.innerHTML =
+                '<div class="concept-label">Key concepts</div>' +
+                '<p class="concept-empty">No summary for this slide.</p>';
         }
     }
 
@@ -58,6 +73,7 @@ const Deck = (function () {
         if (btn) btn.classList.toggle('active', notesVisible);
         document.body.classList.toggle('notes-on', notesVisible);
         updateNotes();
+        updateProgress();
         // Re-init the current animation so canvases resize to new container
         setTimeout(() => {
             const active = slides[current];
@@ -258,8 +274,11 @@ const Deck = (function () {
     function init() {
         slides = Array.from(document.querySelectorAll('.slide'));
 
-        // Notes panel
+        // Notes / key-concepts panel (on by default)
         notesPanel = document.getElementById('notesPanel');
+        const notesBtn = document.getElementById('notesToggle');
+        if (notesBtn) notesBtn.classList.add('active');
+        document.body.classList.add('notes-on');
 
         // Build TOC (auto-generated from slide DOM)
         buildTOC();

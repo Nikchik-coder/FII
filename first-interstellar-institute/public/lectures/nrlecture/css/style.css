@@ -398,80 +398,115 @@ ul li::before {
     margin-bottom: 4px;
 }
 
-/* Speaker notes - hidden data inside slides */
+/* Concept notes: hidden source inside slides; shown in side panel */
 .slide-note {
     display: none;
 }
 
-/* Notes panel: fixed to bottom, hidden by default */
+/* Right-side Key Concepts panel */
 #notesPanel {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    top: 0;
     right: 0;
-    height: 0;
+    bottom: 0;
+    width: 0;
     overflow: hidden;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    line-height: 1.7;
-    color: #ccc;
-    background: #111;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #c8c4bc;
+    background: linear-gradient(180deg, #161616 0%, #121212 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 300;
-    transition: height 0.3s ease;
-}
-
-#notesPanel .notes-inner {
-    padding: 14px 60px;
-    max-height: 100%;
-    overflow-y: auto;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
-    font-size: 0.85rem;
+    transition: width 0.3s ease;
 }
 
 #notesPanel.visible {
-    height: 18vh;
+    width: 300px;
 }
 
-/* When notes are on, shrink the entire deck + move nav up */
+#notesPanel .notes-inner {
+    width: 300px;
+    height: 100%;
+    padding: 64px 22px 90px;
+    overflow-y: auto;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.concept-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.concept-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.concept-list li {
+    position: relative;
+    max-width: none;
+    padding: 0 0 14px 14px;
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: #d8d4cc;
+}
+
+.concept-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(232, 125, 125, 0.85);
+}
+
+.concept-empty {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.3);
+    max-width: none;
+}
+
+/* When concepts are on, shrink the deck to make room on the right */
 body.notes-on .deck {
-    height: 82vh;
+    width: calc(100vw - 300px);
 }
 
 body.notes-on .slide {
-    height: 82vh;
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 36px;
 }
 
 body.notes-on .nav {
-    bottom: calc(18vh + 10px);
-}
-
-body.notes-on .notes-toggle {
-    bottom: calc(18vh + 10px);
-}
-
-body.notes-on .progress {
-    bottom: 18vh;
+    right: calc(300px + 30px);
 }
 
 body.notes-on .anim-container {
-    height: 260px !important;
+    max-width: 100%;
 }
 
-body.notes-on .slide {
-    padding-top: 40px;
-    padding-bottom: 30px;
+body.notes-on h1 {
+    font-size: 2.55rem;
 }
 
 body.notes-on h2 {
-    margin-bottom: 15px;
+    font-size: 1.75rem;
+    margin-bottom: 22px;
 }
 
-body.notes-on p, body.notes-on li {
-    font-size: 1.1rem;
-    line-height: 1.5;
+body.notes-on p,
+body.notes-on li {
+    font-size: 1.15rem;
+    line-height: 1.65;
 }
 
 .notes-toggle {
@@ -479,7 +514,7 @@ body.notes-on p, body.notes-on li {
     bottom: 25px;
     left: 30px;
     z-index: 250;
-    background: none;
+    background: rgba(20, 20, 20, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #999;
     padding: 6px 12px;
@@ -498,7 +533,8 @@ body.notes-on p, body.notes-on li {
 
 .notes-toggle.active {
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(232, 125, 125, 0.55);
+    background: rgba(232, 125, 125, 0.12);
 }
 
 /* Table of contents — side arrow button */
@@ -555,8 +591,7 @@ body.notes-on p, body.notes-on li {
 body.toc-open .deck,
 body.toc-open .nav,
 body.toc-open .notes-toggle,
-body.toc-open .progress,
-body.toc-open #notesPanel {
+body.toc-open .progress {
     margin-left: 280px;
     transition: margin-left 0.3s ease;
 }
@@ -565,8 +600,12 @@ body.toc-open .deck {
     width: calc(100vw - 280px);
 }
 
+body.toc-open.notes-on .deck {
+    width: calc(100vw - 280px - 300px);
+}
+
 body.toc-open .slide {
-    width: calc(100vw - 280px);
+    width: 100%;
 }
 
 .toc-panel .toc-header {
@@ -754,33 +793,54 @@ body::after {
         width: 100%;
     }
 
-    /* Notes panel - more compact on mobile */
-    #notesPanel .notes-inner {
-        padding: 10px 20px;
-        font-size: 0.75rem;
-    }
-
+    /* Concepts panel: bottom drawer on mobile */
     body.notes-on .deck {
-        height: 75vh;
+        width: 100vw;
+        height: 72vh;
     }
 
     body.notes-on .slide {
-        height: 75vh;
+        height: 72vh;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     body.notes-on .nav {
-        bottom: calc(25vh + 10px);
-    }
-
-    body.notes-on .notes-toggle {
-        bottom: calc(25vh + 10px);
+        right: 15px;
+        bottom: calc(28vh + 10px);
     }
 
     body.notes-on .progress {
-        bottom: 25vh;
+        right: 0;
+        bottom: 28vh;
+        left: 0;
+    }
+
+    #notesPanel {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        transition: height 0.3s ease;
     }
 
     #notesPanel.visible {
-        height: 25vh;
+        width: 100%;
+        height: 28vh;
+    }
+
+    #notesPanel .notes-inner {
+        width: 100%;
+        height: 100%;
+        padding: 14px 18px 20px;
+    }
+
+    .concept-list li {
+        font-size: 0.72rem;
+        padding-bottom: 10px;
     }
 }
