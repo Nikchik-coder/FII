@@ -85,7 +85,7 @@ const Slides = (function () {
                 <canvas id="diffGeomCanvas"></canvas>
             </div>
             <p class="anim-hint">Gauss &rarr; Riemann &rarr; Christoffel / Ricci&ndash;Levi-Civita &rarr; Einstein</p>
-            ${note("Tell this as a short inheritance story. Gauss (1827) showed how to measure the intrinsic curvature of a surface — Theorema Egregium: curvature is real, not just how the surface sits in 3D. Riemann (1854) generalized that to n-dimensional manifolds with a metric — the ancestor of g_μν. Christoffel introduced the connection symbols Γ that track how directions twist. Ricci and Levi-Civita forged tensor calculus ('absolute differential calculus') so you can write laws the same in every coordinate system. Einstein (with Grossmann's help) took that machinery and identified the Einstein tensor with the stress-energy of matter — gravity = geometry of spacetime. Without this 19th-century geometry, GR could not have been written.")}
+            ${note("Gauss (1827) showed how to measure the intrinsic curvature of a surface — Theorema Egregium: curvature is real, not just how the surface sits in 3D. Riemann (1854) generalized that to n-dimensional manifolds with a metric — the ancestor of g_μν. Christoffel introduced the connection symbols Γ that track how directions twist. Ricci and Levi-Civita forged tensor calculus ('absolute differential calculus') so you can write laws the same in every coordinate system. Einstein (with Grossmann's help) took that machinery and identified the Einstein tensor with the stress-energy of matter — gravity = geometry of spacetime. Without this 19th-century geometry, GR could not have been written.")}
         </div>`,
 
         // 4 - Einstein equation
