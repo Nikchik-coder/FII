@@ -73,6 +73,21 @@ const Slides = (function () {
             ${note("Newton's law of gravitation implies instantaneous action at a distance: F = GMm/r². If the Sun disappeared, Earth would instantly feel the change. But special relativity (1905) showed nothing travels faster than light. Einstein spent 10 years (1905–1915) building GR to fix this. In GR, changes in the gravitational field propagate as gravitational waves at exactly c. If the Sun vanished, Earth would continue orbiting for ~8.3 minutes until the gravitational disturbance arrived. This is directly analogous to Maxwell's equations, where changes in the electromagnetic field propagate at c.")}
         </div>`,
 
+        // 3b - Differential geometry heritage (after Newton motivation)
+        `<div class="slide" data-anim="diffgeom">
+            <span class="part-label">Part 1 &mdash; The Mathematical Inheritance</span>
+            <h2>Einstein Built on Differential Geometry</h2>
+            <p style="text-align:center; color:#bbb; margin-bottom:6px; font-size:0.95rem; max-width:820px;">
+                The toolkit for curved space existed decades before 1915 &mdash; Einstein's leap was to say
+                <em>gravity is that curvature</em>.
+            </p>
+            <div class="anim-container" id="diffGeomContainer" style="height:480px;">
+                <canvas id="diffGeomCanvas"></canvas>
+            </div>
+            <p class="anim-hint">Gauss &rarr; Riemann &rarr; Christoffel / Ricci&ndash;Levi-Civita &rarr; Einstein</p>
+            ${note("Tell this as a short inheritance story. Gauss (1827) showed how to measure the intrinsic curvature of a surface — Theorema Egregium: curvature is real, not just how the surface sits in 3D. Riemann (1854) generalized that to n-dimensional manifolds with a metric — the ancestor of g_μν. Christoffel introduced the connection symbols Γ that track how directions twist. Ricci and Levi-Civita forged tensor calculus ('absolute differential calculus') so you can write laws the same in every coordinate system. Einstein (with Grossmann's help) took that machinery and identified the Einstein tensor with the stress-energy of matter — gravity = geometry of spacetime. Without this 19th-century geometry, GR could not have been written.")}
+        </div>`,
+
         // 4 - Einstein equation
         `<div class="slide">
             <span class="part-label">Part 1 &mdash; The Beautiful, Impossible Math</span>

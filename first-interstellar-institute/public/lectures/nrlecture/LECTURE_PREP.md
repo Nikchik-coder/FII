@@ -73,7 +73,27 @@ That contradicts special relativity: nothing (including information) travels fas
 
 ---
 
-### 3. Einstein’s field equation
+### 3. Einstein built on differential geometry
+
+*Comes right after the Sun/Earth animation.*
+
+Einstein did **not** invent the math of curved space. He inherited a 19th-century toolkit and made the physical leap: **gravity = spacetime curvature**.
+
+| Year | Who | What Einstein inherited |
+|------|-----|-------------------------|
+| 1827 | **Gauss** | Intrinsic curvature of surfaces (Theorema Egregium) |
+| 1854 | **Riemann** | n-dimensional manifolds + metric (ancestor of \(g_{\mu\nu}\)) |
+| 1869 | **Christoffel** | Connection symbols \(\Gamma\) — how directions twist |
+| ~1900 | **Ricci & Levi-Civita** | Tensor calculus (coordinate-independent laws) |
+| 1915 | **Einstein** | Identifies gravity with that geometry |
+
+**Talking point:** Without this differential geometry, the field equation could not have been written. The next slides unpack that toolkit (metric → Christoffel → Riemann → Einstein tensor).
+
+**Interactive slide:** three animated vignettes — sphere/geodesics (Gauss), warped manifold with \(ds\) (Riemann), parallel transport (connection) — plus the heritage timeline ending at Einstein 1915.
+
+---
+
+### 4. Einstein’s field equation
 
 \[
 G_{\mu\nu} = 8\pi\, T_{\mu\nu}
@@ -609,12 +629,13 @@ Spinning ring/torus of exotic matter holds the throat open. “Turn off the pump
 
 1. Timeline → missing waveforms / why NR (4 min)  
 2. Newton problem → GR at finite speed (2 min)  
-3. Metric → curvature ladder in words only (5 min)  
-4. Why we slice + lapse/shift bread-slicer (5 min)  
-5. Evolution vs constraints; why ADM failed; BSSN/CCZ4 (7 min)  
-6. 2005 + merger + LIGO (5 min)  
-7. GPUs + AMR + trust via \(Q\) (5 min)  
-8. Wormhole collapse story + paper (5 min)  
-9. Closing arc (1 min)  
+3. Differential geometry heritage → Einstein builds on it (2 min)  
+4. Metric → curvature ladder in words only (5 min)  
+5. Why we slice + lapse/shift bread-slicer (5 min)  
+6. Evolution vs constraints; why ADM failed; BSSN/CCZ4 (7 min)  
+7. 2005 + merger + LIGO (5 min)  
+8. GPUs + AMR + trust via \(Q\) (5 min)  
+9. Wormhole collapse story + paper (5 min)  
+10. Closing arc (1 min)  
 
 If short on time: skip equation details for Christoffel/Riemann/Ricci; keep the **stories** (rulers, ants, bread slicer, Sudoku constraints, ball in a bowl, camera tracking).
