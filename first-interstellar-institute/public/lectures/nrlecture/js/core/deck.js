@@ -44,7 +44,7 @@ const Deck = (function () {
         if (!bar) return;
         // Keep the bar under the deck only (not under the concepts panel)
         bar.style.width = notesVisible
-            ? `calc((100vw - 300px) * ${pct})`
+            ? `calc((100vw - 340px) * ${pct})`
             : `${pct * 100}%`;
     }
 

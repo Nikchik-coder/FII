@@ -420,11 +420,11 @@ ul li::before {
 }
 
 #notesPanel.visible {
-    width: 300px;
+    width: 340px;
 }
 
 #notesPanel .notes-inner {
-    width: 300px;
+    width: 340px;
     height: 100%;
     padding: 64px 22px 90px;
     overflow-y: auto;
@@ -469,6 +469,18 @@ ul li::before {
     background: rgba(232, 125, 125, 0.85);
 }
 
+.concept-detail-label {
+    margin-top: 22px;
+}
+
+.concept-detail {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #cfcabf;
+    max-width: none;
+}
+
 .concept-empty {
     font-size: 0.78rem;
     color: rgba(255, 255, 255, 0.3);
@@ -477,7 +489,7 @@ ul li::before {
 
 /* When concepts are on, shrink the deck to make room on the right */
 body.notes-on .deck {
-    width: calc(100vw - 300px);
+    width: calc(100vw - 340px);
 }
 
 body.notes-on .slide {
@@ -487,7 +499,7 @@ body.notes-on .slide {
 }
 
 body.notes-on .nav {
-    right: calc(300px + 30px);
+    right: calc(340px + 30px);
 }
 
 body.notes-on .anim-container {
@@ -601,7 +613,7 @@ body.toc-open .deck {
 }
 
 body.toc-open.notes-on .deck {
-    width: calc(100vw - 280px - 300px);
+    width: calc(100vw - 280px - 340px);
 }
 
 body.toc-open .slide {
