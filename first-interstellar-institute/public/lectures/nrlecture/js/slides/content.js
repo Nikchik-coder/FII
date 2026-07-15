@@ -126,15 +126,15 @@ const Slides = (function () {
             ${note("On a flat table, the distance formula is the Pythagorean theorem: ds² = dx² + dy². The metric there is just 1's on the diagonal. In curved spacetime, the metric g_μν warps those 1's: near a black hole, the time-time component shrinks to zero (clocks stop) and the radial component blows up (space stretches to infinity). ds² is what a local observer actually measures &mdash; it's the ground truth. The coordinate labels (t, r, angles) are just addresses; the metric converts addresses into real distances. This is why we say 'gravity is geometry' &mdash; a warped metric IS a gravitational field.")}
         </div>`,
 
-        // 6b - ds interactive demo
+        // 6b - ds interactive demo (flat table vs curved space)
         `<div class="slide" data-anim="dsmetric">
             <span class="part-label">Part 1 &mdash; Seeing the Metric</span>
             <h2>How $ds$ Changes Near a Mass</h2>
-            <div class="anim-container" id="dsMetricContainer" style="height:400px;">
+            <div class="anim-container" id="dsMetricContainer" style="height:520px;">
                 <canvas id="dsMetricCanvas"></canvas>
             </div>
-            <p class="anim-hint">drag the mass around &mdash; watch the rulers stretch</p>
-            ${note("Each little ruler represents ds &mdash; the actual physical distance between two grid points. Far from the mass (green rulers), ds is normal &mdash; the grid is flat. Near the mass (red rulers), ds is stretched &mdash; the same coordinate gap corresponds to a much larger real distance. This is exactly what the metric does: it converts coordinate separations into physical distances, and near a massive object those distances are warped. Drag the mass to see it live.")}
+            <p class="anim-hint">top: drag the probe &mdash; $ds$ stays fixed &nbsp;|&nbsp; bottom: drag the mass &mdash; $ds$ stretches</p>
+            ${note("Top panel is flat space (a table): every little ruler is the same length no matter where you drag the probe. The metric is trivial — ds² = dx² + dy² — so physical distance equals coordinate distance. Bottom panel is curved space near a mass: the same coordinate gap can correspond to a much larger real distance. The metric g_μν converts coordinates into real length, and near the mass those rulers stretch (green → red). Drag both to feel the contrast live.")}
         </div>`,
 
         // 7 - Christoffel symbols
