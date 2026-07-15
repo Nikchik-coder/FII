@@ -71,10 +71,14 @@ const Deck = (function () {
         // Reset reveal items on new slide
         const active = slides[n];
         active.querySelectorAll('.reveal-item').forEach(el => el.classList.remove('shown'));
-        setTimeout(() => revealNext(active), 100);
+        setTimeout(() => {
+            revealNext(active);
+            updateStepsHint();
+        }, 100);
 
         // Update notes panel content
         updateNotes();
+        updateStepsHint();
         // Highlight current in TOC
         updateTOCHighlight();
         // Update era timeline
@@ -311,9 +315,41 @@ const Deck = (function () {
         const hidden = slide.querySelector('.reveal-item:not(.shown)');
         if (hidden) {
             hidden.classList.add('shown');
+            updateStepsHint();
             return true;
         }
         return false;
+    }
+
+    function remainingRevealClicks(slide) {
+        if (!slide) return 0;
+        return slide.querySelectorAll('.reveal-item:not(.shown)').length;
+    }
+
+    function updateStepsHint() {
+        const el = document.getElementById('stepsHint');
+        if (!el) return;
+        const slide = slides[current];
+        if (!slide) {
+            el.classList.remove('visible');
+            return;
+        }
+        const total = slide.querySelectorAll('.reveal-item').length;
+        const left = remainingRevealClicks(slide);
+        el.classList.add('visible');
+        if (total === 0) {
+            el.innerHTML = '<span class="steps-num">0</span><span class="steps-label">steps</span>';
+            el.title = 'No staged reveals — next click advances';
+            el.classList.add('ready');
+        } else if (left === 0) {
+            el.innerHTML = '<span class="steps-num">0</span><span class="steps-label">left</span>';
+            el.title = 'All reveals shown — next click goes to the next slide';
+            el.classList.add('ready');
+        } else {
+            el.innerHTML = `<span class="steps-num">${left}</span><span class="steps-label">left</span>`;
+            el.title = `${left} more click${left === 1 ? '' : 's'} to reveal everything on this slide`;
+            el.classList.remove('ready');
+        }
     }
 
     function next() {

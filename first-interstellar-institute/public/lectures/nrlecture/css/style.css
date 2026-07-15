@@ -549,6 +549,59 @@ body.notes-on li {
     background: rgba(232, 125, 125, 0.12);
 }
 
+/* Remaining reveal clicks before next slide */
+.steps-hint {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    z-index: 260;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 46px;
+    padding: 8px 10px 7px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(18, 18, 18, 0.82);
+    font-family: 'JetBrains Mono', monospace;
+    color: #ddd;
+    line-height: 1.1;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+}
+
+.steps-hint.visible {
+    display: flex;
+}
+
+body.notes-on .steps-hint {
+    right: calc(340px + 18px);
+}
+
+.steps-hint .steps-num {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.steps-hint .steps-label {
+    margin-top: 3px;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.steps-hint.ready .steps-num {
+    color: rgba(143, 220, 156, 0.95);
+}
+
+.steps-hint.ready .steps-label {
+    color: rgba(143, 220, 156, 0.55);
+}
+
 /* Table of contents — side arrow button */
 .toc-toggle {
     position: fixed;
@@ -778,6 +831,18 @@ body::after {
         left: 15px;
         font-size: 0.6rem;
         padding: 5px 10px;
+    }
+
+    .steps-hint {
+        top: 12px;
+        right: 12px;
+        min-width: 40px;
+        padding: 6px 8px;
+    }
+
+    body.notes-on .steps-hint {
+        right: 12px;
+        top: 12px;
     }
 
     /* TOC panel - full width on mobile */

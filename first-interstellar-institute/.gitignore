@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+public/lectures/nrlecture/tts-samples
+public/lectures/nrlecture/tts-lecture-alnilam
