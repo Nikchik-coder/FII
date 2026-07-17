@@ -213,16 +213,24 @@ export default function CosmicDistances({ id }: { id?: string }) {
       ctx!.textAlign = 'center';
       ctx!.fillText('EARTH', padLeft, barY + 22 * dpr);
 
-      // Draw all destinations up to current stage
-      const labelPositions: number[] = [];
+      // Draw all destinations up to current stage — two passes:
+      // 1) collect positions, 2) draw with collision avoidance (current label has priority)
+      const positions: { x: number; i: number }[] = [];
       for (let i = 0; i <= stage; i++) {
         const dest = DESTINATIONS[i];
         const logDist = Math.log10(dest.distance_km);
         const frac = logDist / logMax;
         const x = padLeft + frac * barW;
+        if (x >= padLeft && x <= padLeft + barW + 10) {
+          positions.push({ x, i });
+        }
+      }
 
-        if (x < padLeft || x > padLeft + barW + 10) continue;
+      const minSpacing = 140 * dpr;
+      const currentX = positions.find(p => p.i === stage)?.x ?? 0;
 
+      for (const { x, i } of positions) {
+        const dest = DESTINATIONS[i];
         const isCurrent = i === stage;
         const alpha = isCurrent ? Math.min(t * 2, 1) : Math.max(0.3, 1 - (stage - i) * 0.15);
 
@@ -247,7 +255,6 @@ export default function CosmicDistances({ id }: { id?: string }) {
           ctx!.lineWidth = 1.5 * dpr;
           ctx!.stroke();
 
-          // Pulse ring
           const pulseAlpha = Math.sin(now / 600) * 0.15 + 0.15;
           ctx!.beginPath();
           ctx!.arc(x, barY, 10 * dpr, 0, Math.PI * 2);
@@ -256,20 +263,15 @@ export default function CosmicDistances({ id }: { id?: string }) {
           ctx!.stroke();
         }
 
-        // Only draw labels if enough space from previous label
-        const minSpacing = 90 * dpr;
-        const tooClose = labelPositions.some(px => Math.abs(x - px) < minSpacing);
+        // Label: current always shows; others only if far enough from current
+        const showLabel = isCurrent || Math.abs(x - currentX) > minSpacing;
 
-        if (isCurrent || !tooClose) {
-          labelPositions.push(x);
-
-          // Label above
+        if (showLabel) {
           ctx!.textAlign = 'center';
           ctx!.font = `bold ${(isCurrent ? 14 : 11) * dpr}px "EB Garamond", serif`;
           ctx!.fillStyle = `rgba(255,255,255,${alpha})`;
           ctx!.fillText(dest.label, x, barY - 18 * dpr);
 
-          // Distance below
           ctx!.font = `${10 * dpr}px "JetBrains Mono", monospace`;
           ctx!.fillStyle = `rgba(255,255,255,${alpha * 0.6})`;
           ctx!.fillText(dest.distance_label, x, barY + 38 * dpr);
