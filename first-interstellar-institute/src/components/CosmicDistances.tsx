@@ -214,6 +214,7 @@ export default function CosmicDistances({ id }: { id?: string }) {
       ctx!.fillText('EARTH', padLeft, barY + 22 * dpr);
 
       // Draw all destinations up to current stage
+      const labelPositions: number[] = [];
       for (let i = 0; i <= stage; i++) {
         const dest = DESTINATIONS[i];
         const logDist = Math.log10(dest.distance_km);
@@ -223,7 +224,7 @@ export default function CosmicDistances({ id }: { id?: string }) {
         if (x < padLeft || x > padLeft + barW + 10) continue;
 
         const isCurrent = i === stage;
-        const alpha = isCurrent ? Math.min(t * 2, 1) : Math.max(0.3, 1 - (stage - i) * 0.2);
+        const alpha = isCurrent ? Math.min(t * 2, 1) : Math.max(0.3, 1 - (stage - i) * 0.15);
 
         // Distance tick
         ctx!.strokeStyle = `rgba(255,255,255,${alpha * 0.4})`;
@@ -235,7 +236,7 @@ export default function CosmicDistances({ id }: { id?: string }) {
 
         // Destination dot
         ctx!.beginPath();
-        ctx!.arc(x, barY, (isCurrent ? 6 : 4) * dpr, 0, Math.PI * 2);
+        ctx!.arc(x, barY, (isCurrent ? 6 : 3) * dpr, 0, Math.PI * 2);
         ctx!.fillStyle = isCurrent
           ? `rgba(255,255,255,${alpha})`
           : `rgba(180,180,180,${alpha * 0.7})`;
@@ -255,16 +256,24 @@ export default function CosmicDistances({ id }: { id?: string }) {
           ctx!.stroke();
         }
 
-        // Label above
-        ctx!.textAlign = 'center';
-        ctx!.font = `bold ${(isCurrent ? 14 : 11) * dpr}px "EB Garamond", serif`;
-        ctx!.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx!.fillText(dest.label, x, barY - 18 * dpr);
+        // Only draw labels if enough space from previous label
+        const minSpacing = 90 * dpr;
+        const tooClose = labelPositions.some(px => Math.abs(x - px) < minSpacing);
 
-        // Distance below
-        ctx!.font = `${10 * dpr}px "JetBrains Mono", monospace`;
-        ctx!.fillStyle = `rgba(255,255,255,${alpha * 0.6})`;
-        ctx!.fillText(dest.distance_label, x, barY + 38 * dpr);
+        if (isCurrent || !tooClose) {
+          labelPositions.push(x);
+
+          // Label above
+          ctx!.textAlign = 'center';
+          ctx!.font = `bold ${(isCurrent ? 14 : 11) * dpr}px "EB Garamond", serif`;
+          ctx!.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx!.fillText(dest.label, x, barY - 18 * dpr);
+
+          // Distance below
+          ctx!.font = `${10 * dpr}px "JetBrains Mono", monospace`;
+          ctx!.fillStyle = `rgba(255,255,255,${alpha * 0.6})`;
+          ctx!.fillText(dest.distance_label, x, barY + 38 * dpr);
+        }
       }
 
       // Scale indicator
