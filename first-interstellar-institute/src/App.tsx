@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import CosmicDistances from './components/CosmicDistances';
 import About from './components/About';
 import Lectures from './components/Lectures';
 import Articles from './components/Articles';
@@ -16,6 +17,7 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <CosmicDistances id="motivation" />
           <About id="about" />
           <Lectures id="lectures" />
           <Articles id="articles" />
