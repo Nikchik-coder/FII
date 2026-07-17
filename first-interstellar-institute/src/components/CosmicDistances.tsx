@@ -43,12 +43,44 @@ const DESTINATIONS: Destination[] = [
     warp_time: '5.2 months',
   },
   {
+    label: 'TRAPPIST-1',
+    distance_km: 3.69e14,
+    distance_label: '39 light-years',
+    nep_time: '~19,000 years',
+    fusion_time: '~940 years',
+    warp_time: '~3.9 years',
+  },
+  {
+    label: 'Kepler-452b',
+    distance_km: 1.325e16,
+    distance_label: '1,400 light-years',
+    nep_time: '~690,000 years',
+    fusion_time: '~33,700 years',
+    warp_time: '~140 years',
+  },
+  {
     label: 'Galactic Center',
     distance_km: 2.46e17,
     distance_label: '26,000 light-years',
     nep_time: '~12.7 million years',
     fusion_time: '~620,000 years',
     warp_time: '~2,600 years',
+  },
+  {
+    label: 'Andromeda Galaxy',
+    distance_km: 2.365e19,
+    distance_label: '2.5 million light-years',
+    nep_time: '~1.2 billion years',
+    fusion_time: '~60 million years',
+    warp_time: '~250,000 years',
+  },
+  {
+    label: 'Observable Universe Edge',
+    distance_km: 4.4e23,
+    distance_label: '46.5 billion light-years',
+    nep_time: '~23 trillion years',
+    fusion_time: '~1.1 trillion years',
+    warp_time: '~4.65 billion years',
   },
 ];
 
@@ -79,7 +111,7 @@ export default function CosmicDistances({ id }: { id?: string }) {
   const [activeStage, setActiveStage] = useState(0);
   const stageRef = useRef(0);
   const progressRef = useRef(1);
-  const pauseRef = useRef(2500);
+  const pauseRef = useRef(4500);
   const dprRef = useRef(1);
 
   useEffect(() => {
@@ -104,9 +136,9 @@ export default function CosmicDistances({ id }: { id?: string }) {
     resize();
     window.addEventListener('resize', resize);
 
-    const STAGE_DURATION = 3500;
-    const PAUSE_DURATION = 2200;
-    const TRANSITION_DURATION = 1200;
+    const STAGE_DURATION = 6000;
+    const PAUSE_DURATION = 4500;
+    const TRANSITION_DURATION = 2000;
 
     let lastTime = performance.now();
 
@@ -321,7 +353,7 @@ export default function CosmicDistances({ id }: { id?: string }) {
             onClick={() => {
               stageRef.current = i;
               progressRef.current = 1;
-              pauseRef.current = 2500;
+              pauseRef.current = 4500;
               setActiveStage(i);
             }}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
