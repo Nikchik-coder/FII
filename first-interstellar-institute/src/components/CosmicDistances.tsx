@@ -213,8 +213,8 @@ export default function CosmicDistances({ id }: { id?: string }) {
       ctx!.textAlign = 'center';
       ctx!.fillText('EARTH', padLeft, barY + 22 * dpr);
 
-      // Draw all destinations up to current stage — two passes:
-      // 1) collect positions, 2) draw with collision avoidance (current label has priority)
+      // Draw all destinations up to current stage
+      // Collision avoidance: current label has priority, others checked against all shown labels
       const positions: { x: number; i: number }[] = [];
       for (let i = 0; i <= stage; i++) {
         const dest = DESTINATIONS[i];
@@ -226,8 +226,12 @@ export default function CosmicDistances({ id }: { id?: string }) {
         }
       }
 
-      const minSpacing = 140 * dpr;
-      const currentX = positions.find(p => p.i === stage)?.x ?? 0;
+      const minSpacing = 150 * dpr;
+      const shownLabelXs: number[] = [];
+
+      // Reserve current destination's position first
+      const currentPos = positions.find(p => p.i === stage);
+      if (currentPos) shownLabelXs.push(currentPos.x);
 
       for (const { x, i } of positions) {
         const dest = DESTINATIONS[i];
@@ -263,8 +267,12 @@ export default function CosmicDistances({ id }: { id?: string }) {
           ctx!.stroke();
         }
 
-        // Label: current always shows; others only if far enough from current
-        const showLabel = isCurrent || Math.abs(x - currentX) > minSpacing;
+        // Label: current always shows; others only if far from ALL shown labels
+        let showLabel = isCurrent;
+        if (!isCurrent) {
+          showLabel = !shownLabelXs.some(sx => Math.abs(x - sx) < minSpacing);
+          if (showLabel) shownLabelXs.push(x);
+        }
 
         if (showLabel) {
           ctx!.textAlign = 'center';
